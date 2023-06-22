@@ -59,8 +59,6 @@ recognize these techniques when you see them and, with some independent study, a
 | ![](images/Module00_headshots/headshot_cgates.jpg) | ![](images/Module00_headshots/headshot_mbradenb.jpg) | ![](images/Module00_headshots/headshot_rcavalca.jpg) | ![](images/Module00_headshots/headshot_trsaari.jpg) | 
 |:-:|:-:|:-:|:-:|
 | **Chris** | **Marci** | **Raymond** | **Travis** |
-![](images/Module00_headshots/headshot_jrhemama.jpg) | ![](images/Module00_headshots/headshot_diaorch.jpg) | ![](images/Module00_headshots/headshot_damki.jpg)
-| **Rhema** | **Rucheng** |**Dana**|
 
 <br/>
 
