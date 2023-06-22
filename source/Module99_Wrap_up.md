@@ -108,8 +108,7 @@ University of Michigan</a> host several introductory workshops each year followi
 | ![](images/Module00_headshots/headshot_cgates.jpg) | ![](images/Module00_headshots/headshot_mbradenb.jpg) | ![](images/Module00_headshots/headshot_rcavalca.jpg) | ![](images/Module00_headshots/headshot_trsaari.jpg) |
 |:-:|:-:|:-:|:-:|
 | **Chris** | **Marci** | **Raymond** | **Travis** |
-| ![](images/Module00_headshots/headshot_jrhemama.jpg) | ![](images/Module00_headshots/headshot_diaorch.jpg) | ![](images/Module00_headshots/headshot_damki.jpg)
-|  **Rhema** |  **Rucheng** |  **Dana**  |
+
 <br/>
 
 Thank you for participating on our workshop. We welcome your questions and
