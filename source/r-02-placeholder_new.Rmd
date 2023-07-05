@@ -1,0 +1,121 @@
+---
+title: "Data Exploration"
+output:
+        html_document:
+            includes:
+                in_header: header.html
+            theme: paper
+            toc: true
+            number_sections: false
+            fig_caption: false
+            markdown: GFM
+            code_download: false
+---
+
+<style type="text/css">
+
+body, td {
+   font-size: 18px;
+}
+code.r{
+  font-size: 12px;
+}
+pre {
+  font-size: 12px
+}
+
+</style>
+
+```{r, include = FALSE}
+source("../bin/chunk-options.R")
+knitr_fig_path("02-")
+```
+
+# Objectives
+
+- Subset and summarize data with base R and `dplyr` functions.
+- Create plots with both discrete and continuous variables with `ggplot2`.
+- Understand mapping and layering in `ggplot2`.
+- Modify the color, theme, and axis labels of a plot.
+
+# Loading data
+
+In the previous lesson we used the `read_csv()` function to load the `gapminder_1997` data. Let's do that again:
+
+```{r, 'load_gapminder_1997'}
+gapminder_1997 = read_csv('data/gapminder_1997.csv')
+```
+
+This time, let's look more closely at the data itself. To view the data, we type the name of the object and evaluate it:
+
+```{r, 'preview_data'}
+gapminder_1997
+```
+
+The output informs us that this object is "a tibble", and it's dimensions are 142 rows by 6 columns. The object is then previewed:
+
+- Column headings (country, year, etc)
+- Column data types (chr, dbl, etc)
+- The entries of the first 10 rows.
+
+Data in the form of a table is very common in R. The "base R" type is called a `data.frame`. The `tidyverse` extends on this notion with a `tibble`. The commands we'll learn in this lesson work on `data.frames` and `tibbles`. We'll use `data.frame`, `tibble`, and "data table" interchangeably throughout the lessons.
+
+# Exploring data
+
+When we read in data we often want to look at it immediately and check that it looks fine. Previewing it, as we did above, is a good start. When data contains hundreds of rows, it's a good idea to get a sense for the values and ranges of the data.
+
+## Get stats with `summary()`
+
+The `summary()` function, from base R, takes a data table as input and will summarize the columns depending on their data type.
+
+```{r, 'summary'}
+summary(gapminder_1997)
+```
+
+We see that for the numeric data we get quantile information and the mean, whereas for character data we simply get the length of the column.
+
+## Get stats with `summarize()`
+
+If we wanted to know the mean life expectancy in the dataset, we could use the built in function `mean()`. If we combine this with the `dplyr` `summarize()` function, we'll get:
+
+```{r, 'summarize_lifeexp'}
+summarize(gapminder_1997, avgLifeExp = mean(lifeExp))
+```
+
+We can use any column name, so long as it's a numeric, and we get a new object with our value returned as a column. Note, this matches the result of `summary()`.
+
+Alternatively, we could have simply applied `mean()` to the column `lifeExp`:
+
+```{r, 'mean_lifexp'}
+mean(gapminder_1997$lifeExp)
+```
+
+Note this is the "base R" way of doing it, and notice we just get a number back. Note, the `$` is a way to access columns of a data table by name.
+
+> ## Tip: Reference columns by name
+> 
+> While it is possible to access columns by their numerical index, this is less prefereable than using the explicit name of the column because if the data table is altered so that the column ordering changes, the numerical index will be incorrect, and this might be a hard thing to track down.
+
+## Find unique values with `distinct()`
+
+In the case of the `country` and `continent` columns, it might be a good idea to take a look at the unique values to see how many different values there are and to quickly spot typos from data entry.
+
+```{r, 'distinct_continent'}
+distinct(gapminder_1997, continent)
+```
+
+Here we get a `tibble` back with the unique continent names. There is an equivalent "base R" way to do this with the `unique()` function:
+
+```{r, 'unique_continent'}
+unique(gapminder_1997$continent)
+```
+
+Either way, if there was a misspelled entry, for example, "Urope" we would have immediately seen it and figured out how to correct it. More on this later.
+
+## Subset columns with `select()`
+
+## Narrow down rows with `filter()`
+
+## Group rows with `group_by()`
+
+## Make new variables with `mutate()`
