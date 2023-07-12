@@ -132,7 +132,7 @@ The new script **r_basics.R** is now in the `scripts` folder. You can see that b
 
 **Checkpoint**
 
-# Commnads in R
+# Commands in R
 
 To get started, on line 1 of `r_basics.R` type `2+2`, and then click the <KBD>Run</KBD> button in the Scripts pane. You should see in the Console pane:
 
@@ -163,8 +163,12 @@ library(tidyverse)
 
 Let's jump right in and load some of the gapminder data using the `read_csv()` function:
 
-```{r, 'load_gapminder_1997'}
+```{r, 'load_gapminder_1997_display', eval = FALSE}
 gapminder_1997 = read_csv('data/gapminder_1997.csv')
+```
+
+```{r, 'load_gapminder_1997', echo = FALSE}
+gapminder_1997 = read_csv('../data/gapminder_1997.csv')
 ```
 
 Remember, with the cursor on this line we can click <KBD>Run</KBD>, or we can type <KBD>Ctrl</KBD>+<KBD>Enter</KBD>. We should see some output in the Console pane as well as `gapminder_1997` in the Environment pane. We'll explore the resulting data in later lessons.
@@ -207,10 +211,19 @@ Notice that with each assignment, the object appears in the Environment pane. Al
 
 Let's try to assign some more objects and see how things can go wrong:
 
-```{r, 'bad_object_assignments', error = TRUE}
+```{r, 'bad_object_assignments1', error = TRUE}
 1number = 3
 Flower = 'marigold'
 flower = 'rose'
+favorite number = 12
+```
+
+```{r, 'bad_object_assignments2', error = TRUE}
+Flower = 'marigold'
+flower = 'rose'
+```
+
+```{r, 'bad_object_assignments3', error = TRUE}
 favorite number = 12
 ```
 
