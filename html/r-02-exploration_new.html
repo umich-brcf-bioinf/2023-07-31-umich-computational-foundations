@@ -360,7 +360,29 @@ id="toc-group-rows-with-group_by">Group rows with
 <code>group_by()</code></a></li>
 </ul></li>
 <li><a href="#exploring-data-visually"
-id="toc-exploring-data-visually">Exploring data visually</a></li>
+id="toc-exploring-data-visually">Exploring data visually</a>
+<ul>
+<li><a href="#mappings-aesthetics-and-geometries"
+id="toc-mappings-aesthetics-and-geometries">Mappings, aesthetics, and
+geometries</a></li>
+<li><a href="#color" id="toc-color">Color</a></li>
+<li><a href="#scale" id="toc-scale">Scale</a></li>
+<li><a href="#size" id="toc-size">Size</a></li>
+<li><a href="#compact-code" id="toc-compact-code">Compact code</a></li>
+<li><a href="#captions" id="toc-captions">Captions</a></li>
+</ul></li>
+<li><a href="#exploring-more-complex-data"
+id="toc-exploring-more-complex-data">Exploring more complex data</a>
+<ul>
+<li><a href="#line-geometry" id="toc-line-geometry">Line
+geometry</a></li>
+<li><a href="#geometries-for-categories"
+id="toc-geometries-for-categories">Geometries for categories</a></li>
+<li><a href="#layers" id="toc-layers">Layers</a></li>
+<li><a href="#color-and-fill" id="toc-color-and-fill">Color and
+Fill</a></li>
+<li><a href="#transparency" id="toc-transparency">Transparency</a></li>
+</ul></li>
 </ul>
 </div>
 
@@ -380,11 +402,14 @@ pre {
 <div id="objectives" class="section level1">
 <h1>Objectives</h1>
 <ul>
-<li>Subset, filter, and summarize data with <code>dplyr</code>
-functions. Highlight base R equivalents.</li>
+<li>Subset, filter, mutate, group and summarize data with
+<code>dplyr</code> functions. Highlight base R equivalents.</li>
+<li>Understand how to string together multiple functions with the
+<code>%&gt;%</code> pipe.</li>
 <li>Create plots with both discrete and continuous variables with
 <code>ggplot2</code>.</li>
-<li>Understand mapping and layering in <code>ggplot2</code>.</li>
+<li>Understand mappings, geometries, and layering in
+<code>ggplot2</code>.</li>
 <li>Modify the color, theme, and axis labels of a plot.</li>
 </ul>
 </div>
@@ -394,7 +419,7 @@ functions. Highlight base R equivalents.</li>
 to load the <code>gapminder_1997</code> data. Let’s do that again:</p>
 <pre class="r"><code>gapminder_1997 = read_csv(&#39;data/gapminder_1997.csv&#39;)</code></pre>
 <pre><code>Rows: 142 Columns: 6
-── Column specification ───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+── Column specification ─────────────────────────────────────────────────────────────────────────────────────────────
 Delimiter: &quot;,&quot;
 chr (2): country, continent
 dbl (4): year, pop, lifeExp, gdpPercap
@@ -476,23 +501,7 @@ applied <code>mean()</code> directly to the column
 <p>This is a more “base R” way of doing it. Notice we just get a number
 back, whereas with <code>summarize()</code> we got a
 <code>tibble</code>. Here, the <code>$</code> is a way to access columns
-of a data table by name. Another way to express the above is with
-square-bracket notation:</p>
-<pre class="r"><code>mean(gapminder_1997[, &#39;lifeExp&#39;])</code></pre>
-<pre><code>Warning in mean.default(gapminder_1997[, &quot;lifeExp&quot;]): argument is not numeric or logical: returning NA</code></pre>
-<pre><code>[1] NA</code></pre>
-<p>A data table has two dimensions (rows and columns), and, with
-square-bracket accessors, the rows are in the first position and the
-columns are in the second position in the brackets separated by a comma.
-In the above, leaving the row position blank implies “all rows”, and in
-the column position we specify the name of the column. Finally, there is
-the <code>with()</code> approach from base R which looks a bit more like
-our original call to <code>summarize()</code>:</p>
-<pre class="r"><code>with(gapminder_1997, mean(lifeExp))</code></pre>
-<pre><code>[1] 65.01468</code></pre>
-<p>In this formulation, we can refer to the column without quotes, like
-in <code>summarize()</code> and other <code>tidyverse</code> functions
-in general.</p>
+of a data table by name.</p>
 <blockquote>
 <h2 id="tip-reference-columns-by-name">Tip: Reference columns by
 name</h2>
@@ -563,10 +572,13 @@ with:</p>
  9 Bangladesh   1997    59.4
 10 Belgium      1997    77.5
 # ℹ 132 more rows</code></pre>
-<p>Here, again, we use the square bracket notation, but we have given a
-vector of column names instead of a single one. Here the
-<code>c()</code> function, meaning “combine”, creates a temporary vector
-of column names.</p>
+<p>A data table has two dimensions (rows and columns), and, with
+square-bracket accessors, the rows are in the first position and the
+columns are in the second position in the brackets separated by a comma.
+In the above, leaving the row position blank implies “all rows”, and in
+the column position we specify the names of the columns as a vector with
+the <code>c()</code> function, meaning “combine”, creates a temporary
+vector of column names.</p>
 <p>Columns can be removed using <code>select()</code> with a “minus” in
 front of the column name.</p>
 <pre class="r"><code>select(gapminder_1997, -year)</code></pre>
@@ -930,25 +942,28 @@ sanity checking:</p>
 </div>
 <div id="exploring-data-visually" class="section level1">
 <h1>Exploring data visually</h1>
-<p>We have learned how to use <code>tidyverse</code> functions to subset
-and summarize data, along with some of the equivalent base R functions.
-But all of our manipulations have lacked the visual component that can
-be so helpful in understanding the properties of data. Let’s now turn
-our attention to plotting in the <code>tidyverse</code> with the
-<code>ggplot2</code> package. The <code>ggplot2</code> package is a
-powerful, easy to use package that creates publication ready plots, and
-is one of the reasons so many people use R.</p>
+<p>We have learned how to use <code>dplyr</code> and <code>tidyr</code>
+functions to subset and summarize data, along with some of the
+equivalent base R functions. But all of our manipulations have lacked
+the visual component that can be so helpful in understanding the
+properties of data. Let’s turn our attention to plotting in the
+<code>tidyverse</code> with the <code>ggplot2</code> package. The
+<code>ggplot2</code> package is a powerful, easy to use package that
+creates publication ready plots, and is one of the reasons so many
+people use R.</p>
+<div id="mappings-aesthetics-and-geometries" class="section level2">
+<h2>Mappings, aesthetics, and geometries</h2>
 <p>Let’s jump right in and create our first plot using the
-<code>ggplot()</code> function. And along the way we’ll discuss the
-components of a plot, and how <code>ggplot2</code> thinks about
+<code>ggplot()</code> function. Along the way we’ll discuss the
+components of a plot, and how <code>ggplot2</code> conceptualizes
 plotting.</p>
 <pre class="r"><code>ggplot(data = gapminder_1997)</code></pre>
 <p><img src="fig/02-plot1-1.png" width="816" style="display: block; margin: auto;" /></p>
 <p>When we ran this code the Plots tab popped up and displayed … a gray
 rectangle. This is underwhelming as a first plot, but it’s a helpful
 reminder that computers do exactly what you tell them. In this case,
-we’ve just told R that we want to plot data from the
-<code>gapminder_1997</code> data. We haven’t told it
+we’ve just told R that we want to plot data from
+<code>gapminder_1997</code>. We haven’t told it
 <strong>how</strong>.</p>
 <p>The elements of a plot have properties like: x and y position, size,
 color, etc. These properties are <strong>aesthetics</strong>, and we
@@ -989,6 +1004,546 @@ short). There are many geometries, but we’ll begin with
     labs(y = &#39;Life Expectancy&#39;) +
     geom_point()</code></pre>
 <p><img src="fig/02-plot5-1.png" width="816" style="display: block; margin: auto;" /></p>
+<p>From the plot, it appears that higher GDP correlates with longer life
+expectancy. We can add a title to the plot with <code>labs()</code> to
+suggest this is the point of the plot:</p>
+<pre class="r"><code>ggplot(data = gapminder_1997) +
+    aes(x = gdpPercap) +
+    labs(x = &#39;GDP Per Capita&#39;) +
+    aes(y = lifeExp) + 
+    labs(y = &#39;Life Expectancy&#39;) +
+    geom_point() +
+    labs(title = &#39;Do people in wealthier countries live longer?&#39;)</code></pre>
+<p><img src="fig/02-plot6-1.png" width="816" style="display: block; margin: auto;" /></p>
+</div>
+<div id="color" class="section level2">
+<h2>Color</h2>
+<p>We’ve made excellent progress on our first plot, and without even
+having to write very much code! There is much more we can do visually to
+understand what the data might be telling us in addition to the general
+trend we’ve already observed. For example, we can use different colors
+for each continent to understand how continent affects this
+relationship:</p>
+<pre class="r"><code>ggplot(data = gapminder_1997) +
+    aes(x = gdpPercap) +
+    labs(x = &#39;GDP Per Capita&#39;) +
+    aes(y = lifeExp) + 
+    labs(y = &#39;Life Expectancy&#39;) +
+    geom_point() +
+    labs(title = &#39;Do people in wealthier countries live longer?&#39;) + 
+    aes(color = continent)</code></pre>
+<p><img src="fig/02-plot_color_continent-1.png" width="816" style="display: block; margin: auto;" /></p>
+<p>With the continents shown by color, we immediately pick out that
+African countries tend to have lower life expectancy than other
+countries. Of course, there are African countries (red points) with life
+expectancies similar to wealthier countries, suggesting that GDP per
+capita does not tell the full story about health, as we might have
+already guessed.</p>
+</div>
+<div id="scale" class="section level2">
+<h2>Scale</h2>
+<p>When we added the color mapping, ggplot added a legend automatically,
+assigning different colors to each of the unique values of
+<code>continent</code>. The colors ggplot uses are considered a “scale,”
+and each aesthetic value we can give (x, y, color, etc) has a
+corresponding scale. Let’s experiment with scales briefly to see how
+that works.</p>
+<pre class="r"><code>ggplot(data = gapminder_1997) +
+    aes(x = gdpPercap) +
+    labs(x = &#39;GDP Per Capita&#39;) +
+    aes(y = lifeExp) + 
+    labs(y = &#39;Life Expectancy&#39;) +
+    geom_point() +
+    labs(title = &#39;Do people in wealthier countries live longer?&#39;) + 
+    aes(color = continent) + 
+    scale_x_log10()</code></pre>
+<p><img src="fig/02-plot_x_log_scale-1.png" width="816" style="display: block; margin: auto;" /></p>
+<p>Here we see that the x-axis has been scaled by the log10. Depending
+on the data we’re plotting the log scale might be more appropriate than
+the default linear scale. We can also change the scale on the
+<code>continent</code> mapping to change the colors:</p>
+<pre class="r"><code>ggplot(data = gapminder_1997) +
+    aes(x = gdpPercap) +
+    labs(x = &#39;GDP Per Capita&#39;) +
+    aes(y = lifeExp) + 
+    labs(y = &#39;Life Expectancy&#39;) +
+    geom_point() +
+    labs(title = &#39;Do people in wealthier countries live longer?&#39;) + 
+    aes(color = continent) + 
+    scale_color_brewer(palette = &#39;Set1&#39;)</code></pre>
+<p><img src="fig/02-plot_color_continent_set1-1.png" width="816" style="display: block; margin: auto;" /></p>
+<p>The <code>scale_color_brewer()</code> function is one of many that
+changes the colors. There are also many “palettes” built in that are
+appropriate in different use cases. Run
+<code>RColorBrewer::display.brewer.all()</code> to see them. Note that
+there are linear color scales which might be appropriate for categorical
+data denoting intensity levels. There are also divergent color scales
+that might be useful for continuous variables centered around 0. There
+are also discrete color scales more appropriate for categorical data
+that aren’t associated with magnitude, like <code>continent</code>.</p>
+</div>
+<div id="size" class="section level2">
+<h2>Size</h2>
+<p>We also have the population data for each country and we might wonder
+if population has an effect on life expectancy and GDP per capita. We
+can map <code>pop</code> to the size of the points in the plot by adding
+another <code>aes()</code>:</p>
+<pre class="r"><code>ggplot(data = gapminder_1997) +
+    aes(x = gdpPercap) +
+    labs(x = &#39;GDP Per Capita&#39;) +
+    aes(y = lifeExp) + 
+    labs(y = &#39;Life Expectancy&#39;) +
+    geom_point() +
+    labs(title = &#39;Do people in wealthier countries live longer?&#39;) + 
+    aes(color = continent) + 
+    scale_color_brewer(palette = &#39;Set1&#39;) +
+    aes(size = pop)</code></pre>
+<p><img src="fig/02-plot_pop_size-1.png" width="816" style="display: block; margin: auto;" /></p>
+<p>Here ggplot has created another legend for us called
+<code>pop</code>, the name of the column, and it shows the size related
+to the population. However, this is in scientific notation, which is a
+little difficult to interpret at a glance. We can change this by
+dividing all the population values by 1,000,000. We can also change the
+labels of the legend using the <code>labs()</code> function, just as we
+did for the x and y axes and title.</p>
+<pre class="r"><code>ggplot(data = gapminder_1997) +
+    aes(x = gdpPercap) +
+    labs(x = &#39;GDP Per Capita&#39;) +
+    aes(y = lifeExp) + 
+    labs(y = &#39;Life Expectancy&#39;) +
+    geom_point() +
+    labs(title = &#39;Do people in wealthier countries live longer?&#39;) + 
+    aes(color = continent) + 
+    scale_color_brewer(palette = &#39;Set1&#39;) +
+    labs(color = &#39;Continent&#39;) +
+    aes(size = pop/1000000) + 
+    labs(size = &#39;Population (in millions)&#39;)</code></pre>
+<p><img src="fig/02-plot_per_million-1.png" width="816" style="display: block; margin: auto;" /></p>
+<p>From this plot, it doesn’t look like population has much to do with
+either life expectancy or GDP per capita. Notice in the
+<code>aes()</code> with <code>size</code> we divided the
+<code>pop</code> column by 1,000,000. This works because columns in
+aesthetic mappings can be treated just like any other variable, and we
+can use functions to transform or change them at plot time rather than
+transforming the data first. We will see later that for more complex
+transformations, it can be advantageous to transform the data first and
+build a plot based on the transformed data rather than doing it at plot
+time.</p>
+</div>
+<div id="compact-code" class="section level2">
+<h2>Compact code</h2>
+<p>We have built our plot up in this lesson, and accumulated many lines
+of code. Many of these steps can be combined to make the code a bit more
+compact and readable:</p>
+<pre class="r"><code>ggplot(data = gapminder_1997) + 
+    aes(x = gdpPercap, y = lifeExp, color = continent, size = pop/1000000) + 
+    geom_point() + 
+    scale_color_brewer(palette = &#39;Set1&#39;) + 
+    labs(x = &#39;GDP Per Capita&#39;, y = &#39;Life Expectancy&#39;, color = &#39;Continent&#39;, size = &#39;Population (in millions)&#39;,
+         title = &#39;Do people in wealthier countries live longer?&#39;)</code></pre>
+<p><img src="fig/02-plot_compact_code-1.png" width="816" style="display: block; margin: auto;" /></p>
+</div>
+<div id="captions" class="section level2">
+<h2>Captions</h2>
+<p>Captions can also be included in the plot itself, if desired, within
+the <code>labs()</code> function:</p>
+<pre class="r"><code>ggplot(data = gapminder_1997) + 
+    aes(x = gdpPercap, y = lifeExp, color = continent, size = pop/1000000) + 
+    geom_point() + 
+    scale_color_brewer(palette = &#39;Set1&#39;) + 
+    labs(x = &#39;GDP Per Capita&#39;, y = &#39;Life Expectancy&#39;, color = &#39;Continent&#39;, size = &#39;Population (in millions)&#39;,
+         title = &#39;Do people in wealthier countries live longer?&#39;,
+         caption = &#39;Figure: GDP per capita and life expectancy are positively correlated, while population is not.&#39;)</code></pre>
+<p><img src="fig/02-plot_caption-1.png" width="816" style="display: block; margin: auto;" /></p>
+</div>
+</div>
+<div id="exploring-more-complex-data" class="section level1">
+<h1>Exploring more complex data</h1>
+<p>The <code>gapminder_1997</code> has been useful for exploring
+<code>dplyr</code> and <code>ggplot</code> functions. Let’s load in a
+more complex dataset so we have a bit more data to explore. The
+<code>data/gapmainder_data.csv</code> dataset is similar to
+<code>gapminder_1997</code>, but is longitudinal. Let’s load it in and
+explore it:</p>
+<pre class="r"><code>gapminder_data = read_csv(&#39;data/gapminder_data.csv&#39;)</code></pre>
+<pre><code>Rows: 1704 Columns: 6
+── Column specification ─────────────────────────────────────────────────────────────────────────────────────────────
+Delimiter: &quot;,&quot;
+chr (2): country, continent
+dbl (4): year, pop, lifeExp, gdpPercap
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+<p>Let’s look at a preview of the data and explore some functions to see
+its attributes. First, we can preview it by evaluating a line of code
+which just names the object:</p>
+<pre class="r"><code>gapminder_data</code></pre>
+<pre><code># A tibble: 1,704 × 6
+   country      year      pop continent lifeExp gdpPercap
+   &lt;chr&gt;       &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;       &lt;dbl&gt;     &lt;dbl&gt;
+ 1 Afghanistan  1952  8425333 Asia         28.8      779.
+ 2 Afghanistan  1957  9240934 Asia         30.3      821.
+ 3 Afghanistan  1962 10267083 Asia         32.0      853.
+ 4 Afghanistan  1967 11537966 Asia         34.0      836.
+ 5 Afghanistan  1972 13079460 Asia         36.1      740.
+ 6 Afghanistan  1977 14880372 Asia         38.4      786.
+ 7 Afghanistan  1982 12881816 Asia         39.9      978.
+ 8 Afghanistan  1987 13867957 Asia         40.8      852.
+ 9 Afghanistan  1992 16317921 Asia         41.7      649.
+10 Afghanistan  1997 22227415 Asia         41.8      635.
+# ℹ 1,694 more rows</code></pre>
+<p>Again, the <code>tibble</code> provides a nice preview of the data
+along with many of the attributes including the dimensions and types of
+columns. There are some functions we can use to determine these
+attributes on their own:</p>
+<pre class="r"><code>dim(gapminder_data)</code></pre>
+<pre><code>[1] 1704    6</code></pre>
+<p>This gives us the number of rows and columns, respectively.</p>
+<pre class="r"><code>head(gapminder_data)</code></pre>
+<pre><code># A tibble: 6 × 6
+  country      year      pop continent lifeExp gdpPercap
+  &lt;chr&gt;       &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;       &lt;dbl&gt;     &lt;dbl&gt;
+1 Afghanistan  1952  8425333 Asia         28.8      779.
+2 Afghanistan  1957  9240934 Asia         30.3      821.
+3 Afghanistan  1962 10267083 Asia         32.0      853.
+4 Afghanistan  1967 11537966 Asia         34.0      836.
+5 Afghanistan  1972 13079460 Asia         36.1      740.
+6 Afghanistan  1977 14880372 Asia         38.4      786.</code></pre>
+<pre class="r"><code>tail(gapminder_data)</code></pre>
+<pre><code># A tibble: 6 × 6
+  country   year      pop continent lifeExp gdpPercap
+  &lt;chr&gt;    &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;       &lt;dbl&gt;     &lt;dbl&gt;
+1 Zimbabwe  1982  7636524 Africa       60.4      789.
+2 Zimbabwe  1987  9216418 Africa       62.4      706.
+3 Zimbabwe  1992 10704340 Africa       60.4      693.
+4 Zimbabwe  1997 11404948 Africa       46.8      792.
+5 Zimbabwe  2002 11926563 Africa       40.0      672.
+6 Zimbabwe  2007 12311143 Africa       43.5      470.</code></pre>
+<p>The <code>head()</code> and <code>tail()</code> functions display the
+first and last few rows of an object, respectively. There is also a
+useful function called “structure”, <code>str()</code>, which displays
+the structure of an object. This is especially useful when we don’t know
+what an object contains.</p>
+<pre class="r"><code>str(gapminder_data)</code></pre>
+<pre><code>spc_tbl_ [1,704 × 6] (S3: spec_tbl_df/tbl_df/tbl/data.frame)
+ $ country  : chr [1:1704] &quot;Afghanistan&quot; &quot;Afghanistan&quot; &quot;Afghanistan&quot; &quot;Afghanistan&quot; ...
+ $ year     : num [1:1704] 1952 1957 1962 1967 1972 ...
+ $ pop      : num [1:1704] 8425333 9240934 10267083 11537966 13079460 ...
+ $ continent: chr [1:1704] &quot;Asia&quot; &quot;Asia&quot; &quot;Asia&quot; &quot;Asia&quot; ...
+ $ lifeExp  : num [1:1704] 28.8 30.3 32 34 36.1 ...
+ $ gdpPercap: num [1:1704] 779 821 853 836 740 ...
+ - attr(*, &quot;spec&quot;)=
+  .. cols(
+  ..   country = col_character(),
+  ..   year = col_double(),
+  ..   pop = col_double(),
+  ..   continent = col_character(),
+  ..   lifeExp = col_double(),
+  ..   gdpPercap = col_double()
+  .. )
+ - attr(*, &quot;problems&quot;)=&lt;externalptr&gt; </code></pre>
+<p>This is similar to information we see in the <code>tibble</code>
+preview. We see the type of object, dimensions, columns, their type, and
+a preview of their values. Of course, the <code>summary()</code>
+function works just the same as it did for <code>gapminder_1997</code>,
+and it’s a good idea to take a peek and see what the range of the data
+are:</p>
+<pre class="r"><code>summary(gapminder_data)</code></pre>
+<pre><code>   country               year           pop             continent            lifeExp        gdpPercap       
+ Length:1704        Min.   :1952   Min.   :6.001e+04   Length:1704        Min.   :23.60   Min.   :   241.2  
+ Class :character   1st Qu.:1966   1st Qu.:2.794e+06   Class :character   1st Qu.:48.20   1st Qu.:  1202.1  
+ Mode  :character   Median :1980   Median :7.024e+06   Mode  :character   Median :60.71   Median :  3531.8  
+                    Mean   :1980   Mean   :2.960e+07                      Mean   :59.47   Mean   :  7215.3  
+                    3rd Qu.:1993   3rd Qu.:1.959e+07                      3rd Qu.:70.85   3rd Qu.:  9325.5  
+                    Max.   :2007   Max.   :1.319e+09                      Max.   :82.60   Max.   :113523.1  </code></pre>
+<p>We see the same columns as <code>gapminder_1997</code> but we notice
+that there are many more years of data collected than just 1997. Let’s
+jump right in with a plot to understand what this data looks like. And
+let’s begin with something similar to the scatterplot we did for
+<code>gapminder_1997</code>, but include the year.</p>
+<pre class="r"><code>ggplot(data = gapminder_data) +
+    aes(x = year, y = lifeExp, color = continent) + 
+    geom_point()</code></pre>
+<p><img src="fig/02-full_plot_point-1.png" width="816" style="display: block; margin: auto;" /></p>
+<p>There seems to be an overall trend of higher life expectancy over
+time, but it’s not as clear as it could be. In our plot, the data
+connecting countries is not apparent. Before we figure out how to
+connect the dots, let’s use our <code>dplyr</code> knowledge to see if
+that overall trend we suspect is correct.</p>
+<pre class="r"><code>gapminder_data %&gt;% group_by(year) %&gt;% summarize(mean_life_exp = mean(lifeExp))</code></pre>
+<pre><code># A tibble: 12 × 2
+    year mean_life_exp
+   &lt;dbl&gt;         &lt;dbl&gt;
+ 1  1952          49.1
+ 2  1957          51.5
+ 3  1962          53.6
+ 4  1967          55.7
+ 5  1972          57.6
+ 6  1977          59.6
+ 7  1982          61.5
+ 8  1987          63.2
+ 9  1992          64.2
+10  1997          65.0
+11  2002          65.7
+12  2007          67.0</code></pre>
+<p>That seems clear enough. Of course, this is for all countries
+combined. We could add an additional group of continent:</p>
+<pre class="r"><code>gapminder_data %&gt;% group_by(year, continent) %&gt;% summarize(mean_life_exp = mean(lifeExp))</code></pre>
+<pre><code>`summarise()` has grouped output by &#39;year&#39;. You can override using the `.groups` argument.</code></pre>
+<pre><code># A tibble: 60 × 3
+# Groups:   year [12]
+    year continent mean_life_exp
+   &lt;dbl&gt; &lt;chr&gt;             &lt;dbl&gt;
+ 1  1952 Africa             39.1
+ 2  1952 Americas           53.3
+ 3  1952 Asia               46.3
+ 4  1952 Europe             64.4
+ 5  1952 Oceania            69.3
+ 6  1957 Africa             41.3
+ 7  1957 Americas           56.0
+ 8  1957 Asia               49.3
+ 9  1957 Europe             66.7
+10  1957 Oceania            70.3
+# ℹ 50 more rows</code></pre>
+<p>But this is ordered by year, and to clearly see the trend, ordering
+by continent would be better:</p>
+<pre class="r"><code>gapminder_data %&gt;% group_by(year, continent) %&gt;% summarize(mean_life_exp = mean(lifeExp)) %&gt;% arrange(continent)</code></pre>
+<pre><code>`summarise()` has grouped output by &#39;year&#39;. You can override using the `.groups` argument.</code></pre>
+<pre><code># A tibble: 60 × 3
+# Groups:   year [12]
+    year continent mean_life_exp
+   &lt;dbl&gt; &lt;chr&gt;             &lt;dbl&gt;
+ 1  1952 Africa             39.1
+ 2  1957 Africa             41.3
+ 3  1962 Africa             43.3
+ 4  1967 Africa             45.3
+ 5  1972 Africa             47.5
+ 6  1977 Africa             49.6
+ 7  1982 Africa             51.6
+ 8  1987 Africa             53.3
+ 9  1992 Africa             53.6
+10  1997 Africa             53.6
+# ℹ 50 more rows</code></pre>
+<p>This is a step in the right direction, but now the
+<code>tibble</code> preview is actually preventing us from seeing all
+the data. There are two ways we can see the full result:</p>
+<pre class="r"><code>life_exp_by_year_continent = gapminder_data %&gt;% group_by(year, continent) %&gt;% summarize(mean_life_exp = mean(lifeExp)) %&gt;% arrange(continent)</code></pre>
+<pre><code>`summarise()` has grouped output by &#39;year&#39;. You can override using the `.groups` argument.</code></pre>
+<pre class="r"><code>View(life_exp_by_year_continent)</code></pre>
+<p>The <code>View()</code> function will show the table in the Scripts
+pane. Another way to accomplish this is to <code>%&gt;%</code> pipe
+<code>life_exp_by_year_continent</code> as a
+<code>data.frame</code>:</p>
+<pre class="r"><code>life_exp_by_year_continent %&gt;% data.frame</code></pre>
+<pre><code>   year continent mean_life_exp
+1  1952    Africa      39.13550
+2  1957    Africa      41.26635
+3  1962    Africa      43.31944
+4  1967    Africa      45.33454
+5  1972    Africa      47.45094
+6  1977    Africa      49.58042
+7  1982    Africa      51.59287
+8  1987    Africa      53.34479
+9  1992    Africa      53.62958
+10 1997    Africa      53.59827
+11 2002    Africa      53.32523
+12 2007    Africa      54.80604
+13 1952  Americas      53.27984
+14 1957  Americas      55.96028
+15 1962  Americas      58.39876
+16 1967  Americas      60.41092
+17 1972  Americas      62.39492
+18 1977  Americas      64.39156
+19 1982  Americas      66.22884
+20 1987  Americas      68.09072
+21 1992  Americas      69.56836
+22 1997  Americas      71.15048
+23 2002  Americas      72.42204
+24 2007  Americas      73.60812
+25 1952      Asia      46.31439
+26 1957      Asia      49.31854
+27 1962      Asia      51.56322
+28 1967      Asia      54.66364
+29 1972      Asia      57.31927
+30 1977      Asia      59.61056
+31 1982      Asia      62.61794
+32 1987      Asia      64.85118
+33 1992      Asia      66.53721
+34 1997      Asia      68.02052
+35 2002      Asia      69.23388
+36 2007      Asia      70.72848
+37 1952    Europe      64.40850
+38 1957    Europe      66.70307
+39 1962    Europe      68.53923
+40 1967    Europe      69.73760
+41 1972    Europe      70.77503
+42 1977    Europe      71.93777
+43 1982    Europe      72.80640
+44 1987    Europe      73.64217
+45 1992    Europe      74.44010
+46 1997    Europe      75.50517
+47 2002    Europe      76.70060
+48 2007    Europe      77.64860
+49 1952   Oceania      69.25500
+50 1957   Oceania      70.29500
+51 1962   Oceania      71.08500
+52 1967   Oceania      71.31000
+53 1972   Oceania      71.91000
+54 1977   Oceania      72.85500
+55 1982   Oceania      74.29000
+56 1987   Oceania      75.32000
+57 1992   Oceania      76.94500
+58 1997   Oceania      78.19000
+59 2002   Oceania      79.74000
+60 2007   Oceania      80.71950</code></pre>
+<p>And the result is printed out in the Console pane. Either way, the
+trend of increasing life expectancy over time that we saw globally
+appears to hold across all continents as well.</p>
+<div id="line-geometry" class="section level2">
+<h2>Line geometry</h2>
+<p>Of course, <strong>seeing</strong> this data would be more
+compelling, and we already went through the trouble to save the
+summarized data as its own object, so let’s use it to introduce the line
+geometry <code>geom_line()</code>.</p>
+<pre class="r"><code>ggplot(life_exp_by_year_continent) + 
+    aes(x = year, y = mean_life_exp, color = continent) + 
+    geom_line()</code></pre>
+<p><img src="fig/02-plot_lifeexp_line-1.png" width="816" style="display: block; margin: auto;" /></p>
+<p>The <code>geom_line()</code> geometry connects the data points across
+time in the appropriate way. Sure enough, we see what we noticed from
+looking at the summarized table. This is a good example of needing to
+summarize the data before plotting, rather than altering the data at
+runtime, as we did when we divided the population by 1,000,000.</p>
+<p>Let’s pull this plot back a bit and try to plot all the countries at
+the same time, rather than an average. Let’s try altering the code above
+and replace <code>geom_point()</code> with <code>geom_line()</code>:</p>
+<pre class="r"><code>ggplot(data = gapminder_data) +
+    aes(x = year, y = lifeExp, color = continent) + 
+    geom_line()</code></pre>
+<p><img src="fig/02-full_plot_line_wrong-1.png" width="816" style="display: block; margin: auto;" /></p>
+<p>This is definitely not the right thing. We got a line for each
+continent, but we want a line for each country. To tell
+<code>ggplot</code> to connect the values for each <code>country</code>,
+we use the <code>group</code> aesthetic:</p>
+<pre class="r"><code>ggplot(data = gapminder_data) +
+    aes(x = year, y = lifeExp, color = continent, group = country) + 
+    geom_line()</code></pre>
+<p><img src="fig/02-full_plot_line_correct-1.png" width="816" style="display: block; margin: auto;" /></p>
+<p>And now we see each country plotted as its own line so we can see the
+overall trend, as well as the deviations from the trend.</p>
+</div>
+<div id="geometries-for-categories" class="section level2">
+<h2>Geometries for categories</h2>
+<p>The <code>geom_point</code> and <code>geom_line</code> geometries are
+designed to display numeric values on the x and y axes. Often data has
+discrete variables (<code>continent</code> or <code>country</code>)
+where something like a box plot is more appropriate. Let’s revisit our
+<code>gapminder_1997</code> data to create a box plot with the continent
+on the x axis and the life expectancy on the y-axis.</p>
+<pre class="r"><code>ggplot(data = gapminder_1997) + aes(x = continent, y = lifeExp) + geom_boxplot()</code></pre>
+<p><img src="fig/02-plot_box-1.png" width="816" style="display: block; margin: auto;" /></p>
+<p>This makes comparing the range and spread of values across groups
+easier. The median of the data is displayed, as is the 25% and 75%-iles
+and any outliers. Another discrete geometry is the
+<code>geom_violin</code>, which gives an indication of the density of
+the data points along the values being plotted.</p>
+<pre class="r"><code>ggplot(data = gapminder_1997) + aes(x = continent, y = lifeExp) + geom_violin()</code></pre>
+<p><img src="fig/02-plot_violin-1.png" width="816" style="display: block; margin: auto;" /></p>
+</div>
+<div id="layers" class="section level2">
+<h2>Layers</h2>
+<p>To get a sense for how the data are distributed in the box plot, we
+could add a layer with <code>geom_point()</code> in addition to
+<code>geom_boxplot()</code>.</p>
+<pre class="r"><code>ggplot(data = gapminder_1997) + 
+    aes(x = continent, y = lifeExp) + 
+    geom_boxplot() + 
+    geom_point()</code></pre>
+<p><img src="fig/02-plot_box_layer-1.png" width="816" style="display: block; margin: auto;" /></p>
+<p>The points are stacking on top of one another, and it can be hard to
+tell, for a value of <code>lifeExp</code>, if more than one data point
+is there. We can fix this by “jittering” the points, with
+<code>geom_jitter()</code>.</p>
+<pre class="r"><code>ggplot(data = gapminder_1997) + 
+    aes(x = continent, y = lifeExp) + 
+    geom_boxplot() + 
+    geom_jitter()</code></pre>
+<p><img src="fig/02-plot_box_jitter-1.png" width="816" style="display: block; margin: auto;" /></p>
+<p>Within a column, the horizontal position doesn’t have meaning, and is
+meant to visually separate points of the same value. However, it feels
+like the jitter is a bit wide, causing the boundaries between the
+continents to be unclear. If look at the help <code>?geom_jitter</code>
+we’d see a <code>width</code> parameter, which controls how wide to
+allow the jitter.</p>
+<pre class="r"><code>ggplot(data = gapminder_1997) + 
+    aes(x = continent, y = lifeExp) + 
+    geom_boxplot() + 
+    geom_jitter(width = 0.15)</code></pre>
+<p><img src="fig/02-plot_box_jitter_width-1.png" width="816" style="display: block; margin: auto;" /></p>
+<p>It may take some iterations of the <code>width</code> parameter to
+get things where you want them. This is pretty common in
+<code>ggplot2</code>. Note that the word “layer” also means that the
+layers appear in a particular order, for example, if we swap the
+<code>geom_boxplot()</code> and <code>geom_jitter()</code> we see that
+the points are obscured.</p>
+<pre class="r"><code>ggplot(data = gapminder_1997) + 
+    aes(x = continent, y = lifeExp) + 
+    geom_jitter(width = 0.15) +
+    geom_boxplot()</code></pre>
+<p><img src="fig/02-plot_box_jitter_layer-1.png" width="816" style="display: block; margin: auto;" /></p>
+<p>Using the <code>width</code> parameter in <code>geom_jitter()</code>,
+we saw that it was possible to change aspects of a layer without
+altering other layers. This carries into the aesthetics too. For
+example, if we wanted to add a <code>size</code> aesthetic using the
+<code>pop</code> to only the <code>geom_jitter()</code> layer:</p>
+<pre class="r"><code>ggplot(data = gapminder_1997) + 
+    aes(x = continent, y = lifeExp) + 
+    geom_boxplot() + 
+    geom_jitter(aes(size = pop), width = 0.3)</code></pre>
+<p><img src="fig/02-plot_box_jitter_aes-1.png" width="816" style="display: block; margin: auto;" /></p>
+</div>
+<div id="color-and-fill" class="section level2">
+<h2>Color and Fill</h2>
+<p>Let’s have a look at our jittered boxplot and explore
+<code>color</code> and <code>fill</code>. When a color is assigned
+directly, we use the name of the color in quotes, as in ‘pink’, and we
+don’t need to use the <code>aes()</code> function.</p>
+<pre class="r"><code>ggplot(data = gapminder_1997) + 
+    aes(x = continent, y = lifeExp) + 
+    geom_boxplot(color = &#39;pink&#39;) + 
+    geom_jitter(aes(size = pop), width = 0.3)</code></pre>
+<p><img src="fig/02-plot_box_color1-1.png" width="816" style="display: block; margin: auto;" /></p>
+<p>We could add a different color to the points in the
+<code>geom_jitter()</code>, and we would do it outside of the
+<code>aes()</code> if we wanted them to be the same.</p>
+<pre class="r"><code>ggplot(data = gapminder_1997) + 
+    aes(x = continent, y = lifeExp) + 
+    geom_boxplot(color = &#39;pink&#39;) + 
+    geom_jitter(aes(size = pop), color = &#39;blue&#39;, width = 0.3)</code></pre>
+<p><img src="fig/02-plot_box_color2-1.png" width="816" style="display: block; margin: auto;" /></p>
+<p>Notice that <code>color</code> changed the outline of the
+<code>geom_boxplot()</code>. We would use <code>fill</code> if we wanted
+to change the inside color of the box plot.</p>
+<pre class="r"><code>ggplot(data = gapminder_1997) + 
+    aes(x = continent, y = lifeExp) + 
+    geom_boxplot(color = &#39;pink&#39;, fill = &#39;green&#39;) + 
+    geom_jitter(aes(size = pop), color = &#39;blue&#39;, width = 0.3)</code></pre>
+<p><img src="fig/02-plot_box_color3-1.png" width="816" style="display: block; margin: auto;" /></p>
+<p>We probably won’t publish this particular plot, as beautiful as it
+is.</p>
+<p>We have already seen in other plots that we can link
+<code>color</code> to an attribute of our data. We can do the same with
+<code>fill</code>, but we do it inside of the <code>aes()</code>
+function.</p>
+<pre class="r"><code>ggplot(data = gapminder_1997) + 
+    aes(x = continent, y = lifeExp) + 
+    geom_boxplot(aes(fill = continent)) + 
+    geom_jitter(aes(size = pop), width = 0.3)</code></pre>
+<p><img src="fig/02-plot_box_color4-1.png" width="816" style="display: block; margin: auto;" /></p>
+</div>
+<div id="transparency" class="section level2">
+<h2>Transparency</h2>
+</div>
 </div>
 
 
