@@ -57,6 +57,8 @@ This time, let's look more closely at the data. If we type the name of the objec
 gapminder_1997
 ```
 
+**Checkpoint**
+
 The output shows we have "a tibble" and its dimensions are 142 rows by 6 columns. We then see:
 
 - Column headings (country, year, etc)
@@ -77,23 +79,25 @@ The `summary()` function, from base R, takes a data table as input and will summ
 summary(gapminder_1997)
 ```
 
-We see that for the numeric data we get quantile information and the mean, whereas for character data we simply get the length of the column.
+We see that for the numeric data we get quantile information and the mean, whereas for character data we simply get the length of the column. For data with NAs, the number thereof would be displayed.
 
 ## Get stats with `summarize()`
 
-If we wanted to know the mean life expectancy in the dataset, we could use the built in function `mean()`. If we combine this with the `dplyr` `summarize()` function, we'll get:
+If we wanted to know the mean life expectancy in the dataset, we could use the the `dplyr` `summarize()` function, specifying that we want the `mean()`:
 
 ```{r, 'summarize_lifeexp'}
 summarize(gapminder_1997, avgLifeExp = mean(lifeExp))
 ```
 
-We can use any column name, so long as it's a numeric, and we get a new object with our value returned as a column. Note, this matches the result of `summary()`. Alternatively, we could have simply applied `mean()` directly to the column `lifeExp`:
+We can use any column name as the input to `mean()`, so long as it's a numeric, and we get a new tibble with our value returned as a column, named as specified. Note, this matches the result of `summary()` with some difference in the number of significant digits displayed. Alternatively, we could have simply applied `mean()` directly to the column `lifeExp`:
 
 ```{r, 'mean_lifexp_dollar'}
 mean(gapminder_1997$lifeExp)
 ```
 
-This is a more "base R" way of doing it. Notice we just get a number back, whereas with `summarize()` we got a `tibble`. Here, the `$` is a way to access columns of a data table by name. 
+This is the base R way, with the `$` being how columns of a data table are accessed. The `mean()` function returns a number, whereas `summarize()` returns a `tibble`. In the `tidyverse`, a function whose input is a `tibble` will also have a `tibble` as output. 
+
+**Checkpoint**
 
 > ## Tip: Reference columns by name
 > 
@@ -101,7 +105,7 @@ This is a more "base R" way of doing it. Notice we just get a number back, where
 
 ## Find unique values with `distinct()`
 
-To quickly data entry problems, the `distinct()` function can be used to show all unique values in the column of a table. Let's take a look at the distinct values of the continents column:
+Data is often subject to errors. To quickly catch data entry problems, the `distinct()` function can be used to show all unique values in the column of a table. Let's take a look at the distinct values of the continents column:
 
 ```{r, 'distinct_continent'}
 distinct(gapminder_1997, continent)
@@ -115,21 +119,65 @@ unique(gapminder_1997$continent)
 
 Either way, if there was a misspelled entry, for example, "Urope" we would have immediately seen it.
 
+**Checkpoint**
+
+## Sorting data with `arrange()`
+
+We have a rich dataset whose default ordering is by country. But it's natural to ask questions like "What country has the highest life expectancy?" or "What country had the highest GDP per capita?" The `arrange()` function can help us quickly find the answers.
+
+```{r, 'arrange_lifeexp'}
+arrange(gapminder_1997, lifeExp)
+```
+
+This seems to have done an ascending order on `lifeExp` by default. We have some options, one of which is to wrap the column of interest in the `desc()` function to indicate we want the order to be descending.
+
+```{r, 'arrange_lifeexp_desc'}
+arrange(gapminder_1997, desc(lifeExp))
+```
+
+And here we see that Japan is the country with the longest lived citizens at a little over 80 years.
+
+If we wanted to use base R, we might start with the `sort()` function:
+
+```{r, 'sort_lifeexp'}
+sort(gapminder_1997$lifeExp, decreasing = TRUE)
+```
+
+But this only sorts the `lifeExp` column and drops all the other information in the table, so we know the highest life expectancy but not the country to which it belongs. There is another function called `order()` which returns the indices of the sorting. Let's call it first by itself and think about how to get what we want from it:
+
+```{r, 'order_lifexp'}
+order(gapminder_1997$lifeExp, decreasing = TRUE)
+```
+
+This is a vector of the row indices of `gapminder_1997` and the meaning of the result is that the 67th row is the entry with the highest `lifeExp`, the 56th row the second highest etc. We can re-order the rows of `gapminder_1997` using this vector of indices as in:
+
+```{r, 'order_lifexp2'}
+gapminder_1997[order(gapminder_1997$lifeExp, decreasing = TRUE), ]
+```
+
+We see that we got the same thing as in `arrange()`. We observe that a data table has two dimensions (rows and columns). With square-bracket accessors, the rows are first and the columns are second, separated by a comma. We left the second entry in the `[,]` blank to indicate we want all columns returned. In the first entry, denoting the rows, we give it the vector of indices with the correct ordering.
+
+This is an excellent example of the relative simplicity of the `tidyverse` over base R.
+
+**Checkpoint**
+
 ## Subset columns with `select()`
 
-Sometimes data tables have many columns, and it can be useful to select only a few of them for exporting, use downstream, previewing, etc. The `select()` function enables us to select a subset of columns:
+Sometimes data tables have many columns, and it can be useful to select only a few of them to export, use downstream, preview, etc. The `select()` function works on columns:
 
 ```{r, 'select_positive'}
 select(gapminder_1997, country, year, lifeExp)
 ```
 
-We can do the equivalent `select()` statement using base R with:
+We can do the equivalent of `select()` statement using base R with:
 
 ```{r, 'base_select_positive'}
 gapminder_1997[ , c('country', 'year', 'lifeExp')]
 ```
 
-A data table has two dimensions (rows and columns), and, with square-bracket accessors, the rows are in the first position and the columns are in the second position in the brackets separated by a comma. In the above, leaving the row position blank implies "all rows", and in the column position we specify the names of the columns as a vector with the `c()` function, meaning "combine", creates a temporary vector of column names.
+Here we use the square-bracket notation again, leaving the row position blank returns all rows, and in the column position we specify the names of the columns as a vector with the `c()` function, meaning "combine", creates a temporary vector of column names. Note that we quoted the column names in this code, whereas in `select()` we didn't have to.
+
+**Checkpoint**
 
 Columns can be removed using `select()` with a "minus" in front of the column name.
 
@@ -143,13 +191,15 @@ Notice the `year` column is no longer displayed. The equivalent can be done in b
 gapminder_1997[, -2]
 ```
 
-Note, the base R syntax works for numerical column indices only. The following throws an error if we try to use the name of the column as we did in the `tidyverse` syntax:
+Note, the base R syntax works for numerical column indices only. The following throws a somewhat inscrutable error if we try to use the name of the column as we did in the `tidyverse` syntax:
 
 ```{r, 'base_select_negative_error', error = TRUE}
 gapminder_1997[, -c('year')]
 ```
 
-Note that if we view `gapminder_1997` we notice haven't changed the original data because we haven't saved the object.
+## Saving objects
+
+If we view `gapminder_1997` we notice haven't changed the original data because we haven't saved the object.
 
 ```{r, 'df_persists'}
 gapminder_1997
@@ -162,7 +212,17 @@ gapminder_column_subset = select(gapminder_1997, country, year, lifeExp)
 gapminder_column_subset
 ```
 
-The original data file we read in `data/gapminder_1997.csv` remains the same throughout all these manipulations. What happens in R stays in R until we explicitly write a new object to the same file. **It's good practice to keep raw input data separate, and to never overwrite it.**
+## Saving objects to file
+
+The original data file we read in `data/gapminder_1997.csv` remains the same throughout all these manipulations. What happens in R stays in R until we explicitly write a new object to the same file. **It's good practice to keep raw input data separate, and to never overwrite it.** Let's use the `write_csv()` function to write the `gapminder_column_subset` data to a file. First let's look at `?write_csv` and determine what are the required parameters.
+
+It looks like `x`, the data to be written and `file`, the path to the output file are required. There are other options, but we won't use them here.
+
+```{r, 'write_csv', eval = FALSE}
+write_csv(gapminder_column_subset, file = 'gapminder_subset.csv')
+```
+
+**Checkpoint**
 
 ## Narrow down rows with `filter()`
 
@@ -193,19 +253,26 @@ The base R equivalent of the above uses the square bracket notation that we saw 
 gapminder_1997[gapminder_1997$continent == 'Africa', ]
 ```
 
-Here we put the condition in the row position, before the comma, because because we want to subset rows. The blank after the comma indicates we want all the columns returned. An alternative base R way to do this is:
+Here we put the condition in the row position, before the comma, because we want to subset rows. The blank after the comma indicates we want all the columns returned.
 
-```{r, 'base_subset_filter_by_continent'}
-subset(gapminder_1997, continent == 'Africa')
-```
+> ## Exercise
+> How can we filter the data for just the United Kingdom?
 
-This is quite similar to the `tidyverse` syntax, except we're using the `subset()` function from base R instead of `filter()` from `dplyr`.
-
-We can filter the data for African countries above a certain population by using the `&` operator. Essentially requiring multiple things to be true at the same time:
+We can answer the question, "Which African countries have population over 10,000,000?" by using the `&` operator with our previous code. This requires both conditions to be true at the same time:
 
 ```{r, 'filter_by_continent_population'}
 filter(gapminder_1997, continent == 'Africa' & pop >= 10000000)
 ```
+
+We can subset the data for very large or very small population with the `|` operator, which requires either condition to be true:
+
+```{r, 'filter_by_large_and_small_pop'}
+filter(gapminder_1997, pop <= 1000000 | pop >= 1000000000)
+```
+
+This gives us all the countries with fewer than a million people **or** more than a billion people.
+
+**Checkpoint**
 
 ## Make new columns with `mutate()`
 
@@ -222,24 +289,33 @@ gapminder_gdp_1997 = mutate(gapminder_1997, gdp = pop * gdpPercap)
 gapminder_gdp_1997
 ```
 
+**Checkpoint**
+
 ## Combine functions with the `%>%` pipe
 
-We've learned how to subset rows with `filter()`, select columns with `select()`, get distinct elements with `distinct()`, and summarize columns with `summarize()`. It's common to use these functions in sequence, where the output of one becomes the input of the next. The "pipe" (`|`) from `bash` has an equivalent in the `tidyverse` in the `%>%` symbol. To see this, let's select data from Oceania and display only the `country`, `continent`, and `pop` columns.
+We've learned how to subset rows with `filter()`, select columns with `select()`, get distinct elements with `distinct()`, and summarize columns with `summarize()`. It's common to use these functions in sequence, where the output of one becomes the input of the next. The concept of "pipe" (`|`) from `bash` has an equivalent in the `tidyverse` in the `%>%` symbol. To see this in action, let's select data from Oceania and display only the `country`, `continent`, and `pop` columns.
 
 ```{r, 'pipe_example1'}
 gapminder_1997 %>% filter(continent == 'Oceania') %>% select(country, continent, pop)
 ```
 
-It seems there are only two countries, Australia and New Zealand. If we wanted to take the mean of the populations we could pipe the above output to `summarize()` as in:
+> ## Question
+> 
+> Does the order of `filter()` and `select()` matter? Would something like the following work, why or why not?
+> 
+> ```{r, 'pipe_order', eval = FALSE}
+> gapminder_1997 %>% select(country, pop) %>% filter(continent == 'Oceania')
+> ```
+
+It seems there are only two countries, Australia and New Zealand. If we wanted to take the mean of the populations we could pipe the data, after filtering, to `summarize()` as in:
 
 ```{r, 'pipe_example2'}
 gapminder_1997 %>%
     filter(continent == 'Oceania') %>%
-    select(country, continent, pop) %>%
     summarize(oceania_mean_pop = mean(pop))
 ```
 
-Note this is distinct from taking the mean over the entire data set:
+Note this is distinct from taking the mean over the entire dataset:
 
 ```{r, 'pipe_example3'}
 gapminder_1997 %>% summarize(global_mean_pop = mean(pop))
@@ -247,9 +323,11 @@ gapminder_1997 %>% summarize(global_mean_pop = mean(pop))
 
 Here we've meaningfully named our output, but that was optional. For quick data exploration that could be left off.
 
+**Checkpoint**
+
 ## Group rows with `group_by()`
 
-If we wanted to determine the mean populations over all the continents, we could run the above code we used for Oceania, but replace Oceania with each continent name. That's a bit tedious, and the `tidyverse` provides a very nice function, `group_by()`, that breaks a data table up into groups on which to perform operations.
+If we wanted to determine the mean populations over all the continents, we could run the above code we used for Oceania, but replace Oceania with each continent name. That's a bit tedious, and the `tidyverse` provides a very nice function, `group_by()`, that breaks a data table up into groups and will perform operations within the groups.
 
 ```{r, 'group_by_means'}
 gapminder_1997 %>% 
@@ -270,6 +348,37 @@ There is a base R function, `table()`, that tabulates the number of time an entr
 ```{r, 'count_with_table'}
 table(gapminder_1997$continent)
 ```
+
+**Checkpoint**
+
+> ## Exercise
+> 
+> The following code generates the following output:
+> 
+> ```{r, 'dplyr_exercise_example'}
+> gapminder_1997 %>% 
+>     group_by(continent) %>%
+>     summarize(
+>         min_pop = min(pop),
+>         median_pop = median(pop),
+>         max_pop = max(pop)
+>     ) %>% 
+>     arrange(median_pop)
+> ```
+> Try to write the code that would generate the following table:
+> 
+> ```{r, 'dplyr_exercise_hidden', echo = FALSE}
+> gapminder_1997 %>% 
+>     mutate(gdp = pop * gdpPercap) %>%
+>     group_by(continent) %>%
+>     summarize(
+>         min_gdp = min(gdp),
+>         mean_gdp = mean(gdp),
+>         median_gdp = median(gdp),
+>         max_gdp = max(gdp)
+>     ) %>% 
+>     arrange(mean_gdp)
+> ```
 
 # Exploring data visually
 

@@ -344,9 +344,16 @@ id="toc-get-stats-with-summarize">Get stats with
 <li><a href="#find-unique-values-with-distinct"
 id="toc-find-unique-values-with-distinct">Find unique values with
 <code>distinct()</code></a></li>
+<li><a href="#sorting-data-with-arrange"
+id="toc-sorting-data-with-arrange">Sorting data with
+<code>arrange()</code></a></li>
 <li><a href="#subset-columns-with-select"
 id="toc-subset-columns-with-select">Subset columns with
 <code>select()</code></a></li>
+<li><a href="#saving-objects" id="toc-saving-objects">Saving
+objects</a></li>
+<li><a href="#saving-objects-to-file"
+id="toc-saving-objects-to-file">Saving objects to file</a></li>
 <li><a href="#narrow-down-rows-with-filter"
 id="toc-narrow-down-rows-with-filter">Narrow down rows with
 <code>filter()</code></a></li>
@@ -454,6 +461,7 @@ of the object and evaluate it, we’ll see a preview:</p>
  9 Bangladesh   1997 123315288 Asia         59.4      973.
 10 Belgium      1997  10199787 Europe       77.5    27561.
 # ℹ 132 more rows</code></pre>
+<p><strong>Checkpoint</strong></p>
 <p>The output shows we have “a tibble” and its dimensions are 142 rows
 by 6 columns. We then see:</p>
 <ul>
@@ -495,31 +503,33 @@ data type.</p>
  3rd Qu.:12022.9  
  Max.   :41283.2  </code></pre>
 <p>We see that for the numeric data we get quantile information and the
-mean, whereas for character data we simply get the length of the
-column.</p>
+mean, whereas for character data we simply get the length of the column.
+For data with NAs, the number thereof would be displayed.</p>
 </div>
 <div id="get-stats-with-summarize" class="section level2">
 <h2>Get stats with <code>summarize()</code></h2>
 <p>If we wanted to know the mean life expectancy in the dataset, we
-could use the built in function <code>mean()</code>. If we combine this
-with the <code>dplyr</code> <code>summarize()</code> function, we’ll
-get:</p>
+could use the the <code>dplyr</code> <code>summarize()</code> function,
+specifying that we want the <code>mean()</code>:</p>
 <pre class="r"><code>summarize(gapminder_1997, avgLifeExp = mean(lifeExp))</code></pre>
 <pre><code># A tibble: 1 × 1
   avgLifeExp
        &lt;dbl&gt;
 1       65.0</code></pre>
-<p>We can use any column name, so long as it’s a numeric, and we get a
-new object with our value returned as a column. Note, this matches the
-result of <code>summary()</code>. Alternatively, we could have simply
-applied <code>mean()</code> directly to the column
-<code>lifeExp</code>:</p>
+<p>We can use any column name as the input to <code>mean()</code>, so
+long as it’s a numeric, and we get a new tibble with our value returned
+as a column, named as specified. Note, this matches the result of
+<code>summary()</code> with some difference in the number of significant
+digits displayed. Alternatively, we could have simply applied
+<code>mean()</code> directly to the column <code>lifeExp</code>:</p>
 <pre class="r"><code>mean(gapminder_1997$lifeExp)</code></pre>
 <pre><code>[1] 65.01468</code></pre>
-<p>This is a more “base R” way of doing it. Notice we just get a number
-back, whereas with <code>summarize()</code> we got a
-<code>tibble</code>. Here, the <code>$</code> is a way to access columns
-of a data table by name.</p>
+<p>This is the base R way, with the <code>$</code> being how columns of
+a data table are accessed. The <code>mean()</code> function returns a
+number, whereas <code>summarize()</code> returns a <code>tibble</code>.
+In the <code>tidyverse</code>, a function whose input is a
+<code>tibble</code> will also have a <code>tibble</code> as output.</p>
+<p><strong>Checkpoint</strong></p>
 <blockquote>
 <h2 id="tip-reference-columns-by-name">Tip: Reference columns by
 name</h2>
@@ -532,9 +542,10 @@ operating on the wrong column. A dangerous situation to be in.</p>
 </div>
 <div id="find-unique-values-with-distinct" class="section level2">
 <h2>Find unique values with <code>distinct()</code></h2>
-<p>To quickly data entry problems, the <code>distinct()</code> function
-can be used to show all unique values in the column of a table. Let’s
-take a look at the distinct values of the continents column:</p>
+<p>Data is often subject to errors. To quickly catch data entry
+problems, the <code>distinct()</code> function can be used to show all
+unique values in the column of a table. Let’s take a look at the
+distinct values of the continents column:</p>
 <pre class="r"><code>distinct(gapminder_1997, continent)</code></pre>
 <pre><code># A tibble: 5 × 1
   continent
@@ -551,13 +562,115 @@ do this with the <code>unique()</code> function:</p>
 <pre><code>[1] &quot;Asia&quot;     &quot;Europe&quot;   &quot;Africa&quot;   &quot;Americas&quot; &quot;Oceania&quot; </code></pre>
 <p>Either way, if there was a misspelled entry, for example, “Urope” we
 would have immediately seen it.</p>
+<p><strong>Checkpoint</strong></p>
+</div>
+<div id="sorting-data-with-arrange" class="section level2">
+<h2>Sorting data with <code>arrange()</code></h2>
+<p>We have a rich dataset whose default ordering is by country. But it’s
+natural to ask questions like “What country has the highest life
+expectancy?” or “What country had the highest GDP per capita?” The
+<code>arrange()</code> function can help us quickly find the
+answers.</p>
+<pre class="r"><code>arrange(gapminder_1997, lifeExp)</code></pre>
+<pre><code># A tibble: 142 × 6
+   country          year      pop continent lifeExp gdpPercap
+   &lt;chr&gt;           &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;       &lt;dbl&gt;     &lt;dbl&gt;
+ 1 Rwanda           1997  7212583 Africa       36.1      590.
+ 2 Sierra Leone     1997  4578212 Africa       39.9      575.
+ 3 Zambia           1997  9417789 Africa       40.2     1071.
+ 4 Angola           1997  9875024 Africa       41.0     2277.
+ 5 Afghanistan      1997 22227415 Asia         41.8      635.
+ 6 Liberia          1997  2200725 Africa       42.2      609.
+ 7 Congo Dem. Rep.  1997 47798986 Africa       42.6      312.
+ 8 Somalia          1997  6633514 Africa       43.8      931.
+ 9 Uganda           1997 21210254 Africa       44.6      817.
+10 Guinea-Bissau    1997  1193708 Africa       44.9      797.
+# ℹ 132 more rows</code></pre>
+<p>This seems to have done an ascending order on <code>lifeExp</code> by
+default. We have some options, one of which is to wrap the column of
+interest in the <code>desc()</code> function to indicate we want the
+order to be descending.</p>
+<pre class="r"><code>arrange(gapminder_1997, desc(lifeExp))</code></pre>
+<pre><code># A tibble: 142 × 6
+   country          year       pop continent lifeExp gdpPercap
+   &lt;chr&gt;           &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;       &lt;dbl&gt;     &lt;dbl&gt;
+ 1 Japan            1997 125956499 Asia         80.7    28817.
+ 2 Hong Kong China  1997   6495918 Asia         80      28378.
+ 3 Sweden           1997   8897619 Europe       79.4    25267.
+ 4 Switzerland      1997   7193761 Europe       79.4    32135.
+ 5 Iceland          1997    271192 Europe       79.0    28061.
+ 6 Australia        1997  18565243 Oceania      78.8    26998.
+ 7 Italy            1997  57479469 Europe       78.8    24675.
+ 8 Spain            1997  39855442 Europe       78.8    20445.
+ 9 France           1997  58623428 Europe       78.6    25890.
+10 Canada           1997  30305843 Americas     78.6    28955.
+# ℹ 132 more rows</code></pre>
+<p>And here we see that Japan is the country with the longest lived
+citizens at a little over 80 years.</p>
+<p>If we wanted to use base R, we might start with the
+<code>sort()</code> function:</p>
+<pre class="r"><code>sort(gapminder_1997$lifeExp, decreasing = TRUE)</code></pre>
+<pre><code>  [1] 80.690 80.000 79.390 79.370 78.950 78.830 78.820 78.770 78.640 78.610 78.320 78.269 78.030
+ [14] 77.869 77.550 77.530 77.510 77.340 77.260 77.218 77.158 77.130 76.810 76.156 76.151 76.122
+ [27] 76.110 75.970 75.816 75.445 75.250 75.130 74.917 74.772 74.647 74.223 74.010 73.925 73.738
+ [40] 73.680 73.670 73.275 73.244 72.950 72.750 72.710 72.499 72.312 72.262 72.232 72.146 71.973
+ [53] 71.938 71.555 71.527 71.096 71.040 70.736 70.672 70.533 70.457 70.426 70.320 70.313 70.265
+ [66] 69.957 69.772 69.720 69.535 69.465 69.400 69.388 69.152 68.835 68.564 68.426 68.386 68.042
+ [79] 67.727 67.660 67.659 67.521 67.217 66.322 66.041 63.625 63.306 62.050 61.818 61.765 60.660
+ [92] 60.461 60.430 60.328 60.236 60.187 59.426 59.412 58.909 58.811 58.556 58.390 58.020 56.671
+[105] 56.534 55.861 55.558 55.373 54.978 54.777 54.407 54.289 53.378 53.157 52.962 52.556 52.199
+[118] 51.573 51.455 51.313 50.324 49.903 49.402 48.466 48.245 47.991 47.495 47.464 46.809 46.344
+[131] 46.066 45.326 44.873 44.578 43.795 42.587 42.221 41.763 40.963 40.238 39.897 36.087</code></pre>
+<p>But this only sorts the <code>lifeExp</code> column and drops all the
+other information in the table, so we know the highest life expectancy
+but not the country to which it belongs. There is another function
+called <code>order()</code> which returns the indices of the sorting.
+Let’s call it first by itself and think about how to get what we want
+from it:</p>
+<pre class="r"><code>order(gapminder_1997$lifeExp, decreasing = TRUE)</code></pre>
+<pre><code>  [1]  67  56 123 124  58   6  65 119  45  21  96  64  91  50  92  10   7  48  30 134 114  44
+ [23] 135  72  33  63  35 104  24  85 126 116 105 106  71 136  34   8  99  32  83   5  13   2
+ [45] 103 115  97  38  66 112 137 131  79  76 125 139  57  82 138 110 120  25  16  26  73  37
+ [67]  68 107  40 130 100  15   3 132 102  93 101  61  70  86  55 128  39  51  60  84 109  12
+ [89]  98  59  27  46  81  88 118 111  90   9  89  62  49 129 140  54  19  47  74 121  77  11
+[111]  69 122  42  36  29  14  20  23  52  94  17  80  43 127  41  31  78  95 142  87  22  18
+[133]  53 133 117  28  75   1   4 141 113 108</code></pre>
+<p>This is a vector of the row indices of <code>gapminder_1997</code>
+and the meaning of the result is that the 67th row is the entry with the
+highest <code>lifeExp</code>, the 56th row the second highest etc. We
+can re-order the rows of <code>gapminder_1997</code> using this vector
+of indices as in:</p>
+<pre class="r"><code>gapminder_1997[order(gapminder_1997$lifeExp, decreasing = TRUE), ]</code></pre>
+<pre><code># A tibble: 142 × 6
+   country          year       pop continent lifeExp gdpPercap
+   &lt;chr&gt;           &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;       &lt;dbl&gt;     &lt;dbl&gt;
+ 1 Japan            1997 125956499 Asia         80.7    28817.
+ 2 Hong Kong China  1997   6495918 Asia         80      28378.
+ 3 Sweden           1997   8897619 Europe       79.4    25267.
+ 4 Switzerland      1997   7193761 Europe       79.4    32135.
+ 5 Iceland          1997    271192 Europe       79.0    28061.
+ 6 Australia        1997  18565243 Oceania      78.8    26998.
+ 7 Italy            1997  57479469 Europe       78.8    24675.
+ 8 Spain            1997  39855442 Europe       78.8    20445.
+ 9 France           1997  58623428 Europe       78.6    25890.
+10 Canada           1997  30305843 Americas     78.6    28955.
+# ℹ 132 more rows</code></pre>
+<p>We see that we got the same thing as in <code>arrange()</code>. We
+observe that a data table has two dimensions (rows and columns). With
+square-bracket accessors, the rows are first and the columns are second,
+separated by a comma. We left the second entry in the <code>[,]</code>
+blank to indicate we want all columns returned. In the first entry,
+denoting the rows, we give it the vector of indices with the correct
+ordering.</p>
+<p>This is an excellent example of the relative simplicity of the
+<code>tidyverse</code> over base R.</p>
+<p><strong>Checkpoint</strong></p>
 </div>
 <div id="subset-columns-with-select" class="section level2">
 <h2>Subset columns with <code>select()</code></h2>
 <p>Sometimes data tables have many columns, and it can be useful to
-select only a few of them for exporting, use downstream, previewing,
-etc. The <code>select()</code> function enables us to select a subset of
-columns:</p>
+select only a few of them to export, use downstream, preview, etc. The
+<code>select()</code> function works on columns:</p>
 <pre class="r"><code>select(gapminder_1997, country, year, lifeExp)</code></pre>
 <pre><code># A tibble: 142 × 3
    country      year lifeExp
@@ -573,8 +686,8 @@ columns:</p>
  9 Bangladesh   1997    59.4
 10 Belgium      1997    77.5
 # ℹ 132 more rows</code></pre>
-<p>We can do the equivalent <code>select()</code> statement using base R
-with:</p>
+<p>We can do the equivalent of <code>select()</code> statement using
+base R with:</p>
 <pre class="r"><code>gapminder_1997[ , c(&#39;country&#39;, &#39;year&#39;, &#39;lifeExp&#39;)]</code></pre>
 <pre><code># A tibble: 142 × 3
    country      year lifeExp
@@ -590,13 +703,13 @@ with:</p>
  9 Bangladesh   1997    59.4
 10 Belgium      1997    77.5
 # ℹ 132 more rows</code></pre>
-<p>A data table has two dimensions (rows and columns), and, with
-square-bracket accessors, the rows are in the first position and the
-columns are in the second position in the brackets separated by a comma.
-In the above, leaving the row position blank implies “all rows”, and in
-the column position we specify the names of the columns as a vector with
-the <code>c()</code> function, meaning “combine”, creates a temporary
-vector of column names.</p>
+<p>Here we use the square-bracket notation again, leaving the row
+position blank returns all rows, and in the column position we specify
+the names of the columns as a vector with the <code>c()</code> function,
+meaning “combine”, creates a temporary vector of column names. Note that
+we quoted the column names in this code, whereas in
+<code>select()</code> we didn’t have to.</p>
+<p><strong>Checkpoint</strong></p>
 <p>Columns can be removed using <code>select()</code> with a “minus” in
 front of the column name.</p>
 <pre class="r"><code>select(gapminder_1997, -year)</code></pre>
@@ -632,12 +745,15 @@ equivalent can be done in base R with:</p>
 10 Belgium      10199787 Europe       77.5    27561.
 # ℹ 132 more rows</code></pre>
 <p>Note, the base R syntax works for numerical column indices only. The
-following throws an error if we try to use the name of the column as we
-did in the <code>tidyverse</code> syntax:</p>
+following throws a somewhat inscrutable error if we try to use the name
+of the column as we did in the <code>tidyverse</code> syntax:</p>
 <pre class="r"><code>gapminder_1997[, -c(&#39;year&#39;)]</code></pre>
 <pre><code>Error in -c(&quot;year&quot;): invalid argument to unary operator</code></pre>
-<p>Note that if we view <code>gapminder_1997</code> we notice haven’t
-changed the original data because we haven’t saved the object.</p>
+</div>
+<div id="saving-objects" class="section level2">
+<h2>Saving objects</h2>
+<p>If we view <code>gapminder_1997</code> we notice haven’t changed the
+original data because we haven’t saved the object.</p>
 <pre class="r"><code>gapminder_1997</code></pre>
 <pre><code># A tibble: 142 × 6
    country      year       pop continent lifeExp gdpPercap
@@ -671,11 +787,23 @@ gapminder_column_subset</code></pre>
  9 Bangladesh   1997    59.4
 10 Belgium      1997    77.5
 # ℹ 132 more rows</code></pre>
+</div>
+<div id="saving-objects-to-file" class="section level2">
+<h2>Saving objects to file</h2>
 <p>The original data file we read in
 <code>data/gapminder_1997.csv</code> remains the same throughout all
 these manipulations. What happens in R stays in R until we explicitly
 write a new object to the same file. <strong>It’s good practice to keep
-raw input data separate, and to never overwrite it.</strong></p>
+raw input data separate, and to never overwrite it.</strong> Let’s use
+the <code>write_csv()</code> function to write the
+<code>gapminder_column_subset</code> data to a file. First let’s look at
+<code>?write_csv</code> and determine what are the required
+parameters.</p>
+<p>It looks like <code>x</code>, the data to be written and
+<code>file</code>, the path to the output file are required. There are
+other options, but we won’t use them here.</p>
+<pre class="r"><code>write_csv(gapminder_column_subset, file = &#39;gapminder_subset.csv&#39;)</code></pre>
+<p><strong>Checkpoint</strong></p>
 </div>
 <div id="narrow-down-rows-with-filter" class="section level2">
 <h2>Narrow down rows with <code>filter()</code></h2>
@@ -785,30 +913,16 @@ that we saw earlier with a twist:</p>
 10 Comoros                   1997   527982 Africa       60.7     1174.
 # ℹ 42 more rows</code></pre>
 <p>Here we put the condition in the row position, before the comma,
-because because we want to subset rows. The blank after the comma
-indicates we want all the columns returned. An alternative base R way to
-do this is:</p>
-<pre class="r"><code>subset(gapminder_1997, continent == &#39;Africa&#39;)</code></pre>
-<pre><code># A tibble: 52 × 6
-   country                   year      pop continent lifeExp gdpPercap
-   &lt;chr&gt;                    &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;       &lt;dbl&gt;     &lt;dbl&gt;
- 1 Algeria                   1997 29072015 Africa       69.2     4797.
- 2 Angola                    1997  9875024 Africa       41.0     2277.
- 3 Benin                     1997  6066080 Africa       54.8     1233.
- 4 Botswana                  1997  1536536 Africa       52.6     8647.
- 5 Burkina Faso              1997 10352843 Africa       50.3      946.
- 6 Burundi                   1997  6121610 Africa       45.3      463.
- 7 Cameroon                  1997 14195809 Africa       52.2     1694.
- 8 Central African Republic  1997  3696513 Africa       46.1      741.
- 9 Chad                      1997  7562011 Africa       51.6     1005.
-10 Comoros                   1997   527982 Africa       60.7     1174.
-# ℹ 42 more rows</code></pre>
-<p>This is quite similar to the <code>tidyverse</code> syntax, except
-we’re using the <code>subset()</code> function from base R instead of
-<code>filter()</code> from <code>dplyr</code>.</p>
-<p>We can filter the data for African countries above a certain
-population by using the <code>&amp;</code> operator. Essentially
-requiring multiple things to be true at the same time:</p>
+because we want to subset rows. The blank after the comma indicates we
+want all the columns returned.</p>
+<blockquote>
+<h2 id="exercise">Exercise</h2>
+<p>How can we filter the data for just the United Kingdom?</p>
+</blockquote>
+<p>We can answer the question, “Which African countries have population
+over 10,000,000?” by using the <code>&amp;</code> operator with our
+previous code. This requires both conditions to be true at the same
+time:</p>
 <pre class="r"><code>filter(gapminder_1997, continent == &#39;Africa&#39; &amp; pop &gt;= 10000000)</code></pre>
 <pre><code># A tibble: 19 × 6
    country          year       pop continent lifeExp gdpPercap
@@ -832,6 +946,25 @@ requiring multiple things to be true at the same time:</p>
 17 Tanzania         1997  30686889 Africa       48.5      789.
 18 Uganda           1997  21210254 Africa       44.6      817.
 19 Zimbabwe         1997  11404948 Africa       46.8      792.</code></pre>
+<p>We can subset the data for very large or very small population with
+the <code>|</code> operator, which requires either condition to be
+true:</p>
+<pre class="r"><code>filter(gapminder_1997, pop &lt;= 1000000 | pop &gt;= 1000000000)</code></pre>
+<pre><code># A tibble: 9 × 6
+  country                year        pop continent lifeExp gdpPercap
+  &lt;chr&gt;                 &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;       &lt;dbl&gt;     &lt;dbl&gt;
+1 Bahrain                1997     598561 Asia         73.9    20292.
+2 China                  1997 1230075000 Asia         70.4     2289.
+3 Comoros                1997     527982 Africa       60.7     1174.
+4 Djibouti               1997     417908 Africa       53.2     1895.
+5 Equatorial Guinea      1997     439971 Africa       48.2     2814.
+6 Iceland                1997     271192 Europe       79.0    28061.
+7 Montenegro             1997     692651 Europe       75.4     6466.
+8 Reunion                1997     684810 Africa       74.8     6072.
+9 Sao Tome and Principe  1997     145608 Africa       63.3     1339.</code></pre>
+<p>This gives us all the countries with fewer than a million people
+<strong>or</strong> more than a billion people.</p>
+<p><strong>Checkpoint</strong></p>
 </div>
 <div id="make-new-columns-with-mutate" class="section level2">
 <h2>Make new columns with <code>mutate()</code></h2>
@@ -874,6 +1007,7 @@ gapminder_gdp_1997</code></pre>
  9 Bangladesh   1997 123315288 Asia         59.4      973. 119957417048.
 10 Belgium      1997  10199787 Europe       77.5    27561. 281118335091.
 # ℹ 132 more rows</code></pre>
+<p><strong>Checkpoint</strong></p>
 </div>
 <div id="combine-functions-with-the-pipe" class="section level2">
 <h2>Combine functions with the <code>%&gt;%</code> pipe</h2>
@@ -882,30 +1016,35 @@ columns with <code>select()</code>, get distinct elements with
 <code>distinct()</code>, and summarize columns with
 <code>summarize()</code>. It’s common to use these functions in
 sequence, where the output of one becomes the input of the next. The
-“pipe” (<code>|</code>) from <code>bash</code> has an equivalent in the
-<code>tidyverse</code> in the <code>%&gt;%</code> symbol. To see this,
-let’s select data from Oceania and display only the
-<code>country</code>, <code>continent</code>, and <code>pop</code>
-columns.</p>
+concept of “pipe” (<code>|</code>) from <code>bash</code> has an
+equivalent in the <code>tidyverse</code> in the <code>%&gt;%</code>
+symbol. To see this in action, let’s select data from Oceania and
+display only the <code>country</code>, <code>continent</code>, and
+<code>pop</code> columns.</p>
 <pre class="r"><code>gapminder_1997 %&gt;% filter(continent == &#39;Oceania&#39;) %&gt;% select(country, continent, pop)</code></pre>
 <pre><code># A tibble: 2 × 3
   country     continent      pop
   &lt;chr&gt;       &lt;chr&gt;        &lt;dbl&gt;
 1 Australia   Oceania   18565243
 2 New Zealand Oceania    3676187</code></pre>
+<blockquote>
+<h2 id="question">Question</h2>
+<p>Does the order of <code>filter()</code> and <code>select()</code>
+matter? Would something like the following work, why or why not?</p>
+<pre class="r"><code>gapminder_1997 %&gt;% select(country, pop) %&gt;% filter(continent == &#39;Oceania&#39;)</code></pre>
+</blockquote>
 <p>It seems there are only two countries, Australia and New Zealand. If
-we wanted to take the mean of the populations we could pipe the above
-output to <code>summarize()</code> as in:</p>
+we wanted to take the mean of the populations we could pipe the data,
+after filtering, to <code>summarize()</code> as in:</p>
 <pre class="r"><code>gapminder_1997 %&gt;%
     filter(continent == &#39;Oceania&#39;) %&gt;%
-    select(country, continent, pop) %&gt;%
     summarize(oceania_mean_pop = mean(pop))</code></pre>
 <pre><code># A tibble: 1 × 1
   oceania_mean_pop
              &lt;dbl&gt;
 1         11120715</code></pre>
-<p>Note this is distinct from taking the mean over the entire data
-set:</p>
+<p>Note this is distinct from taking the mean over the entire
+dataset:</p>
 <pre class="r"><code>gapminder_1997 %&gt;% summarize(global_mean_pop = mean(pop))</code></pre>
 <pre><code># A tibble: 1 × 1
   global_mean_pop
@@ -913,6 +1052,7 @@ set:</p>
 1       38839468.</code></pre>
 <p>Here we’ve meaningfully named our output, but that was optional. For
 quick data exploration that could be left off.</p>
+<p><strong>Checkpoint</strong></p>
 </div>
 <div id="group-rows-with-group_by" class="section level2">
 <h2>Group rows with <code>group_by()</code></h2>
@@ -920,8 +1060,8 @@ quick data exploration that could be left off.</p>
 continents, we could run the above code we used for Oceania, but replace
 Oceania with each continent name. That’s a bit tedious, and the
 <code>tidyverse</code> provides a very nice function,
-<code>group_by()</code>, that breaks a data table up into groups on
-which to perform operations.</p>
+<code>group_by()</code>, that breaks a data table up into groups and
+will perform operations within the groups.</p>
 <pre class="r"><code>gapminder_1997 %&gt;% 
     group_by(continent) %&gt;% 
     summarize(mean_pop = mean(pop))</code></pre>
@@ -956,6 +1096,36 @@ sanity checking:</p>
 <pre><code>
   Africa Americas     Asia   Europe  Oceania 
       52       25       33       30        2 </code></pre>
+<p><strong>Checkpoint</strong></p>
+<blockquote>
+<h2 id="exercise-1">Exercise</h2>
+<p>The following code generates the following output:</p>
+<pre class="r"><code>gapminder_1997 %&gt;% 
+    group_by(continent) %&gt;%
+    summarize(
+        min_pop = min(pop),
+        median_pop = median(pop),
+        max_pop = max(pop)
+    ) %&gt;% 
+    arrange(median_pop)</code></pre>
+<pre><code># A tibble: 5 × 4
+  continent min_pop median_pop    max_pop
+  &lt;chr&gt;       &lt;dbl&gt;      &lt;dbl&gt;      &lt;dbl&gt;
+1 Africa     145608   7805422.  106207839
+2 Americas  1138101   7992357   272911760
+3 Europe     271192   9527017    82011073
+4 Oceania   3676187  11120715    18565243
+5 Asia       598561  21229759  1230075000</code></pre>
+<p>Try to write the code that would generate the following table:</p>
+<pre><code># A tibble: 5 × 5
+  continent      min_gdp      mean_gdp    median_gdp max_gdp
+  &lt;chr&gt;            &lt;dbl&gt;         &lt;dbl&gt;         &lt;dbl&gt;   &lt;dbl&gt;
+1 Africa      194980183.  30023173824.   8190364646. 3.20e11
+2 Oceania   77385257446. 289304255183. 289304255183. 5.01e11
+3 Europe     4478413552. 383606933833. 172462904126. 2.28e12
+4 Asia       4745744246. 387597655323. 105396057842. 3.63e12
+5 Americas   9276089515. 582693307146.  45924427025. 9.76e12</code></pre>
+</blockquote>
 </div>
 </div>
 <div id="exploring-data-visually" class="section level1">

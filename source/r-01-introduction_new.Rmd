@@ -42,9 +42,9 @@ knitr_fig_path("01-")
 
 # Introduction to R and RStudio
 
-In these lessons we'll use the [gapminder dataset](https://www.gapminder.org/) to explore the relationship between a country's life expectancy and the total value of its finished goods and services, also known as the Gross Domestic Product (GDP). To explore this relationship we need **data** and a **platform to analyze the data**.
+In these lessons we'll use the [gapminder dataset](https://www.gapminder.org/) to explore the relationship between a country's life expectancy and the total value of its finished goods and services, also known as the Gross Domestic Product (GDP). To explore this relationship we need **data** and a **platform to analyze the data**. 
 
-We could explore the data with a spreadsheet program like Excel or Google Sheets, but it would be cumbersome to record the steps used to explore and make changes to the original data. Instead, we'll use a programming language to explore and summarize the data. In particular we'll use R and RStudio.
+We could explore the data with a spreadsheet program like Excel or Google Sheets, but it would be cumbersome to record the steps used to explore and make changes to the original data. Instead, we'll use a programming language to explore and summarize the data. In particular we'll use R and RStudio to create tabular summaries of the data as well as plots.
 
 We'll use R because it is:
 
@@ -76,29 +76,31 @@ Enter your user credentials and click <kbd>Sign In</kbd>. The credentials were p
 
 # Orienting on RStudio
 
-To orient ourselves on the interface of RStudio, look in the lower right pane, that has a list of folders. Click the `scripts` folder, and then the `welcome.R` file.
+To orient ourselves on the interface of RStudio, look in the lower right pane, that has a list of files and folders. Click on the `welcome.R` script.
 
 There should now be four panes in your RStudio window, with the `welcome.R` script in the upper left pane, this is the "Source" or "Scripts" pane. It displays the code that we will write to perform our analysis.
 
 <!-- Insert screenshot with welcome.R in script pane. -->
 
-In the Scripts pane, there is a line of icons, towards the right side of the pane there is a "Source" button. We can click this button to run the entire script from start to end. Go ahead and click "Source".
+In the Scripts pane, there is a line of icons, towards the right side of the pane there is a "Run" button. First highlight all the code in the Source pane, and then click "Run".
 
-<!-- Insert screenshot of the result of sourcing welcome.R -->
+<!-- Insert screenshot of the result of running welcome.R -->
 
 **Checkpoint**
 
 A number of things just happened in all the panes:
 
-1. There is a record of the code that was run and the result in the lower left pane. This is the "Console" panel, and here is where the output of executing code is displayed. You can also type directly in the prompt and execute code, but it is not saved in the script.
+1. There is a record of the code that was run along with the results in the lower left pane. This is the "Console" panel, and here is where the output of executing code is displayed. You can also type directly in the prompt and execute code, but it is not saved in the script.
 2. There is a `phenotypes_by_species` object listed in the upper right pane. This is the "Environment" panel, and it shows all the existing variables in the session, as well as a brief description.
-3. There is a plot in the lower right pane where the file structure was listed at first. This is the "Files / Plots / Help" pane, and it can show the file browser that we saw at the start, display plots that are executed in the Console, or display help pages as we'll see later.
+3. There is a plot in the lower right pane where the file structure was previously listed. This is the "Files / Plots / Help" pane, and it can show the file browser that we saw at the start, display plots that are executed in the Console, or display help pages as we'll see later.
 
 **Questions?**
 
 ## Configuring RStudio
 
 All of the panes in RStudio have configuration options. For example, you can minimize/maximize a pane or resize panes by dragging the borders. The most important customization options for pane layout are in the <KBD>View</KBD> menu. Other options such as font sizes, colors/themes, and more are in the <KBD>Tools</KBD> menu under <KBD>Global Options</KBD>.
+
+Let's all enable soft-wrapping of the code files so that we don't have to scroll left and right if our code exceeds the width of the window. To do this click <KBD>Tools</KBD> then <KBD>Global Options</KBD> then <KBD>Code</KBD>, and check the box for "Soft-wrap R source files", then click <KBD>OK</KBD>.
 
 # Creating an RStudio project
 
@@ -178,7 +180,7 @@ Remember, with the cursor on this line we can click <KBD>Run</KBD>, or we can ty
 Let's breakdown this command:
 
 - We start with `gapminder_1997`, this is the name of the **object** that will reference the data.
-- The `=` indicates the assignment operator. R also has the assignment operator `<-` but we'll stick with `=` in this workshop.
+- The `=` indicates the assignment operator. R also has the assignment operator `<-` but we'll stick with `=` in this workshop. The details about the distinction aren't relevant to our workshops.
 - The command ends with `read_csv('data/gapminder_1997.csv')` which is a call to the function `read_csv()` with an **argument** stating the path of the file to read.
 
 The output of `read_csv()` in the Console pane gives us useful information such as the dimensions of the data, the delimiter of the file, and how the columns of the data were interpreted.
@@ -190,7 +192,7 @@ We notice in the output of `read_csv()` that the `country` and `continent` colum
 | Mode (abbreviation) | Type of data |
 |----|------------|
 | Numeric (num) | Numbers such as floating point/decimals (1.0, 0.5, 3.14), there are also more specific numeric types (dbl - Double, int - Integer). These differences are not relevant for most beginners and pertain to how these values are stored in memory. |
-| Character (chr) | A sequence of letters/numbers in single '' or double " " quotes. |
+| Character (chr) | A sequence of letters/numbers in single ' ' or double " " quotes. |
 | Factor (fct) | A categorical variable with defined "levels" or categories. |
 | Logical | Boolean values - TRUE or FALSE. |
 
@@ -207,7 +209,7 @@ name = 'Harry Potter'
 name
 ```
 
-Notice that with each assignment, the object appears in the Environment pane. Also notice that by assigning `name` twice, the value becomes the last assigned value, overwriting our initial assignment.
+Notice that with each assignment, the object appears in the Environment pane. Also notice that by assigning `name` twice, the value becomes the last assigned value, overwriting our initial assignment. Also notice that if we evaluate the name of an object, it is printed in the Console pane.
 
 Let's try to assign some more objects and see how things can go wrong:
 
@@ -239,7 +241,7 @@ What happened here? We got "unexpected symbol" errors, which is R's obtuse way o
 > 
 > - Object names should be explicit and brief.
 > - Object names cannot start with numbers or contain spaces.
-> - Object names are case sensitive.
+> - Object names are case-sensitive.
 > - Either separate words in object names like `object_name` or `objectName`. **Be consistent.**
 > - Some names cannot be used because they are the names of fundamental functions (e.g. if, else, for; see [here](https://stat.ethz.ch/R-manual/R-devel/library/base/html/Reserved.html) for complete list).
 
@@ -251,7 +253,7 @@ Earlier we ran the code `gapminder_1997 = read_csv('data/gapminder_1997.csv')`. 
 read_csv()
 ```
 
-We get an error in the Console pane. The key part of the message is "argument 'file' is missing, with no default". In other words, this function needs to be told what to read by you because there is no default.
+We get an error in the Console pane. The key part of the message is "argument 'file' is missing, with no default". In other words, this function needs to be told what to read because there is no default.
 
 Not every function needs arguments, but many do. Try the following functions:
 
@@ -309,7 +311,14 @@ If you're still stuck as to why an error occurred (something we all encounter), 
 
 This way we'll more quickly be able to diagnose the problem.
 
+# Base R and the tidyverse
+
+If you've used R before, you may have learned commands that are different what we'll learn in this workshop. We'll focus on functions from the `tidyverse`, a collection of R packages designed to work well together and and offer many features that aren't part of a fresh install of R (that is, "base R"). Generally the `tidyverse` helps us write code that is easy to read and maintain, as we'll see.
+
+The `tidyverse` is geared for data in the form of tables, and it is **very good** at manipulating, summarizing, and visualizing such data. However, data occurs in a variety of other shapes and forms. In particular, in a bioinformatics context, the Bioconductor repository of packages utilize data types that are not tables, and therefore do not always work well with `tidyverse` functions. We'll see clearer examples of this in the RNA-seq Demystified workshop, and you will undoubtedly encounter many examples in the future.
+
+Some people ask "Should I learn tidyverse or base R?" and we think that rather than either/or, it's better to think of both/and. Knowing base R and its approach will help in some contexts, while knowing `tidyverse` will help in others.
+
 # Cheatsheets!
 
 The `tidyverse` packages have excellent cheatsheets that describe the functionality and usage of the packages. You can find them in RStudio by going to the “Help” menu and selecting “Cheat Sheets”. The two that will be most helpful in this workshop are “Data Visualization with ggplot2” and “Data Transformation with dplyr”.
-
