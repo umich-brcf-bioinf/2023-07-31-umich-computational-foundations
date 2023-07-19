@@ -65,7 +65,7 @@ The output shows we have "a tibble" and its dimensions are 142 rows by 6 columns
 
 Data in the form of a table is very common in R. The "base R" type is called a `data.frame`. The `tidyverse` extends on this notion with a `tibble`. The commands we'll learn in this lesson work on `data.frame`s and `tibble`s. We'll use `data.frame`, `tibble`, and "data table" interchangeably throughout the lessons.
 
-# Exploring data
+# Exploring data tables
 
 After reading in data, it's a good habit to preview it, look at summaries of it, and, in so doing, look for issues. When data contains hundreds of rows, it's a good idea to get a sense for the values and ranges of the data.
 
@@ -97,7 +97,7 @@ This is a more "base R" way of doing it. Notice we just get a number back, where
 
 > ## Tip: Reference columns by name
 > 
-> While it is possible to access columns by their numerical index, this is less prefereable than using the explicit name of the column because altering the table could change the column indices. Depending on the situation, you might not even get an error, and instead would be simply operating on the wrong column. A dangerous situation to be in.
+> While it is possible to access columns by their numerical index, this is less prefereable than using the explicit name of the column because altering the table could change the column indices. Depending on the situation, we might not even get an error, and instead would be simply operating on the wrong column. A dangerous situation to be in.
 
 ## Find unique values with `distinct()`
 
@@ -283,7 +283,7 @@ Let's jump right in and create our first plot using the `ggplot()` function. Alo
 ggplot(data = gapminder_1997)
 ```
 
-When we ran this code the Plots tab popped up and displayed ... a gray rectangle. This is underwhelming as a first plot, but it's a helpful reminder that computers do exactly what you tell them. In this case, we've just told R that we want to plot data from `gapminder_1997`. We haven't told it **how**.
+When we ran this code the Plots tab popped up and displayed ... a gray rectangle. This is underwhelming as a first plot, but it's a helpful reminder that computers do exactly what we tell them. In this case, we've just told R that we want to plot data from `gapminder_1997`. We haven't told it **how**.
 
 The elements of a plot have properties like: x and y position, size, color, etc. These properties are **aesthetics**, and we need to map variables in our dataset to aesthetics in our plot. This is done with the aesthetic mapping function `aes()`. Let's build up our plot iteratively by mapping `gdpPercap` to the x-axis with:
 
@@ -445,7 +445,7 @@ ggplot(data = gapminder_1997) +
          caption = 'Figure: GDP per capita and life expectancy are positively correlated, while population is not.')
 ```
 
-# Exploring more complex data
+## Exploring more complex data
 
 The `gapminder_1997` has been useful for exploring `dplyr` and `ggplot` functions. Let's load in a more complex dataset so we have a bit more data to explore. The `data/gapmainder_data.csv` dataset is similar to `gapminder_1997`, but is longitudinal. Let's load it in and explore it:
 
@@ -602,7 +602,7 @@ ggplot(data = gapminder_1997) +
     geom_jitter(width = 0.15)
 ```
 
-It may take some iterations of the `width` parameter to get things where you want them. This is pretty common in `ggplot2`. Note that the word "layer" also means that the layers appear in a particular order, for example, if we swap the `geom_boxplot()` and `geom_jitter()` we see that the points are obscured.
+It may take some iterations of the `width` parameter to get things where we want them. This is pretty common in `ggplot2`. Note that the word "layer" also means that the layers appear in a particular order, for example, if we swap the `geom_boxplot()` and `geom_jitter()` we see that the points are obscured.
 
 ```{r, 'plot_box_jitter_layer'}
 ggplot(data = gapminder_1997) + 
@@ -659,3 +659,170 @@ ggplot(data = gapminder_1997) +
     geom_boxplot(aes(fill = continent)) + 
     geom_jitter(aes(size = pop), width = 0.3)
 ```
+
+## Single-variable plots
+
+Our very first plot involved two variables, but it's often helpful to plot a single variable's values as a histogram to understand its distribution. Here the geometries `geom_histogram()` and `geom_density()` can help us. Let's take a look at the histogram for `lifeExp`.
+
+```{r, 'plot_histogram'}
+ggplot(data = gapminder_1997) +
+    aes(x = lifeExp) + 
+    geom_histogram()
+```
+
+Here there is a message displayed that the default number of bins is 30 from `geom_histogram()`, but that may not be appropriate for all data. There are two ways we can change the bins the geometry uses to count, `bins` which fixes the number of bins, and `binwidth` which fixes the intervals in which values are counted. Let's change the number of bins to 20.
+
+```{r, 'plot_histogram_bins'}
+ggplot(data = gapminder_1997) +
+    aes(x = lifeExp) + 
+    geom_histogram(bins = 20)
+```
+
+We can see there are fewer bins in this plot. If we wanted to make the bins span 5 years, we would do:
+
+```{r, 'plot_histogram_binwidth'}
+ggplot(data = gapminder_1997) +
+    aes(x = lifeExp) + 
+    geom_histogram(binwidth = 5)
+```
+
+Changing the binwidth makes the histogram more easily intepretable because we know the range of each bar. If, instead of frequency, we wanted to look at the density, the smoothed version of the histogram, we could use the `geom_density()` geometry.
+
+```{r, 'plot_density'}
+ggplot(data = gapminder_1997) +
+    aes(x = lifeExp) + 
+    geom_density()
+```
+
+## Facets
+
+We have used the aesthetics `aes()` to map data to `color`, `fill`, etc. and distinguish differences between the subgroups. Faceting is another technique to plot subgroups in their own panels of a single plot, also helping to distinguish differences between subgroups. We started off a relatively simple plot of GDP per capita versus life expectancy, and later colored it by continent. But let's use facets to split the continents into their own sub-plots.
+
+```{r, 'plot_scatter_facetwrap'}
+ggplot(gapminder_1997) + 
+    aes(x = gdpPercap, y = lifeExp) + 
+    geom_point() + 
+    facet_wrap(vars(continent))
+```
+
+Importantly, we had to use the helper function `vars()` to tell `facet_wrap()` what the column name to use in the facet. The details about why `vars()` is needed are somewhat nuanced, so we won't get into them, but know that some `ggplot2` and `dplyr` functions may require the use of `vars()` when giving column names, whereas in the `aes()` function we don't need the `vars()`.
+
+It might be easier to compare differences in the sub-plots if they were arranged by row or by column, rather than wrapping them in a grid. Have a look at the help for `?facet_grid()`. There are `rows` and `cols` arguments that will display the facets as rows or columns.
+
+```{r, 'plot_scatter_facetgrid'}
+ggplot(gapminder_1997) + 
+    aes(x = gdpPercap, y = lifeExp) + 
+    geom_point() + 
+    facet_grid(rows = vars(continent))
+```
+
+Now there is only one x-axis, and multiple y-axes. Here the scale is the same for all the y-axes to make them comparable, but there are parameters of `facet_grid()` that allow the scales to change depending on the data within the facet itself if that's more appropriate.
+
+# Saving plots
+
+While it's great to keep the code that created the plot in an R script, it's also great to save it as an image so you can share it with people that don't use R, or don't want to run all your code to generate the plot. Since we're saving all our steps in a script, we'll make use of the `ggsave()` function. Let's start by taking a look at the help:
+
+~~~
+?ggsave
+~~~
+
+Note that it defaults to saving the last displayed plot. also note that there are parameters for the dimensions, the units of the dimensions, and the resolution. Let's run a very basic version of `ggsave()`.
+
+```{r, 'ggsave1', eval = FALSE}
+ggsave('first_saved_plot.png', height = 6, width = 6, dpi = 300)
+```
+
+We can then navigate to the plot and click to open it in the File pane. Note that R Studio Server let's you easily download any file by clicking any number of checkboxes for the files and then clicking "More" and "Export". In the previous command we've used the `.png` extension, so that `ggsave()` knows to create a PNG, but we could have also used `.jpeg`, `.pdf`, `.eps`, etc to create an appropriate file output. See the documentation for `ggsave()` for supported file formats, and note that this is an easy way to save multiple formats and resolutions depending on whether you want to quickly share with a collaborator, or share with a journal for publication.
+
+We just learned how to save plots as files, but we can also save plots as objects in R. This is helpful for when we want to revisit a plot or make changes to it without having to re-type a bunch of code.
+
+```{r, 'plot_object'}
+scatter_plot = ggplot(data = gapminder_1997) + 
+    aes(x = gdpPercap, y = lifeExp, color = continent, size = pop/1000000) + 
+    geom_point() + 
+    scale_color_brewer(palette = 'Set1') + 
+    labs(x = 'GDP Per Capita', y = 'Life Expectancy', color = 'Continent', size = 'Population (in millions)',
+         title = 'Do people in wealthier countries live longer?',
+         caption = 'Figure: GDP per capita and life expectancy are positively correlated, while population is not.')
+```
+
+Notice nothing happens as when we ran the code without saving it as an object. If we want to see the plot again, we have to execute the name of the object:
+
+```{r, 'display_plot_object'}
+scatter_plot
+```
+
+# Customizing plots
+
+Now that we have a nice plot saved as an object, it's a good time to explore different customizations we can add to the plot. Let's start with changing the theme.
+
+```{r, 'change_theme'}
+scatter_plot + theme_bw()
+```
+
+What did this do? It changed the background color, added a border around the plot area, and perhaps some other things that are too subtle to notice. There are many themes available as presets ([see this link](https://ggplot2.tidyverse.org/reference/ggtheme.html)), but we can also more finely control aspects of our plot with the `theme()` function ([see documentation here](https://ggplot2.tidyverse.org/reference/theme.html) or do `?theme`).
+
+## Change font attributes
+
+We can use the `text` argument of `theme()` to change the size of all the fonts in the plot.
+
+```{r, 'change_font_size'}
+scatter_plot + theme(text = element_text(size = 16))
+```
+
+We could also change the color in a similar way:
+
+```{r, 'change_font_color'}
+scatter_plot + theme(text = element_text(color = 'blue'))
+```
+
+We could also rotate the axis labels using either the `axis.text.x` or `axis.text.y` parameter of `theme()`, and then the `angle`, `vjust`, and `hjust` parameters of `element_text()`.
+
+```{r, 'rotate_labels'}
+scatter_plot + theme(axis.text.x = element_text(angle = 90))
+```
+
+Here the axis labels aren't centered on the ticks, and seem to be center justified. We use the `vjust` and `hjust` parameters to fix that. This is a case where an example from searching the internet was helpful.
+
+```{r, 'rotate_labels2'}
+scatter_plot + theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
+```
+
+## Labeling points
+
+In the scatterplot, we might want to highlight certain countries, such as Brazil, China, India, and the United States. There is a very nice add-on package called [`ggrepel`](https://ggrepel.slowkow.com/index.html). In particular, if we look at the example for [how to hide some of the labels](https://ggrepel.slowkow.com/articles/examples.html#hide-some-of-the-labels), we'll get a sense for how to write code to highlight these countries.
+
+It seems like we'll need to add a new column to gapminder_1997 that has empty labels (`''`) for the countries other than Brazil, China, India, and the United States.
+
+```{r, 'modify_gapminder'}
+library(ggrepel)
+
+gapminder_1997_labels = gapminder_1997 %>% mutate(label = ifelse(country %in% c('Brazil', 'China', 'India', 'United States'), country, ''))
+```
+
+What have we done here? We've used the `mutate()` function to create a new column called label, and the criteria for the entries are, if the entry from the `country` column is in the set `c('Brazil', 'China', 'India', 'United Staets')`, then pass on the country name, otherwise give it an empty string `''`. How can we be sure that we've done the right thing?
+
+```{r, 'check_label1'}
+gapminder_1997_labels
+```
+
+Looks like the labels in the preview are correct, how can we check that the countries we wanted are correct?
+
+```{r, 'check_label2'}
+gapminder_1997_labels %>% filter(label != '')
+```
+
+So now let's take a cue from the example code and incorporate it into our original code:
+
+```{r, 'plot_labels'}
+ggplot(data = gapminder_1997_labels) + 
+    aes(x = gdpPercap, y = lifeExp, color = continent, size = pop/1000000, label = label) + 
+    geom_point() + 
+    geom_text_repel(box.padding = 0.5, max.overlaps = Inf) +
+    scale_color_brewer(palette = 'Set1') + 
+    labs(x = 'GDP Per Capita', y = 'Life Expectancy', color = 'Continent', size = 'Population (in millions)',
+         title = 'Do people in wealthier countries live longer?',
+         caption = 'Figure: GDP per capita and life expectancy are positively correlated, while population is not.')
+```
+
+Notice that the size of the label is actually inherited from the size aesthetic. This is an example of aesthetics being inherited by default. This could be changed if we wanted.
