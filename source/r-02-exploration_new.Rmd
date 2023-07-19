@@ -401,7 +401,7 @@ ggplot(data = gapminder_1997) +
     aes(x = gdpPercap)
 ```
 
-In `ggplot2`, the `+` indicates we want to add elements to a plot. It's kind of like the pipe (`%>%`) in `dplyr`. Our plot window is no longer a blank gray square, but now has a labeled x-axis with visual delimiters. Here, `gdpPercap` is just the column name from our data, and isn't really formatted in a "publication" ready manner. We can use the `labs()` function to alter the label on the x-axis with:
+In `ggplot2`, the `+` indicates we want to add elements to a plot. It's kind of like the pipe (`%>%`) in `dplyr`. Our plot window is no longer a blank gray square, but now has a labeled x-axis with visual delimiters. Here, `gdpPercap` is just the column name from our data, and isn't really formatted in a "publication-ready" manner. We can use the `labs()` function to alter the label on the x-axis with:
 
 ```{r, 'plot3'}
 ggplot(data = gapminder_1997) +
@@ -409,7 +409,10 @@ ggplot(data = gapminder_1997) +
     labs(x = 'GDP Per Capita')
 ```
 
-Now let's map life expectancy to the y-axis, and add a nice label for it:
+**Checkpoint**
+
+> ## Exercise
+> How would we map life expectancy to the y-axis and give it a nicer label?
 
 ```{r, 'plot4'}
 ggplot(data = gapminder_1997) +
@@ -442,6 +445,8 @@ ggplot(data = gapminder_1997) +
     labs(title = 'Do people in wealthier countries live longer?')
 ```
 
+**Checkpoint**
+
 ## Color
 
 We've made excellent progress on our first plot, and without even having to write very much code! There is much more we can do visually to understand what the data might be telling us in addition to the general trend we've already observed. For example, we can use different colors for each continent to understand how continent affects this relationship:
@@ -458,6 +463,8 @@ ggplot(data = gapminder_1997) +
 ```
 
 With the continents shown by color, we immediately pick out that African countries tend to have lower life expectancy than other countries. Of course, there are African countries (red points) with life expectancies similar to wealthier countries, suggesting that GDP per capita does not tell the full story about health, as we might have already guessed.
+
+**Checkpoint**
 
 ## Scale
 
@@ -491,9 +498,15 @@ ggplot(data = gapminder_1997) +
 
 The `scale_color_brewer()` function is one of many that changes the colors. There are also many "palettes" built in that are appropriate in different use cases. Run `RColorBrewer::display.brewer.all()` to see them. Note that there are linear color scales which might be appropriate for categorical data denoting intensity levels. There are also divergent color scales that might be useful for continuous variables centered around 0. There are also discrete color scales more appropriate for categorical data that aren't associated with magnitude, like `continent`.
 
+**Checkpoint**
+
 ## Size
 
-We also have the population data for each country and we might wonder if population has an effect on life expectancy and GDP per capita. We can map `pop` to the size of the points in the plot by adding another `aes()`:
+We also have the population data for each country and we might wonder if population has an effect on life expectancy and GDP per capita. We can map `pop` to the size of the points in the plot by adding another `aes()`. If there was a relationship, we might expect to see larger points concentrated in certain regions of the resulting graph.
+
+> ## Exercise
+> 
+> Given our previous code mapping data columns to the axes and to color, what would we add to the previous plot code to map the population to the size aesthatic?
 
 ```{r, 'plot_pop_size'}
 ggplot(data = gapminder_1997) +
@@ -527,9 +540,11 @@ ggplot(data = gapminder_1997) +
 
 From this plot, it doesn't look like population has much to do with either life expectancy or GDP per capita. Notice in the `aes()` with `size` we divided the `pop` column by 1,000,000. This works because columns in aesthetic mappings can be treated just like any other variable, and we can use functions to transform or change them at plot time rather than transforming the data first. We will see later that for more complex transformations, it can be advantageous to transform the data first and build a plot based on the transformed data rather than doing it at plot time.
 
+**Checkpoint**
+
 ## Compact code
 
-We have built our plot up in this lesson, and accumulated many lines of code. Many of these steps can be combined to make the code a bit more compact and readable:
+In this lesson we have built our plot up line by line and accumulated many lines of code. Many of these steps can be combined to make the code a bit more compact and readable:
 
 ```{r, 'plot_compact_code'}
 ggplot(data = gapminder_1997) + 
@@ -539,6 +554,8 @@ ggplot(data = gapminder_1997) +
     labs(x = 'GDP Per Capita', y = 'Life Expectancy', color = 'Continent', size = 'Population (in millions)',
          title = 'Do people in wealthier countries live longer?')
 ```
+
+**Checkpoint**
 
 ## Captions
 
@@ -556,7 +573,7 @@ ggplot(data = gapminder_1997) +
 
 ## Exploring more complex data
 
-The `gapminder_1997` has been useful for exploring `dplyr` and `ggplot` functions. Let's load in a more complex dataset so we have a bit more data to explore. The `data/gapmainder_data.csv` dataset is similar to `gapminder_1997`, but is longitudinal. Let's load it in and explore it:
+The `gapminder_1997` has been useful for exploring `dplyr` and `ggplot` functions. Let's load in a more complex dataset so we have a bit more data to explore. The `data/gapmainder_data.csv` dataset is similar to `gapminder_1997`, but is longitudinal. The first step is to load in the data.
 
 ```{r, 'load_gapminder_display', eval = FALSE}
 gapminder_data = read_csv('data/gapminder_data.csv')
@@ -571,6 +588,8 @@ Let's look at a preview of the data and explore some functions to see its attrib
 ```{r, 'preview_gapminder'}
 gapminder_data
 ```
+
+**Checkpoint**
 
 Again, the `tibble` provides a nice preview of the data along with many of the attributes including the dimensions and types of columns. There are some functions we can use to determine these attributes on their own:
 
@@ -593,6 +612,8 @@ str(gapminder_data)
 
 This is similar to information we see in the `tibble` preview. We see the type of object, dimensions, columns, their type, and a preview of their values. Of course, the `summary()` function works just the same as it did for `gapminder_1997`, and it's a good idea to take a peek and see what the range of the data are:
 
+**Checkpoint**
+
 ```{r, 'gapminder_summary'}
 summary(gapminder_data)
 ```
@@ -605,19 +626,21 @@ ggplot(data = gapminder_data) +
     geom_point()
 ```
 
-There seems to be an overall trend of higher life expectancy over time, but it's not as clear as it could be. In our plot, the data connecting countries is not apparent. Before we figure out how to connect the dots, let's use our `dplyr` knowledge to see if that overall trend we suspect is correct.
+There seems to be an overall trend of higher life expectancy over time, but it's not as clear as it could be. In our plot, the country-level data is not connected, making it hard to understand country-level trends. Before we figure out how to connect the dots, let's use our `dplyr` knowledge to see if that overall trend we suspect is correct.
 
 ```{r, 'summarize_lifeexp_over_years'}
 gapminder_data %>% group_by(year) %>% summarize(mean_life_exp = mean(lifeExp))
 ```
 
-That seems clear enough. Of course, this is for all countries combined. We could add an additional group of continent:
+That seems clear enough. Of course, this is for all countries combined. We could add continent as an additional group:
 
 ```{r, 'summarize_lifeexp_over_years_continents'}
 gapminder_data %>% group_by(year, continent) %>% summarize(mean_life_exp = mean(lifeExp))
 ```
 
-But this is ordered by year, and to clearly see the trend, ordering by continent would be better:
+> ## Exercise
+> 
+> The above code is ordered by year, but to see the continent-wise trend, it would be easier to see the data arranged by continent, how would we rearrange the rows by continent?
 
 ```{r, 'summarize_lifeexp_over_years_continents2'}
 gapminder_data %>% group_by(year, continent) %>% summarize(mean_life_exp = mean(lifeExp)) %>% arrange(continent)
@@ -636,7 +659,11 @@ The `View()` function will show the table in the Scripts pane. Another way to ac
 life_exp_by_year_continent %>% data.frame
 ```
 
+<!-- Might also consider the pivot functions here... -->
+
 And the result is printed out in the Console pane. Either way, the trend of increasing life expectancy over time that we saw globally appears to hold across all continents as well. 
+
+**Checkpoint**
 
 ## Line geometry
 
@@ -668,6 +695,8 @@ ggplot(data = gapminder_data) +
 
 And now we see each country plotted as its own line so we can see the overall trend, as well as the deviations from the trend.
 
+**Checkpoint**
+
 ## Geometries for categories
 
 The `geom_point` and `geom_line` geometries are designed to display numeric values on the x and y axes. Often data has discrete variables (`continent` or `country`) where something like a box plot is more appropriate. Let's revisit our `gapminder_1997` data to create a box plot with the continent on the x axis and the life expectancy on the y-axis.
@@ -681,6 +710,8 @@ This makes comparing the range and spread of values across groups easier. The me
 ```{r, 'plot_violin'}
 ggplot(data = gapminder_1997) + aes(x = continent, y = lifeExp) + geom_violin()
 ```
+
+**Checkpoint**
 
 ## Layers
 
@@ -729,6 +760,8 @@ ggplot(data = gapminder_1997) +
     geom_jitter(aes(size = pop), width = 0.3)
 ```
 
+**Checkpoint**
+
 ## Color and Fill
 
 Let's have a look at our jittered boxplot and explore `color` and `fill`. When a color is assigned directly, we use the name of the color in quotes, as in 'pink', and we don't need to use the `aes()` function.
@@ -769,6 +802,8 @@ ggplot(data = gapminder_1997) +
     geom_jitter(aes(size = pop), width = 0.3)
 ```
 
+**Checkpoint**
+
 ## Single-variable plots
 
 Our very first plot involved two variables, but it's often helpful to plot a single variable's values as a histogram to understand its distribution. Here the geometries `geom_histogram()` and `geom_density()` can help us. Let's take a look at the histogram for `lifeExp`.
@@ -803,6 +838,8 @@ ggplot(data = gapminder_1997) +
     geom_density()
 ```
 
+**Checkpoint**
+
 ## Facets
 
 We have used the aesthetics `aes()` to map data to `color`, `fill`, etc. and distinguish differences between the subgroups. Faceting is another technique to plot subgroups in their own panels of a single plot, also helping to distinguish differences between subgroups. We started off a relatively simple plot of GDP per capita versus life expectancy, and later colored it by continent. But let's use facets to split the continents into their own sub-plots.
@@ -827,6 +864,8 @@ ggplot(gapminder_1997) +
 
 Now there is only one x-axis, and multiple y-axes. Here the scale is the same for all the y-axes to make them comparable, but there are parameters of `facet_grid()` that allow the scales to change depending on the data within the facet itself if that's more appropriate.
 
+**Checkpoint**
+
 # Saving plots
 
 While it's great to keep the code that created the plot in an R script, it's also great to save it as an image so you can share it with people that don't use R, or don't want to run all your code to generate the plot. Since we're saving all our steps in a script, we'll make use of the `ggsave()` function. Let's start by taking a look at the help:
@@ -840,6 +879,8 @@ Note that it defaults to saving the last displayed plot. also note that there ar
 ```{r, 'ggsave1', eval = FALSE}
 ggsave('first_saved_plot.png', height = 6, width = 6, dpi = 300)
 ```
+
+**Checkpoint**
 
 We can then navigate to the plot and click to open it in the File pane. Note that R Studio Server let's you easily download any file by clicking any number of checkboxes for the files and then clicking "More" and "Export". In the previous command we've used the `.png` extension, so that `ggsave()` knows to create a PNG, but we could have also used `.jpeg`, `.pdf`, `.eps`, etc to create an appropriate file output. See the documentation for `ggsave()` for supported file formats, and note that this is an easy way to save multiple formats and resolutions depending on whether you want to quickly share with a collaborator, or share with a journal for publication.
 
@@ -861,6 +902,8 @@ Notice nothing happens as when we ran the code without saving it as an object. I
 scatter_plot
 ```
 
+**Checkpoint**
+
 # Customizing plots
 
 Now that we have a nice plot saved as an object, it's a good time to explore different customizations we can add to the plot. Let's start with changing the theme.
@@ -879,12 +922,6 @@ We can use the `text` argument of `theme()` to change the size of all the fonts 
 scatter_plot + theme(text = element_text(size = 16))
 ```
 
-We could also change the color in a similar way:
-
-```{r, 'change_font_color'}
-scatter_plot + theme(text = element_text(color = 'blue'))
-```
-
 We could also rotate the axis labels using either the `axis.text.x` or `axis.text.y` parameter of `theme()`, and then the `angle`, `vjust`, and `hjust` parameters of `element_text()`.
 
 ```{r, 'rotate_labels'}
@@ -897,6 +934,8 @@ Here the axis labels aren't centered on the ticks, and seem to be center justifi
 scatter_plot + theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
 ```
 
+**Checkpoint**
+
 ## Labeling points
 
 In the scatterplot, we might want to highlight certain countries, such as Brazil, China, India, and the United States. There is a very nice add-on package called [`ggrepel`](https://ggrepel.slowkow.com/index.html). In particular, if we look at the example for [how to hide some of the labels](https://ggrepel.slowkow.com/articles/examples.html#hide-some-of-the-labels), we'll get a sense for how to write code to highlight these countries.
@@ -906,7 +945,8 @@ It seems like we'll need to add a new column to gapminder_1997 that has empty la
 ```{r, 'modify_gapminder'}
 library(ggrepel)
 
-gapminder_1997_labels = gapminder_1997 %>% mutate(label = ifelse(country %in% c('Brazil', 'China', 'India', 'United States'), country, ''))
+gapminder_1997_labels = gapminder_1997 %>% 
+    mutate(label = ifelse(country %in% c('Brazil', 'China', 'India', 'United States'), country, ''))
 ```
 
 What have we done here? We've used the `mutate()` function to create a new column called label, and the criteria for the entries are, if the entry from the `country` column is in the set `c('Brazil', 'China', 'India', 'United Staets')`, then pass on the country name, otherwise give it an empty string `''`. How can we be sure that we've done the right thing?
@@ -935,3 +975,18 @@ ggplot(data = gapminder_1997_labels) +
 ```
 
 Notice that the size of the label is actually inherited from the size aesthetic. This is an example of aesthetics being inherited by default. This could be changed if we wanted.
+
+**Checkpoint**
+
+We could prevent this inheritance by moving the `color` and `size` aesthetic mappings into `geom_point()` so that they only apply to that layer:
+
+```{r, 'plot_labels2'}
+ggplot(data = gapminder_1997_labels) + 
+  aes(x = gdpPercap, y = lifeExp, label = label) + 
+  geom_point(aes(color = continent, size = pop/1000000)) + 
+  geom_text_repel(box.padding = 0.5, max.overlaps = Inf) +
+  scale_color_brewer(palette = 'Set1') + 
+  labs(x = 'GDP Per Capita', y = 'Life Expectancy', color = 'Continent', size = 'Population (in millions)',
+       title = 'Do people in wealthier countries live longer?',
+       caption = 'Figure: GDP per capita and life expectancy are positively correlated, while population is not.')
+```
