@@ -287,16 +287,25 @@ $(document).ready(function () {
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="r-01-introduction.html">Introducing R and RStudio</a>
+      <a href="r-01-introduction.html">Introducing R and RStudio IDE</a>
     </li>
     <li>
-      <a href="r-02-exploration.html">Data Exploration</a>
+      <a href="r-02-r-basics.html">R Basics</a>
     </li>
     <li>
-      <a href="r-03-bioconductor.html">Using Packages from Bioconductor</a>
+      <a href="r-03-basics-continued.html">R Basics Continued</a>
     </li>
     <li>
-      <a href="r-04-r-help.html">Getting Help with R</a>
+      <a href="r-04-bioconductor.html">Using Packages from Bioconductor</a>
+    </li>
+    <li>
+      <a href="r-05-dplyr.html">Data Wrangling and Analyses with Tidyverse</a>
+    </li>
+    <li>
+      <a href="r-06-data-visualization.html">Data Visualizations with ggplot2</a>
+    </li>
+    <li>
+      <a href="r-07-r-help.html">Getting Help with R</a>
     </li>
   </ul>
 </li>
@@ -577,7 +586,7 @@ the default. <br></p>
 <code>read_csv()</code> function:</p>
 <pre class="r"><code>gapminder_1997 = read_csv(&#39;data/gapminder_1997.csv&#39;)</code></pre>
 <pre><code>Rows: 142 Columns: 6
-── Column specification ───────────────────────────────────────────────────────────────────────────────────────────────
+── Column specification ────────────────────────────────────────────────────────────────────────
 Delimiter: &quot;,&quot;
 chr (2): country, continent
 dbl (4): year, pop, lifeExp, gdpPercap
@@ -723,7 +732,7 @@ function needs to be told what to read because there is no default.</p>
 <p>Not every function needs arguments, but many do. Try the following
 functions:</p>
 <pre class="r"><code>Sys.Date()</code></pre>
-<pre><code>[1] &quot;2023-07-20&quot;</code></pre>
+<pre><code>[1] &quot;2023-07-19&quot;</code></pre>
 <pre class="r"><code>getwd()</code></pre>
 <pre><code>[1] &quot;/Users/rcavalca/Projects/2023-07-31-umich-computational-foundations/source&quot;</code></pre>
 <pre class="r"><code>round(3.1415, 2)</code></pre>

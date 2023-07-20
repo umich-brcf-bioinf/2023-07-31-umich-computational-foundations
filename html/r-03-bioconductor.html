@@ -11,7 +11,7 @@
 
 
 
-<title>Computational Foundations Workshop</title>
+<title>Using packages</title>
 
 <script src="site_libs/header-attrs-2.23/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -315,154 +315,143 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">Computational Foundations Workshop</h1>
+<h1 class="title toc-ignore">Using packages</h1>
 
 </div>
 
+<div id="TOC">
+<ul>
+<li><a href="#packages" id="toc-packages">Packages</a></li>
+<li><a href="#installing-packages"
+id="toc-installing-packages">Installing packages</a>
+<ul>
+<li><a href="#from-cran" id="toc-from-cran">From CRAN</a></li>
+<li><a href="#from-bioconductor" id="toc-from-bioconductor">From
+Bioconductor</a></li>
+<li><a href="#from-github" id="toc-from-github">From GitHub</a></li>
+<li><a href="#one-installer-to-rule-them-all"
+id="toc-one-installer-to-rule-them-all">One installer to rule them
+all</a></li>
+</ul></li>
+<li><a href="#search-for-bioconductor-packages"
+id="toc-search-for-bioconductor-packages">Search for Bioconductor
+packages</a></li>
+<li><a href="#using-packages" id="toc-using-packages">Using
+packages</a></li>
+<li><a href="#resources" id="toc-resources">Resources</a></li>
+</ul>
+</div>
 
 <style type="text/css">
 
 body, td {
-   font-size: 18px;
+   font-size: 14px;
 }
+code.r{
+  font-size: 12px;
+}
+pre {
+  font-size: 12px
+}
+
 </style>
-<hr />
-<div id="setup-instructions" class="section level4">
-<h4><a href="workshop_setup/setup_instructions.html"
-target="_blank">Setup instructions</a></h4>
+<!-- example of rendered lesson https://datacarpentry.org/genomics-r-intro/02-r-basics/index.html -->
+<div id="packages" class="section level1">
+<h1>Packages</h1>
+<p>So far we have used commands that only require what is known as “base
+R.” But R is a highly extensible language with thousands of packages (or
+libraries) available for installation. Packages can be installed from a
+variety of sources, but the three most common are:</p>
+<ol style="list-style-type: decimal">
+<li><a href="https://cran.r-project.org/">CRAN (the Comprehensive R
+Archive Network)</a></li>
+<li><a href="https://bioconductor.org/">Bioconductor</a></li>
+<li>Individual repositories on GitHub.</li>
+</ol>
+<p>By way of brief orientation, packages on CRAN and Bioconductor can be
+trusted to have met some basic functionality and quality tests owing to
+their respective review processes. Packages found on GitHub are not
+subject to any review, but many development versions of packages on CRAN
+and Bioconductor can be found on GitHub.</p>
+<p>Packages on CRAN tend to be more general purpose, whereas
+Bioconductor packages are meant to facilitate “rigorous and reproducible
+analysis of data from current and emerging biological assays.” In other
+words, Bioconductor is specialized for Bioinformatics.</p>
 </div>
-<div id="slack-workspace" class="section level4">
-<h4><a href="https://umbioinfcoreworkshops.slack.com"
-target="_blank">Slack workspace</a></h4>
-<hr />
+<div id="installing-packages" class="section level1">
+<h1>Installing packages</h1>
+<div id="from-cran" class="section level2">
+<h2>From CRAN</h2>
+<p>To install a package from CRAN, you can run something like:</p>
+<pre><code># Do not run, this is already installed for us
+install.packages(&#39;tidyverse&#39;)</code></pre>
 </div>
-<div id="day-1-chris-travis" class="section level3">
-<h3>Day 1 (Chris &amp; Travis)</h3>
-<table>
-<thead>
-<tr class="header">
-<th align="left">Time</th>
-<th align="left">Topic</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="left">9:00</td>
-<td align="left"><a href="Module00_Introduction.html">Introductions and
-Startup</a></td>
-</tr>
-<tr class="even">
-<td align="left">9:30</td>
-<td align="left"><a href="bash-01-introduction.html">Introduction to
-Bash Shell</a></td>
-</tr>
-<tr class="odd">
-<td align="left"></td>
-<td align="left"><a href="bash-02-the-filesystem.html">The File
-System</a></td>
-</tr>
-<tr class="even">
-<td align="left"></td>
-<td align="left"><strong>Break</strong></td>
-</tr>
-<tr class="odd">
-<td align="left"></td>
-<td align="left"><a href="bash-03-working-with-files.html">Working With
-Files</a></td>
-</tr>
-<tr class="even">
-<td align="left"></td>
-<td align="left"><a href="bash-04-redirection.html">Redirection</a></td>
-</tr>
-<tr class="odd">
-<td align="left">1:00</td>
-<td align="left">Day 1 concludes</td>
-</tr>
-</tbody>
-</table>
+<div id="from-bioconductor" class="section level2">
+<h2>From Bioconductor</h2>
+<p>To install a package from Bioconductor, you first need the
+<code>BiocManager</code> package. Then you can give the name of the
+package to the installer, as in:</p>
+<pre><code># Do not run
+install.packages(&#39;BiocManager&#39;)
+
+# The :: notation before the install() tells R to use the function from BiocManager
+BiocManager::install(&#39;DESeq2&#39;)</code></pre>
 </div>
-<div id="day-2-travis-raymond" class="section level3">
-<h3>Day 2 (Travis &amp; Raymond)</h3>
-<table>
-<thead>
-<tr class="header">
-<th align="left">Time</th>
-<th align="left">Topic</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="left">9:00</td>
-<td align="left">Review</td>
-</tr>
-<tr class="even">
-<td align="left">9:10</td>
-<td align="left"><a href="bash-04-redirection.html">Redirection
-(continued)</a></td>
-</tr>
-<tr class="odd">
-<td align="left"></td>
-<td align="left"><a href="bash-05-writing-scripts.html">Writing
-Scripts</a></td>
-</tr>
-<tr class="even">
-<td align="left"></td>
-<td align="left"><strong>Break</strong></td>
-</tr>
-<tr class="odd">
-<td align="left"></td>
-<td align="left"><a href="r-01-introduction.html">Intro to R</a></td>
-</tr>
-<tr class="even">
-<td align="left"></td>
-<td align="left"><a href="r-02-exploration.html">Data
-Exploration</a></td>
-</tr>
-<tr class="odd">
-<td align="left">1:00</td>
-<td align="left">Day 2 concludes</td>
-</tr>
-</tbody>
-</table>
+<div id="from-github" class="section level2">
+<h2>From GitHub</h2>
+<p>To install packages from GitHub one can use the
+<code>remotes::install_github()</code> function. For example:</p>
+<pre><code># Do not run
+# To install the package at https://github.com/sartorlab/methylSig/
+# The format is &lt;repository_owner&gt;/&lt;repository_name&gt;
+remotes::install_github(&#39;sartorlab/methylSig&#39;)</code></pre>
 </div>
-<div id="day-3-raymond" class="section level3">
-<h3>Day 3 (Raymond)</h3>
-<table>
-<thead>
-<tr class="header">
-<th align="left">Time</th>
-<th align="left">Topic</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="left">9:00</td>
-<td align="left">Review</td>
-</tr>
-<tr class="even">
-<td align="left">9:10</td>
-<td align="left"><a href="r-02-exploration.html">Data Exploration
-continued</a></td>
-</tr>
-<tr class="odd">
-<td align="left"></td>
-<td align="left"><strong>Break</strong></td>
-</tr>
-<tr class="even">
-<td align="left"></td>
-<td align="left"><a href="r-02-exploration.html">Data Exploration
-continued</a></td>
-</tr>
-<tr class="odd">
-<td align="left">12:45</td>
-<td align="left"><a href="Module99_Wrap_up.html">Wrap-up</a></td>
-</tr>
-<tr class="even">
-<td align="left">1:00</td>
-<td align="left">Day 3 concludes</td>
-</tr>
-</tbody>
-</table>
+<div id="one-installer-to-rule-them-all" class="section level2">
+<h2>One installer to rule them all</h2>
+<p>It turns out that <code>BiocManager::install()</code> can do all of
+the above for you. In particular, the function will interpret any
+library with a <code>/</code> passed to it as a GitHub repository, and
+it will determine whether other packages are on CRAN or Bioconductor and
+fetch as appropriate. For example, you could install all three packages
+above with:</p>
+<pre><code># Do not run
+BiocManager::install(c(&#39;tidyverse&#39;, &#39;DESeq2&#39;, &#39;sartorlab/methylSig&#39;))</code></pre>
+</div>
+</div>
+<div id="search-for-bioconductor-packages" class="section level1">
+<h1>Search for Bioconductor packages</h1>
+<p>While this workshop series focuses on differential expression
+analysis of RNA-seq data, there are many different types of data and
+analyses that bioinformaticians may want to work with. Sometimes you may
+get a new dataset and not know exactly where to start with analyzing or
+visualizing it. The Bioconductor package search view can be a great way
+to browse through the packages that are available.</p>
+<p>There are several thousand packages available through the
+Bioconductor website. It can be a bit of a challenge to find what you
+want, but one helpful resource is the <a
+href="https://bioconductor.org/packages/release/BiocViews.html#___Software">package
+search page</a> (pictured below).</p>
+<p><img src="images/bioconductor_search.jpg"
+alt="screenshot of bioconductor search" /></p>
+</div>
+<div id="using-packages" class="section level1">
+<h1>Using packages</h1>
+<p>Once you have installed a package, that doesn’t mean you have access
+to all its functions in the R session. You have to use the
+<code>library()</code> command to load a package, like with:</p>
+<pre class="r"><code>library(DESeq2)</code></pre>
+<p>Note that when installing a package we quoted the package name, but
+when we load the library after installation we don’t.</p>
+</div>
+<div id="resources" class="section level1">
+<h1>Resources</h1>
+<ul>
+<li><a href="https://bioconductor.org/">Bioconductor</a></li>
+<li><a
+href="https://bioconductor.org/packages/release/BiocViews.html#___Software">Bioconductor
+package search</a></li>
+<li><a href="https://cran.r-project.org/">CRAN</a></li>
+</ul>
 </div>
 
 

@@ -47,17 +47,15 @@ body, td {
 |       | [Writing Scripts](bash-05-writing-scripts.html) |
 |       | **Break** |
 |       | [Intro to R](r-01-introduction.html)
-|       | [R Basics](r-02-r-basics.html) |
+|       | [Data Exploration](r-02-exploration.html) |
 |  1:00 | Day 2 concludes |
 
 ### Day 3 (Raymond)
 | Time | Topic |
 | :-----  | :------------------------------------ |
 |  9:00 | Review |
-|  9:10 | [R Basics Continued](r-03-basics-continued.html) |
-|       | [Data Wrangling and Analysis with tidyverse](r-05-dplyr.html) |
+|  9:10 | [Data Exploration continued](r-02-exploration.html) |
 |       | **Break** |
-|       | [Data Visualization with ggplot2](r-06-data-visualization.html) |
-|       | [Getting Help with R](r-07-r-help.html) |
+|       | [Data Exploration continued](r-02-exploration.html) |
 | 12:45 | [Wrap-up](Module99_Wrap_up.html) |
 |  1:00 | Day 3 concludes |

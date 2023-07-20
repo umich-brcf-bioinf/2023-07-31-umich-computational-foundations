@@ -22,19 +22,13 @@ navbar:
           href: bash-06-organization.html
     - text: "R and RStudio"
       menu:
-        - text: "Introducing R and RStudio IDE"
+        - text: "Introducing R and RStudio"
           href: r-01-introduction.html
-        - text: "R Basics"
-          href: r-02-r-basics.html
-        - text: "R Basics Continued"
-          href: r-03-basics-continued.html
+        - text: "Data Exploration"
+          href: r-02-exploration.html
         - text: "Using Packages from Bioconductor"
-          href: r-04-bioconductor.html
-        - text: "Data Wrangling and Analyses with Tidyverse"
-          href: r-05-dplyr.html
-        - text: "Data Visualizations with ggplot2"
-          href: r-06-data-visualization.html
+          href: r-03-bioconductor.html
         - text: "Getting Help with R"
-          href: r-07-r-help.html
+          href: r-04-r-help.html
     - text: "Wrap up"
       href: Module99_Wrap_up.html
