@@ -44,10 +44,12 @@ knitr_fig_path("02-")
 In the previous lesson we used the `read_csv()` function to load the `gapminder_1997` data. Let's do that again:
 
 ```{r, 'load_gapminder_1997_display', eval = FALSE}
+library(tidyverse)
 gapminder_1997 = read_csv('data/gapminder_1997.csv')
 ```
 
 ```{r, 'load_gapminder_1997', echo = FALSE}
+library(tidyverse)
 gapminder_1997 = read_csv('../data/gapminder_1997.csv')
 ```
 

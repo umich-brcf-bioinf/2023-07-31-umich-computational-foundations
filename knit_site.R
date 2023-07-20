@@ -37,12 +37,9 @@ render_site('source/r-01-introduction_new.Rmd')
 render_site('source/r-02-exploration_new.Rmd')
 
 render_site('source/r-01-introduction.Rmd')
-render_site('source/r-02-r-basics.Rmd')
-render_site('source/r-03-basics-continued.Rmd')
-render_site('source/r-04-bioconductor.Rmd')
-render_site('source/r-05-dplyr.Rmd')
-render_site('source/r-06-data-visualization.Rmd')
-render_site('source/r-07-r-help.Rmd')
+render_site('source/r-02-exploration.Rmd')
+render_site('source/r-03-bioconductor.Rmd')
+render_site('source/r-04-r-help.Rmd')
 
 render_site('source/Module99_Wrap_up.md')
 
