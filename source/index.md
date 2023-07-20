@@ -47,15 +47,15 @@ body, td {
 |       | [Writing Scripts](bash-05-writing-scripts.html) |
 |       | **Break** |
 |       | [Intro to R](r-01-introduction.html)
-|       | [Data Exploration](r-02-r-exploration.html) |
+|       | [Data Exploration](r-02-exploration.html) |
 |  1:00 | Day 2 concludes |
 
 ### Day 3 (Raymond)
 | Time | Topic |
 | :-----  | :------------------------------------ |
 |  9:00 | Review |
-|  9:10 | [Data Exploration continued](r-02-r-exploration.html) |
+|  9:10 | [Data Exploration continued](r-02-exploration.html) |
 |       | **Break** |
-|       | [Data Exploration continued](r-02-r-exploration.html) |
+|       | [Data Exploration continued](r-02-exploration.html) |
 | 12:45 | [Wrap-up](Module99_Wrap_up.html) |
 |  1:00 | Day 3 concludes |

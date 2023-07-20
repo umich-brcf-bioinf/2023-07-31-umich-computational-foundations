@@ -15,7 +15,7 @@ output:
 <style type="text/css">
 
 body, td {
-   font-size: 18px;
+   font-size: 14px;
 }
 code.r{
   font-size: 12px;

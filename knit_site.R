@@ -33,9 +33,6 @@ render_site('source/bash-04-redirection.md')
 render_site('source/bash-05-writing-scripts.md')
 render_site('source/bash-06-organization.md')
 
-render_site('source/r-01-introduction_new.Rmd')
-render_site('source/r-02-exploration_new.Rmd')
-
 render_site('source/r-01-introduction.Rmd')
 render_site('source/r-02-exploration.Rmd')
 render_site('source/r-03-bioconductor.Rmd')
