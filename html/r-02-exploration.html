@@ -13,7 +13,7 @@
 
 <title>Data Exploration</title>
 
-<script src="site_libs/header-attrs-2.23/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.21/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/paper.min.css" rel="stylesheet" />
@@ -430,7 +430,7 @@ to load the <code>gapminder_1997</code> data. Let’s do that again:</p>
 <pre class="r"><code>library(tidyverse)
 gapminder_1997 = read_csv(&#39;data/gapminder_1997.csv&#39;)</code></pre>
 <pre><code>Rows: 142 Columns: 6
-── Column specification ───────────────────────────────────────────────────────────────────────────────────────────────
+── Column specification ─────────────────────────────────────────────────────────────────────────────────────────
 Delimiter: &quot;,&quot;
 chr (2): country, continent
 dbl (4): year, pop, lifeExp, gdpPercap
@@ -528,6 +528,7 @@ operating on the wrong column. A dangerous situation to be in.</p>
 </div>
 <div id="find-unique-values-with-distinct" class="section level2">
 <h2>Find unique values with <code>distinct()</code></h2>
+<p><img src="images/dplyr-distinct.png" /></p>
 <p>Data is often subject to errors. To quickly catch data entry
 problems, the <code>distinct()</code> function can be used to show all
 unique values in the column of a table. Let’s take a look at the
@@ -552,6 +553,7 @@ would have immediately seen it.</p>
 </div>
 <div id="sorting-data-with-arrange" class="section level2">
 <h2>Sorting data with <code>arrange()</code></h2>
+<p><img src="images/dplyr-arrange.png" /></p>
 <p>We have a rich dataset whose default ordering is by country. But it’s
 natural to ask questions like “What country has the highest life
 expectancy?” or “What country had the highest GDP per capita?” The
@@ -596,15 +598,16 @@ citizens at a little over 80 years.</p>
 <p>If we wanted to use base R, we might start with the
 <code>sort()</code> function:</p>
 <pre class="r"><code>sort(gapminder_1997$lifeExp, decreasing = TRUE)</code></pre>
-<pre><code>  [1] 80.690 80.000 79.390 79.370 78.950 78.830 78.820 78.770 78.640 78.610 78.320 78.269 78.030 77.869 77.550 77.530
- [17] 77.510 77.340 77.260 77.218 77.158 77.130 76.810 76.156 76.151 76.122 76.110 75.970 75.816 75.445 75.250 75.130
- [33] 74.917 74.772 74.647 74.223 74.010 73.925 73.738 73.680 73.670 73.275 73.244 72.950 72.750 72.710 72.499 72.312
- [49] 72.262 72.232 72.146 71.973 71.938 71.555 71.527 71.096 71.040 70.736 70.672 70.533 70.457 70.426 70.320 70.313
- [65] 70.265 69.957 69.772 69.720 69.535 69.465 69.400 69.388 69.152 68.835 68.564 68.426 68.386 68.042 67.727 67.660
- [81] 67.659 67.521 67.217 66.322 66.041 63.625 63.306 62.050 61.818 61.765 60.660 60.461 60.430 60.328 60.236 60.187
- [97] 59.426 59.412 58.909 58.811 58.556 58.390 58.020 56.671 56.534 55.861 55.558 55.373 54.978 54.777 54.407 54.289
-[113] 53.378 53.157 52.962 52.556 52.199 51.573 51.455 51.313 50.324 49.903 49.402 48.466 48.245 47.991 47.495 47.464
-[129] 46.809 46.344 46.066 45.326 44.873 44.578 43.795 42.587 42.221 41.763 40.963 40.238 39.897 36.087</code></pre>
+<pre><code>  [1] 80.690 80.000 79.390 79.370 78.950 78.830 78.820 78.770 78.640 78.610 78.320 78.269 78.030 77.869 77.550
+ [16] 77.530 77.510 77.340 77.260 77.218 77.158 77.130 76.810 76.156 76.151 76.122 76.110 75.970 75.816 75.445
+ [31] 75.250 75.130 74.917 74.772 74.647 74.223 74.010 73.925 73.738 73.680 73.670 73.275 73.244 72.950 72.750
+ [46] 72.710 72.499 72.312 72.262 72.232 72.146 71.973 71.938 71.555 71.527 71.096 71.040 70.736 70.672 70.533
+ [61] 70.457 70.426 70.320 70.313 70.265 69.957 69.772 69.720 69.535 69.465 69.400 69.388 69.152 68.835 68.564
+ [76] 68.426 68.386 68.042 67.727 67.660 67.659 67.521 67.217 66.322 66.041 63.625 63.306 62.050 61.818 61.765
+ [91] 60.660 60.461 60.430 60.328 60.236 60.187 59.426 59.412 58.909 58.811 58.556 58.390 58.020 56.671 56.534
+[106] 55.861 55.558 55.373 54.978 54.777 54.407 54.289 53.378 53.157 52.962 52.556 52.199 51.573 51.455 51.313
+[121] 50.324 49.903 49.402 48.466 48.245 47.991 47.495 47.464 46.809 46.344 46.066 45.326 44.873 44.578 43.795
+[136] 42.587 42.221 41.763 40.963 40.238 39.897 36.087</code></pre>
 <p>But this only sorts the <code>lifeExp</code> column and drops all the
 other information in the table, so we know the highest life expectancy
 but not the country to which it belongs. There is another function
@@ -612,12 +615,12 @@ called <code>order()</code> which returns the indices of the sorting.
 Let’s call it first by itself and think about how to get what we want
 from it:</p>
 <pre class="r"><code>order(gapminder_1997$lifeExp, decreasing = TRUE)</code></pre>
-<pre><code>  [1]  67  56 123 124  58   6  65 119  45  21  96  64  91  50  92  10   7  48  30 134 114  44 135  72  33  63  35 104
- [29]  24  85 126 116 105 106  71 136  34   8  99  32  83   5  13   2 103 115  97  38  66 112 137 131  79  76 125 139
- [57]  57  82 138 110 120  25  16  26  73  37  68 107  40 130 100  15   3 132 102  93 101  61  70  86  55 128  39  51
- [85]  60  84 109  12  98  59  27  46  81  88 118 111  90   9  89  62  49 129 140  54  19  47  74 121  77  11  69 122
-[113]  42  36  29  14  20  23  52  94  17  80  43 127  41  31  78  95 142  87  22  18  53 133 117  28  75   1   4 141
-[141] 113 108</code></pre>
+<pre><code>  [1]  67  56 123 124  58   6  65 119  45  21  96  64  91  50  92  10   7  48  30 134 114  44 135  72  33  63  35
+ [28] 104  24  85 126 116 105 106  71 136  34   8  99  32  83   5  13   2 103 115  97  38  66 112 137 131  79  76
+ [55] 125 139  57  82 138 110 120  25  16  26  73  37  68 107  40 130 100  15   3 132 102  93 101  61  70  86  55
+ [82] 128  39  51  60  84 109  12  98  59  27  46  81  88 118 111  90   9  89  62  49 129 140  54  19  47  74 121
+[109]  77  11  69 122  42  36  29  14  20  23  52  94  17  80  43 127  41  31  78  95 142  87  22  18  53 133 117
+[136]  28  75   1   4 141 113 108</code></pre>
 <p>This is a vector of the row indices of <code>gapminder_1997</code>
 and the meaning of the result is that the 67th row is the entry with the
 highest <code>lifeExp</code>, the 56th row the second highest etc. We
@@ -670,6 +673,7 @@ ordering.</p>
 </div>
 <div id="subset-columns-with-select" class="section level2">
 <h2>Subset columns with <code>select()</code></h2>
+<p><img src="images/dplyr-select.png" /></p>
 <p>Sometimes data tables have many columns, and it can be useful to
 select only a few of them to export, use downstream, preview, etc. The
 <code>select()</code> function works on columns:</p>
@@ -809,6 +813,7 @@ other options, but we won’t use them here.</p>
 </div>
 <div id="narrow-down-rows-with-filter" class="section level2">
 <h2>Narrow down rows with <code>filter()</code></h2>
+<p><img src="images/dplyr-filter.png" /></p>
 <p>We have seen that <code>select()</code> subsets the columns of a
 table. The function <code>filter()</code> subsets the rows of a data
 table based on logical criteria. So first, a note about logical
@@ -975,6 +980,7 @@ true:</p>
 </div>
 <div id="make-new-columns-with-mutate" class="section level2">
 <h2>Make new columns with <code>mutate()</code></h2>
+<p><img src="images/dplyr-mutate.png" /></p>
 <p>It’s common to use existing columns of a data table to create new
 columns. For example, in the <code>gapminder_1997</code> data we have a
 <code>pop</code> column and a <code>gdpPercap</code> column. We could
@@ -1065,6 +1071,7 @@ quick data exploration that could be left off.</p>
 </div>
 <div id="group-rows-with-group_by" class="section level2">
 <h2>Group rows with <code>group_by()</code></h2>
+<p><img src="images/dplyr-groupby-summarize.png" /></p>
 <p>If we wanted to determine the mean populations over all the
 continents, we could run the above code we used for Oceania, but replace
 Oceania with each continent name. That’s a bit tedious, and the
@@ -1380,7 +1387,7 @@ more complex dataset so we have a bit more data to explore. The
 load in the data.</p>
 <pre class="r"><code>gapminder_data = read_csv(&#39;data/gapminder_data.csv&#39;)</code></pre>
 <pre><code>Rows: 1704 Columns: 6
-── Column specification ───────────────────────────────────────────────────────────────────────────────────────────────
+── Column specification ─────────────────────────────────────────────────────────────────────────────────────────
 Delimiter: &quot;,&quot;
 chr (2): country, continent
 dbl (4): year, pop, lifeExp, gdpPercap
