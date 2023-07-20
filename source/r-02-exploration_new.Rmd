@@ -161,6 +161,14 @@ This is an excellent example of the relative simplicity of the `tidyverse` over 
 
 **Checkpoint**
 
+> ## Exercise
+> Which country has the highest GDP per capita in 1997?
+> 
+> ```{r, 'highest_gdppercap_solution'}
+> arrange(gapminder_1997, desc(gdpPercap))
+> ```
+> 
+
 ## Subset columns with `select()`
 
 Sometimes data tables have many columns, and it can be useful to select only a few of them to export, use downstream, preview, etc. The `select()` function works on columns:
@@ -257,6 +265,11 @@ Here we put the condition in the row position, before the comma, because we want
 
 > ## Exercise
 > How can we filter the data for just the United Kingdom?
+> 
+> ```{r, 'filter_solution'}
+> filter(gapminder_1997, country == 'United Kingdom')
+> ```
+> 
 
 We can answer the question, "Which African countries have population over 10,000,000?" by using the `&` operator with our previous code. This requires both conditions to be true at the same time:
 
@@ -304,8 +317,11 @@ gapminder_1997 %>% filter(continent == 'Oceania') %>% select(country, continent,
 > Does the order of `filter()` and `select()` matter? Would something like the following work, why or why not?
 > 
 > ```{r, 'pipe_order', eval = FALSE}
-> gapminder_1997 %>% select(country, pop) %>% filter(continent == 'Oceania')
+> gapminder_1997 %>% 
+>     select(country, pop) %>% 
+>     filter(continent == 'Oceania')
 > ```
+> 
 
 It seems there are only two countries, Australia and New Zealand. If we wanted to take the mean of the populations we could pipe the data, after filtering, to `summarize()` as in:
 
@@ -379,6 +395,7 @@ table(gapminder_1997$continent)
 >     ) %>% 
 >     arrange(mean_gdp)
 > ```
+> 
 
 # Exploring data visually
 
@@ -413,14 +430,15 @@ ggplot(data = gapminder_1997) +
 
 > ## Exercise
 > How would we map life expectancy to the y-axis and give it a nicer label?
-
-```{r, 'plot4'}
-ggplot(data = gapminder_1997) +
-    aes(x = gdpPercap) +
-    labs(x = 'GDP Per Capita') +
-    aes(y = lifeExp) + 
-    labs(y = 'Life Expectancy')
-```
+> 
+> ```{r, 'plot4'}
+> ggplot(data = gapminder_1997) +
+>     aes(x = gdpPercap) +
+>     labs(x = 'GDP Per Capita') +
+>     aes(y = lifeExp) + 
+>     labs(y = 'Life Expectancy')
+> ```
+> 
 
 This is progress, but we still don't have any data plotted. For this, we tell the plot object what to draw by adding a "geometry" ("geom" for short). There are many geometries, but we'll begin with `geom_point()`, which plots points in the x-y plane.
 
@@ -506,20 +524,21 @@ We also have the population data for each country and we might wonder if populat
 
 > ## Exercise
 > 
-> Given our previous code mapping data columns to the axes and to color, what would we add to the previous plot code to map the population to the size aesthatic?
-
-```{r, 'plot_pop_size'}
-ggplot(data = gapminder_1997) +
-    aes(x = gdpPercap) +
-    labs(x = 'GDP Per Capita') +
-    aes(y = lifeExp) + 
-    labs(y = 'Life Expectancy') +
-    geom_point() +
-    labs(title = 'Do people in wealthier countries live longer?') + 
-    aes(color = continent) + 
-    scale_color_brewer(palette = 'Set1') +
-    aes(size = pop)
-```
+> Given our previous code mapping data columns to the axes and to color, what would we add to the previous plot code to map the population to the `size` aesthatic?
+> 
+> ```{r, 'plot_pop_size'}
+> ggplot(data = gapminder_1997) +
+>     aes(x = gdpPercap) +
+>     labs(x = 'GDP Per Capita') +
+>     aes(y = lifeExp) + 
+>     labs(y = 'Life Expectancy') +
+>     geom_point() +
+>     labs(title = 'Do people in wealthier countries live longer?') + 
+>     aes(color = continent) + 
+>     scale_color_brewer(palette = 'Set1') +
+>     aes(size = pop)
+> ```
+> 
 
 Here ggplot has created another legend for us called `pop`, the name of the column, and it shows the size related to the population. However, this is in scientific notation, which is a little difficult to interpret at a glance. We can change this by dividing all the population values by 1,000,000. We can also change the labels of the legend using the `labs()` function, just as we did for the x and y axes and title.
 
@@ -641,15 +660,23 @@ gapminder_data %>% group_by(year, continent) %>% summarize(mean_life_exp = mean(
 > ## Exercise
 > 
 > The above code is ordered by year, but to see the continent-wise trend, it would be easier to see the data arranged by continent, how would we rearrange the rows by continent?
-
-```{r, 'summarize_lifeexp_over_years_continents2'}
-gapminder_data %>% group_by(year, continent) %>% summarize(mean_life_exp = mean(lifeExp)) %>% arrange(continent)
-```
+> 
+> ```{r, 'summarize_lifeexp_over_years_continents2'}
+> gapminder_data %>% 
+>     group_by(year, continent) %>% 
+>     summarize(mean_life_exp = mean(lifeExp)) %>% 
+>     arrange(continent)
+> ```
+> 
 
 This is a step in the right direction, but now the `tibble` preview is actually preventing us from seeing all the data. There are two ways we can see the full result:
 
 ```{r, 'view'}
-life_exp_by_year_continent = gapminder_data %>% group_by(year, continent) %>% summarize(mean_life_exp = mean(lifeExp)) %>% arrange(continent)
+life_exp_by_year_continent = gapminder_data %>% 
+    group_by(year, continent) %>% 
+    summarize(mean_life_exp = mean(lifeExp)) %>% 
+    arrange(continent)
+
 View(life_exp_by_year_continent)
 ```
 
@@ -902,6 +929,18 @@ ggplot(gapminder_1997) +
 
 Now there is only one x-axis, and multiple y-axes. Here the scale is the same for all the y-axes to make them comparable, but there are parameters of `facet_grid()` that allow the scales to change depending on the data within the facet itself if that's more appropriate.
 
+> ## Exercise
+> 
+> How would we modify the above code to display the facets as columns?
+> 
+> ```{r, 'facet_solution'}
+> ggplot(gapminder_1997) + 
+>     aes(x = gdpPercap, y = lifeExp) + 
+>     geom_point() + 
+>     facet_grid(cols = vars(continent))
+> ```
+> 
+
 **Checkpoint**
 
 # Saving plots
@@ -972,6 +1011,15 @@ Here the axis labels aren't centered on the ticks, and seem to be center justifi
 scatter_plot + theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
 ```
 
+> ## Exercise
+> 
+> After looking at the attributes for `theme()` with `?theme`, how would we change just the size of the plot title?
+> 
+> ```{r, 'title_size_solution'}
+> scatter_plot + theme(plot.title = element_text(size = 16))
+> ```
+> 
+
 **Checkpoint**
 
 ## Labeling points
@@ -1012,11 +1060,9 @@ ggplot(data = gapminder_1997_labels) +
          caption = 'Figure: GDP per capita and life expectancy are positively correlated, while population is not.')
 ```
 
-Notice that the size of the label is actually inherited from the size aesthetic. This is an example of aesthetics being inherited by default. This could be changed if we wanted.
-
 **Checkpoint**
 
-We could prevent this inheritance by moving the `color` and `size` aesthetic mappings into `geom_point()` so that they only apply to that layer:
+Notice that the size of the label is actually inherited from the size aesthetic. This is an example of aesthetics being inherited by default. We could prevent this inheritance by moving the `color` and `size` aesthetic mappings into `geom_point()` so that they only apply to that layer:
 
 ```{r, 'plot_labels2'}
 ggplot(data = gapminder_1997_labels) + 
