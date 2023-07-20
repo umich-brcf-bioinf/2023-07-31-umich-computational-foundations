@@ -1,5 +1,5 @@
 ---
-title: "Introducing R and RStudio IDE"
+title: "Introducing R and RStudio"
 output:
         html_document:
             includes:
@@ -15,7 +15,7 @@ output:
 <style type="text/css">
 
 body, td {
-   font-size: 18px;
+   font-size: 14px;
 }
 code.r{
   font-size: 12px;
@@ -31,27 +31,34 @@ source("../bin/chunk-options.R")
 knitr_fig_path("01-")
 ```
 
-# Overview
+# Objectives
 
-In this lesson we will introduce you to RStudio, an Integrated Development Environment (IDE), that provides a simple and convenient graphical interface for using R. We have pre-configured this environment for you so that we can quickly jump into the nuts and bolts of R and RStudio rather than spending time on installing software. Though we are happy to offer guidance on setting up R and RStudio on your own computers after the workshop.
+- Introduce R and RStudio.
+- Learn how to read in a csv file.
+- Discuss object naming conventions and types.
+- Discuss functions and parameters.
+- Learn how to get help with functions.
+- Get comfortable with errors and asking for help.
 
-In this lesson we will introduce how to run commands, save code, and find help.
+# Introduction to R and RStudio
 
-## Advantages of using R
+In these lessons we'll use the [gapminder dataset](https://www.gapminder.org/) to explore the relationship between a country's life expectancy and the total value of its finished goods and services, also known as the Gross Domestic Product (GDP). To explore this relationship we need **data** and a **platform to analyze the data**. 
 
-At more than 20 years old, R is fairly mature and has a thriving community. Here are key advantages of analyzing data in R:
+We could explore the data with a spreadsheet program like Excel or Google Sheets, but it would be cumbersome to record the steps used to explore and make changes to the original data. Instead, we'll use a programming language to explore and summarize the data. In particular we'll use R and RStudio to create tabular summaries of the data as well as plots.
 
-- **R is [open source](https://en.wikipedia.org/wiki/Open-source_software)**. This means R is free - an advantage if you are at an institution where you have to pay for your own MATLAB or SAS license. Open source, is important to your colleagues in parts of the world where expensive software in inaccessible. It also means that R is actively developed by a community (see [r-project.org](https://www.r-project.org/)), and there are regular updates.
-- **R is widely used**. Because, R is used in many areas (not just bioinformatics), you are more likely to find help online when you need it. Chances are, almost any error message you run into, someone else has already experienced.
-- **R is powerful**. R runs on multiple platforms (Windows/MacOS/Linux). It can work with much larger datasets than popular spreadsheet programs like Microsoft Excel, and because of its scripting capabilities is far more reproducible. Also, there are thousands of available software packages for science, including genomics and other areas of life science.
+We'll use R because it is:
 
-## Introducing RStudio Server
+- Open source, meaning it's free!
+- Widely used, meaning it has a large community of support to get help.
+- Powerful, meaning it has many packages that extend and customize its abilities.
 
-In these lessons, we will be making use of [RStudio](https://www.rstudio.com/products/RStudio/), an [Integrated Development Environment (IDE)](https://en.wikipedia.org/wiki/Integrated_development_environment). RStudio, like most IDEs, provides a graphical interface to R, making it user-friendly, and providing dozens of useful features. In this case, we are specifically using [RStudio Server](https://www.rstudio.com/products/RStudio/#Server), a version of RStudio that can be accessed in your web browser. RStudio Server has the same features of the Desktop version of RStudio you could download as standalone software.
+We'll also use R because this is a precursor workshop to RNA-seq Demystified, which will teach you how to use R for differential expression analysis.
 
-## Log on to RStudio Server
+To get started, we'll use [RStudio](https://posit.co/products/open-source/rstudio/), an integrated development environment (IDE). It acts as a graphical interface to R that has many helpful features, as we'll see. Note that R and RStudio are different, but complimentary. You need R to use RStudio.
 
-Open a web browser and enter the following URL.
+# Log in to RStudio Server
+
+To get started, open a web browser and enter the following URL.
 
 ```
 http://bfx-workshop01.med.umich.edu
@@ -65,10 +72,39 @@ Enter your user credentials and click <kbd>Sign In</kbd>. The credentials were p
 
 <img src="images/rstudio_session_default.png" alt="rstudio default session" style="width:1000px;"/>
 
+**Checkpoint**
 
-## Create an RStudio project
+# Orienting on RStudio
 
-One of the first benefits we will take advantage of in RStudio is something called an **RStudio Project**. An RStudio project allows you to more easily:
+To orient ourselves on the interface of RStudio, look in the lower right pane, that has a list of files and folders. Click on the `welcome.R` script.
+
+There should now be four panes in your RStudio window, with the `welcome.R` script in the upper left pane, this is the "Source" or "Scripts" pane. It displays the code that we will write to perform our analysis.
+
+<!-- Insert screenshot with welcome.R in script pane. -->
+
+In the Scripts pane, there is a line of icons, towards the right side of the pane there is a "Run" button. First highlight all the code in the Source pane, and then click "Run".
+
+<!-- Insert screenshot of the result of running welcome.R -->
+
+**Checkpoint**
+
+A number of things just happened in all the panes:
+
+1. There is a record of the code that was run along with the results in the lower left pane. This is the "Console" panel, and here is where the output of executing code is displayed. You can also type directly in the prompt and execute code, but it is not saved in the script.
+2. There is a `phenotypes_by_species` object listed in the upper right pane. This is the "Environment" panel, and it shows all the existing variables in the session, as well as a brief description.
+3. There is a plot in the lower right pane where the file structure was previously listed. This is the "Files / Plots / Help" pane, and it can show the file browser that we saw at the start, display plots that are executed in the Console, or display help pages as we'll see later.
+
+**Questions?**
+
+## Configuring RStudio
+
+All of the panes in RStudio have configuration options. For example, you can minimize/maximize a pane or resize panes by dragging the borders. The most important customization options for pane layout are in the <KBD>View</KBD> menu. Other options such as font sizes, colors/themes, and more are in the <KBD>Tools</KBD> menu under <KBD>Global Options</KBD>.
+
+Let's all enable soft-wrapping of the code files so that we don't have to scroll left and right if our code exceeds the width of the window. To do this click <KBD>Tools</KBD> then <KBD>Global Options</KBD> then <KBD>Code</KBD>, and check the box for "Soft-wrap R source files", then click <KBD>OK</KBD>.
+
+# Creating an RStudio project
+
+We'll now begin our examination of the gapminder dataset by creating an **RStudio Project**. An RStudio project allows you to more easily:
 
 - Save data, files, variables, packages, etc. related to a specific analysis project
 - Restart work where you left off
@@ -83,234 +119,206 @@ One of the first benefits we will take advantage of in RStudio is something call
 
 3. Finally click <kbd>Create Project</kbd>. In the "Files" tab of your output pane (more about the RStudio layout in a moment), you should see an RStudio project file, **CF_R.Rproj**. All RStudio projects end with the "**.Rproj**" file extension.
 
-Note that there is already a `data/` folder which contains the data we will use for these lessons.
+**Checkpoint**
 
-## Creating your first R script
+## Creating a script
 
-Now that we are ready to start exploring R, we will want to keep a record of the commands we are using. To do this we can create an R script:
+Let's create an R script in this project to record the commands we'll learn:
 
 - Click the <kbd>File</kbd> menu and select <kbd>New File</kbd> and then <kbd>R Script</kbd>.
 - Before we go any further, save your script by clicking the save/disk icon that is in the bar above the first line in the script editor, or click the <kbd>File</kbd> menu and select <kbd>Save</kbd>.
 - In the "Save File" window that opens, select <kbd>New Folder</kbd>. Name it **"scripts"**.
 - Finally, name your file **"r_basics"** in the "File name" field.
 
-The new script **r_basics.R** is now in the `scripts` folder. You can see that by clicking the `scripts` folder in the "Files" pane. And you can go back up to the main project folder by clicking the `..` to the right of the up arrow in the "Files" pane. By convention, R scripts end with the file extension **.R**.
+The new script **r_basics.R** is now in the `scripts` folder. You can see that by clicking the `scripts` folder in the "Files" pane. And you can go back up to the main project folder by clicking the `..` to the right of the up arrow in the "Files" pane. By convention, R scripts end with the file extension `.R`.
 
-## Overview of RStudio layout
+**Checkpoint**
 
-Here are the major windows (or panes) of the RStudio environment:
+# Commands in R
 
-<img src="images/rstudio_session_4pane_layout.png" alt="rstudio default session" style="width: 1000px;"/>
+To get started, on line 1 of `r_basics.R` type `2+2`, and then click the <KBD>Run</KBD> button in the Scripts pane. You should see in the Console pane:
 
+~~~
+> 2+2
+[1] 4
+~~~
 
-- **Source**: This pane is where you will write/view R scripts. Some outputs (such as if you view a dataset using `View()`) will appear as a tab here.
-- **Console/Terminal/Jobs**: This is actually where you see the execution of commands. This is the same display you would see if you were using R at the command line without RStudio. You can work interactively (i.e. enter R commands here), but for the most part we will run a script (or lines in a script) in the source pane and watch their execution and output here. The "Terminal" tab give you access to the BASH terminal (the Linux operating system, unrelated to R). RStudio also allows you to run jobs (analyses) in the background. This is useful if some analysis will take a while to run. You can see the status of those jobs in the background.
-- **Environment/History**: Here, RStudio will show you what datasets and objects (variables) you have created and which are defined in memory. You can also see some properties of objects/datasets such as their type and dimensions. The "History" tab contains a history of the R commands you've executed R.
-- **Files/Plots/Packages/Help/Viewer**: This multipurpose pane will show you the contents of directories on your computer. You can also use the "Files" tab to navigate and set the working directory. The "Plots" tab will show the output of any plots generated. In "Packages" you will see what packages are actively loaded, or you can attach installed packages. "Help" will display help files for R functions and packages. "Viewer" will allow you to view local web content (e.g. HTML outputs).
-
->## Tip: Uploads and downloads in the cloud
-> In the "Files" tab you can select a file (using the check box to the left) and download it to your local computer by clicking <KBD>More</KBD> and then <KBD>Export</KBD>. Uploads are also possible with the <KBD>Upload</KBD> button.
-
-
-All of the panes in RStudio have configuration options. For example, you can minimize/maximize a pane, or by moving your mouse in the space between panes you can resize as needed. The most important customization options for pane layout are in the <KBD>View</KBD> menu. Other options such as font sizes, colors/themes, and more are in the <KBD>Tools</KBD> menu under <KBD>Global Options</KBD>.
-
-Although we won't be working with R at the terminal, there are lots of reasons to. For example, once you have written an RScript, you can run it at any Linux or Windows terminal without the need to start up RStudio. We don't want you to get confused - **RStudio runs R, but R is not RStudio**. For more on running an R Script at the terminal see this [Software Carpentry lesson](https://swcarpentry.github.io/r-novice-inflammation/05-cmdline/).
-
-# Working with R
-
-## A simple first command
-
-Now that we have covered the layout and aesthetic aspects of RStudio, we will get to work using some commands. We will write, execute, and save the commands we learn in our **r_basics.R** script that is loaded in the Source pane. For our first command in R, let's do some simple arithmetic. If we wanted to add two numbers together we could type the following into the R script and run it:
-
-```{r, eval = FALSE, purl = FALSE}
-2 + 2
-```
-
-To execute this command, make sure your cursor is on the same line the command is written. Then click the <KBD>Run</KBD> button that is just above the first line of your script in the header of the Source pane. Alternatively, you can use the appropriate shortcut:
+You can highlight as many lines of code as you like and click <KBD>Run</KBD> to run them, or you can use execution keyboard shortcut:
 
 - Mac/Windows execution shortcut: <KBD>Ctrl</KBD>+<KBD>Enter</KBD>
 - Mac execution shortcut: <KBD>Cmd(⌘)</KBD>+<KBD>Enter</KBD>
 
-To run multiple lines of code, you can highlight all the lines you wish to run and then click <KBD>Run</KBD> or use the shortcut key combo listed above.
+Let's go ahead and delete `2+2` and replace it with `library(tidyverse)` and then hit <KBD>Ctrl</KBD>+<KBD>Enter</KBD>.
 
-In the console we should see the following output, notice that the instruction you executed is displayed above the output:
-
-~~~
-> 2 + 2
-[1] 4
-~~~
-
-## Navigating directories
-
-Next, lets see what directory we are in. To do so, type the following function into the script:
-
-```{r, eval = FALSE, purl = FALSE}
-getwd()
+```{r, 'load_tidyverse'}
+library(tidyverse)
 ```
 
-When we run it, you should see something similar to:
-
-~~~
-> getwd()
-[1] "/home/workshop/rcavalca/CF_R"
-~~~
-
-Since we will be learning several commands, we may want to keep some short notes in our script to explain the purpose of the command. Entering a `#` before any line in an R script turns that line into a comment, which R will not try to interpret as code. Edit your script to include a comment on the purpose of commands you are learning, e.g.:
-
-```{r, eval = FALSE, purl = FALSE}
-# this command shows the current working directory
-getwd()
-```
-
-What happens when you enter the `getwd()` command directly in the Console pane? The result is the same, except the code is not saved in your R script.
-
-For the purposes of this exercise we want you to be in the directory `"/home/workshop/user/CF_R"`. What if you weren't? You can set your home directory using the `setwd()` command. Enter this command in your script, but *don't run* this yet.
-
-```{r, eval = FALSE, purl = FALSE}
-# This sets the working directory
-setwd()
-```
-
-You may have guessed, you need to tell the `setwd()` command what directory you want to set as your working directory. To do so, inside of the parentheses, open a set of quotes. Inside the quotes enter a `/` which is the root directory for Linux. Next, use the <KBD>Tab</KBD> key, to take advantage of RStudio's Tab-autocompletion method, to select `home`, `user` (your particular user name), and `CF_R` directory. The path in your script should look like this:
-
-```{r, eval = FALSE, purl = FALSE}
-# This sets the working directory
-setwd("/home/workshop/user/CF_R")
-```
-
-When you run this command, the console repeats the command, but gives you no output. Instead, you see the blank R prompt: `>`. Although it seems small, knowing what your working directory is and being able to set your working directory is the first step to analyzing your data.
-
-> ## Tip: Be careful with `setwd()`
+> ## Note: Package loading messages
 >
-> While setting your working directory is something you need to do, you need to be very careful about using this as a step in your script. For example, what if your script is being run on a computer that has a different directory structure? The top-level path in a Unix file system is root `/`, but on Windows it is likely `C:\`. This is one of several ways you might cause a script to break because a file path is configured differently than your script anticipates. R packages like [here](https://cran.r-project.org/package=here) and [file.path](https://www.rdocumentation.org/packages/base/versions/3.4.3/topics/file.path) allow you to specify file paths in a way that is more operating system independent. See Jenny Bryan's [blog post](https://www.tidyverse.org/articles/2017/12/workflow-vs-script/) for this and other R tips.
+> When loading a package you may get lots of feedback. These aren't necessarily errors, but just give more information on the state of the environment after loading the package. The `tidyverse` is actually a collection of packages. The first section of the output states which packages were lodaed and their versions. The second section notes "Conflicts" that occur because the name of a function is used multiple times. So `dplyr::filter() masks stats::filter()` means that the `dplyr` library and the `stats` library have functions called `filter()`, and that when calling `filter()`, the `dplyr` version will be the default.
 <br>
 
-## Using functions in R
+**Checkpoint**
 
-A function in R (or any computing language) is a short program that takes some input and returns some output. Functions may seem like an advanced topic (they are can be), but you have already used at least one function in R: `getwd()`. Let's try running some other functions and see what they do:
+# Loading a csv file
 
-> ## Exercise: What do these functions do?
->
-> Try the following functions by writing them in your script. See if you can guess what they do, and make sure to add comments to your script about your assumed purpose.
->
-> - `dir()`
-> - `sessionInfo()`
-> - `date()`
-> - `Sys.time()`
+Let's jump right in and load some of the gapminder data using the `read_csv()` function:
 
-<details>
-<summary>Solution</summary>
-
-- `dir()` # Lists files in the working directory
-- `sessionInfo()` # Gives the version of R and additional info including on attached packages
-- `date()` # Gives the current date
-- `Sys.time()` # Gives the current time
-
-Notice that commands are **case-sensitive**!
-
-</details>
-<br>
-
-Functions in R have three key properties that you may have noticed:
-
-1. Functions have case-sensitive names (e.g. `dir`, `Sys.time`).
-2. Following the name, functions have a pair of `()`.
-3. Inside the parentheses, a function may take 0 or more arguments.
-
-An argument may be a specific input for your function and/or may modify the function's behavior. For example the function `round()` will round a number with a decimal:
-
-```{r}
-# This will round a number to the nearest integer
-round(3.14)
+```{r, 'load_gapminder_1997_display', eval = FALSE}
+gapminder_1997 = read_csv('data/gapminder_1997.csv')
 ```
 
-## Getting help with function arguments
+```{r, 'load_gapminder_1997', echo = FALSE}
+gapminder_1997 = read_csv('../data/gapminder_1997.csv')
+```
 
-What if you wanted to round to one significant digit? `round()` can do this, but you may first need to read the help to find out how. To see the help (In R sometimes also called a "vignette") enter a `?` in front of the function name:
+Remember, with the cursor on this line we can click <KBD>Run</KBD>, or we can type <KBD>Ctrl</KBD>+<KBD>Enter</KBD>. We should see some output in the Console pane as well as `gapminder_1997` in the Environment pane. We'll explore the resulting data in later lessons.
 
-```{r, eval=FALSE}
+**Checkpoint**
+
+Let's breakdown this command:
+
+- We start with `gapminder_1997`, this is the name of the **object** that will reference the data.
+- The `=` indicates the assignment operator. R also has the assignment operator `<-` but we'll stick with `=` in this workshop. The details about the distinction aren't relevant to our workshops.
+- The command ends with `read_csv('data/gapminder_1997.csv')` which is a call to the function `read_csv()` with an **argument** stating the path of the file to read.
+
+The output of `read_csv()` in the Console pane gives us useful information such as the dimensions of the data, the delimiter of the file, and how the columns of the data were interpreted.
+
+# Basic R data types
+
+We notice in the output of `read_csv()` that the `country` and `continent` columns were intepreted as character strings (`chr`) and the `year`, `pop`, `lifeExp`, and `gdpPercap` columns were interpreted as numbers (`dbl`).
+
+| Mode (abbreviation) | Type of data |
+|----|------------|
+| Numeric (num) | Numbers such as floating point/decimals (1.0, 0.5, 3.14), there are also more specific numeric types (dbl - Double, int - Integer). These differences are not relevant for most beginners and pertain to how these values are stored in memory. |
+| Character (chr) | A sequence of letters/numbers in single ' ' or double " " quotes. |
+| Factor (fct) | A categorical variable with defined "levels" or categories. |
+| Logical | Boolean values - TRUE or FALSE. |
+
+# Assigning values to objects
+
+Let's assign values to some objects and observe each object after assignment.
+
+```{r, 'assign_objects'}
+name = 'Ben'
+name
+age = 26
+age
+name = 'Harry Potter'
+name
+```
+
+Notice that with each assignment, the object appears in the Environment pane. Also notice that by assigning `name` twice, the value becomes the last assigned value, overwriting our initial assignment. Also notice that if we evaluate the name of an object, it is printed in the Console pane.
+
+Let's try to assign some more objects and see how things can go wrong:
+
+```{r, 'bad_object_assignments1', error = TRUE}
+1number = 3
+Flower = 'marigold'
+flower = 'rose'
+favorite number = 12
+```
+
+```{r, 'bad_object_assignments2', error = TRUE}
+Flower = 'marigold'
+flower = 'rose'
+```
+
+```{r, 'bad_object_assignments3', error = TRUE}
+favorite number = 12
+```
+
+**Checkpoint**
+
+What happened here? We got "unexpected symbol" errors, which is R's obtuse way of saying it didn't like the name of the object. 
+
+- `1number` is problematic because object names can't start with numbers.
+- `favorite number` is problematic because object names can't contain spaces.
+- `Flower` and `flower` are distinct objects because R is **case-sensitive**. Avoid variable names that differ by case.
+
+> ## Guidelines on naming objects
+> 
+> - Object names should be explicit and brief.
+> - Object names cannot start with numbers or contain spaces.
+> - Object names are case-sensitive.
+> - Either separate words in object names like `object_name` or `objectName`. **Be consistent.**
+> - Some names cannot be used because they are the names of fundamental functions (e.g. if, else, for; see [here](https://stat.ethz.ch/R-manual/R-devel/library/base/html/Reserved.html) for complete list).
+
+# Calling functions
+
+Earlier we ran the code `gapminder_1997 = read_csv('data/gapminder_1997.csv')`. As we said before, `read_csv()` is a function and `'data/gapminder_1997.csv'` is an argument to that function. What happens if we just do:
+
+```{r, 'bad_function_call', error = TRUE}
+read_csv()
+```
+
+We get an error in the Console pane. The key part of the message is "argument 'file' is missing, with no default". In other words, this function needs to be told what to read because there is no default.
+
+Not every function needs arguments, but many do. Try the following functions:
+
+```{r, 'function_calls'}
+Sys.Date()
+getwd()
+round(3.1415, 2)
+```
+
+Notice that we threw in `round()` which actually takes two arguments. How could we have known that?
+
+## Getting help with functions
+
+When a function is unfamiliar, we'll often look at the manual page for the function to understand what arguments are required, what it does, and what it outputs. By prepending a `?` in front of a function name, you can access the manual page.
+
+~~~
 ?round
-```
-
-You will slowly learn how to read and make sense of help files. Checking the "Usage" or "Examples" headings is often a good place to look first. If you look under "Arguments," we also see what arguments we can pass to this function to modify its behavior.
-
-`round()` takes two arguments, `x`, which is the number to be rounded, and a `digits` argument. The `=` sign indicates that a default is already set (in this case 0). Since `x` is not set, `round()` requires we provide it, in contrast to `digits` where R will use the default value 0 unless you explicitly provide a different value. We can explicitly set the digits parameter when we call the function:
-
-```{r}
-round(3.14159, digits = 2)
-```
-
-Or, R accepts what we call "positional arguments", if you pass a function arguments separated by commas, R assumes that they are in the order you saw when we used `args()`. In the case below that means that `x` is 3.14159 and digits is 2.
-
-```{r}
-round(3.14159, 2)
-```
-
-> ## Tip: Avoid relying on positional arguments
->
-> For the `round()` example above, we only used two arguments, and their meaning is relatively clear. But functions can have many arguments, and your code will be more readable if you specify argument values along with argument names, as in `round(3.14159, digits = 2)`.
-<br>
-
-## More ways to get help
-
-What if you are using `?` to try to get help for a function in a package installed on your system but not loaded? If we try:
-
-```{r, eval=FALSE}
-?geom_point()
-```
-
-will return an error:
-
-~~~
-No documentation for ‘geom_point’ in specified packages and libraries:
-you could try ‘??geom_point’
 ~~~
 
-We can use two question marks (i.e. `??geom_point()`) and R will return results from a search of the documentation for packages you have installed on your computer in the "Help" tab.
+The help page for `round()` tells us the function does essentially what we'd expect, and gives some other related functions. Note also that the arguments section gives us the names of the arguments and what is expected of them. There is often a Details section to describe nuances, and a Value section to describe the output. Finally, there is an Examples section which gives examples of how to run the code.
 
-Finally, if you think there should be a function, for example a statistical test, but you aren't sure what it is called in R, or what functions may be available, use the `help.search()` function.
+## Arguments
 
-> ## Exercise: Searching for R functions
-> Use `help.search()` to find R functions for the following statistical functions. Remember to put your search query in quotes inside the function's parentheses.
->
-> - Chi-Squared test
-> - Student t-test
-> - mixed linear model
+When we called `round(3.1415, 2)` it seemed like the first argument is the thing we want to round, and the second argument is how many digits we want. That tracks when we look at `?round`. R can evaluate arguments of a function based on their **position**, as we just saw. However, the preferred way to call a function is to use the names of the arguments, as in:
 
-<details>
-<summary>Solution</summary>
-While your search results may return several tests, we list a few you might find:
+```{r, 'named_args'}
+round(x = 3.14159, digits = 2)
+```
 
-- Chi-Squared test: `stats::Chisquare`
-- Student t-test: `stats::t.test`
-- mixed linear model: `stats::lm.glm`
+Calling a function, and using named arguments, increases the readability of the code and reduces the chance of error, especially with complex functions having many arguments.
 
-And note the use of `::` in the search results. This is a way to call a function in R and specify the package it comes from. This is particularly useful if two packages have a function with the same name, then you can be sure you're calling the one you intend to.
+# Searching for functions
 
-</details>
-<br>
+Prepending a `?` in front a function name to find out more about the function requires knowing the name of the function beforehand. That won't always be the case so there are a couple ways to search for R functions.
 
+1. Search the internet for "R function that does X".
+2. Use `help.search()`, as in `help.search('Chi-squared test')`
 
-We will discuss more on where to look for the libraries and packages that contain functions you want to use. For now, be aware that two important ones are [CRAN](https://cran.r-project.org/) - the main repository for R, and [Bioconductor](http://bioconductor.org/) - a popular repository for bioinformatics-related R packages.
+Note that in the results of `help.search()` we see things like, `stats::chisq.test`. Here the `::` is R notation for `package_name::function`.
 
-## RStudio contextual help
+**Checkpoint**
 
-Here is one last bonus we will mention about RStudio. It's difficult to remember all of the arguments and definitions associated with a given function. When you start typing the name of a function and hit the <KBD>Tab</KBD> key, RStudio will display functions and associated help:
+# Errors happen
 
-<img src="images/studio_contexthelp1.png" alt="rstudio default session" style="width: 600px;"/>
-<br>
+We already ran some code in this lesson that produced errors. We're going to run lots of code in this workshop and the next, and it's likely we'll see more errors! The key steps to correcting an error are:
 
-Once you type a function, hitting the <KBD>Tab</KBD> inside the parentheses will show you the function's arguments and provide additional help for each of these arguments.
+1. Read the error message to try to understand what might have gone wrong. Note, not all error messages are clear, so don't worry if the error message doesn't help you.
+2. Immediately check the spelling of the command; **most errors are caused by typos**.
+3. Check that the objects going into the function are what's expected.
 
-<img src="images/studio_contexthelp2.png" alt="rstudio default session" style="width: 600px;"/>
+If you're still stuck as to why an error occurred (something we all encounter), reach out for help. Make sure to post in Slack:
 
-## Errors happen
+1. The exact command that caused the error.
+2. The exact error message that resulted.
 
-When programming in any language, you will encounter errors. Sometimes they can be the result of some complicated behavior, but, **most often, they tend to be the result of a typo**. This can take the form of mis-spellings (e.g. `dri()`), but they can also be in the form of missing quotes or mis-matched parentheses.
+This way we'll more quickly be able to diagnose the problem.
 
-When reporting an error in this workshop, or an online forum when you're asking for help, it is best to:
+# Base R and the tidyverse
 
-1. Give the exact command you ran that caused the error.
-2. Give the exact error message that resulted.
+If you've used R before, you may have learned commands that are different what we'll learn in this workshop. We'll focus on functions from the `tidyverse`, a collection of R packages designed to work well together and and offer many features that aren't part of a fresh install of R (that is, "base R"). Generally the `tidyverse` helps us write code that is easy to read and maintain, as we'll see.
 
-Often people will ask for a "minimally reproducible example". Essentially this means providing the definition of all the R objects that go into the function so that other users can try to reproduce the problem, and then figure out what's going wrong.
+The `tidyverse` is geared for data in the form of tables, and it is **very good** at manipulating, summarizing, and visualizing such data. However, data occurs in a variety of other shapes and forms. In particular, in a bioinformatics context, the Bioconductor repository of packages utilize data types that are not tables, and therefore do not always work well with `tidyverse` functions. We'll see clearer examples of this in the RNA-seq Demystified workshop, and you will undoubtedly encounter many examples in the future.
+
+Some people ask "Should I learn tidyverse or base R?" and we think that rather than either/or, it's better to think of both/and. Knowing base R and its approach will help in some contexts, while knowing `tidyverse` will help in others.
+
+# Cheatsheets!
+
+The `tidyverse` packages have excellent cheatsheets that describe the functionality and usage of the packages. You can find them in RStudio by going to the “Help” menu and selecting “Cheat Sheets”. The two that will be most helpful in this workshop are “Data Visualization with ggplot2” and “Data Transformation with dplyr”.
