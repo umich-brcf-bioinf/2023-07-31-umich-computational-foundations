@@ -713,6 +713,44 @@ ggplot(data = gapminder_1997) + aes(x = continent, y = lifeExp) + geom_violin()
 
 **Checkpoint**
 
+## Factors
+
+In the above box plots it's perfectly acceptable to have the continents listed in alphabetical order, which is the default when plotting categorical data in `ggplot2`. Imagine, however, that we want a box plot with months on the x-axis and some data on the y-axis. It wouldn't be appropriate to plot the months in alphabetical order. Fortunately there is a data type in R called a **factor** which stores categorical data and enables us to specify the order of the "levels" or categories.
+
+We know that our data has a `continent` column, and we saw before that there were only 5 unique values in this column. This is a perfect candidate to introduce the idea of a factor. Let's `mutate()` the `gapminder_1997` data and add a factor version of the continent column. 
+
+First, let's look at `?factor`. It takes a character vector (exactly what the `continent` column is), and an optional `levels` character vector which dictates the categories and their desired order.
+
+```{r, 'factor1'}
+gapminder_factor = gapminder_1997 %>% 
+    mutate(continent_factor = factor(continent, levels = c('Oceania', 'Africa', 'Asia', 'America', 'Europe')))
+```
+
+Let's take a look at the new object and see how it's different.
+
+```{r, 'factor_preview'}
+gapminder_factor
+```
+
+Note that the new column has type `fct` (factor) and the old has `chr` (character). That's a good start. Let's look at the head of both columns.
+
+```{r, 'head_continent'}
+head(gapminder_factor$continent)
+head(gapminder_factor$continent_factor)
+```
+
+**Checkpoint**
+
+Notice that for the factor column we get the same output, but with additional information about the `levels`, and the ordering is exactly what we specified. Now let's see the effect on a plot similar to the boxplot we already created above.
+
+```{r, 'factor_boxplot'}
+ggplot(data = gapminder_factor) + aes(x = continent_factor, y = lifeExp) + geom_boxplot()
+```
+
+Compare this to the plot we saw with the `continent` column, where the order was alphabetical. In the RNA-seq Demystified Workshop we will also see how factors and the order of their levels affect the tests for differential expression.
+
+**Checkpoint**
+
 ## Layers
 
 To get a sense for how the data are distributed in the box plot, we could add a layer with `geom_point()` in addition to `geom_boxplot()`.
