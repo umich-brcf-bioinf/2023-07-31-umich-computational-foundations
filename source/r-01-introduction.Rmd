@@ -15,7 +15,7 @@ output:
 <style type="text/css">
 
 body, td {
-   font-size: 14px;
+   font-size: 16px;
 }
 code.r{
   font-size: 12px;
@@ -26,7 +26,7 @@ pre {
 
 </style>
 
-```{r, include = FALSE}
+```{r, 'chunk_options', include=FALSE}
 source("../bin/chunk-options.R")
 knitr_fig_path("01-")
 ```
