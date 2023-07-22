@@ -107,6 +107,8 @@ This is the base R way, with the `$` being how columns of a data table are acces
 
 ## Find unique values with `distinct()`
 
+![](images/dplyr-distinct.png)
+
 Data is often subject to errors. To quickly catch data entry problems, the `distinct()` function can be used to show all unique values in the column of a table. Let's take a look at the distinct values of the continents column:
 
 ```{r, 'distinct_continent'}
@@ -124,6 +126,7 @@ Either way, if there was a misspelled entry, for example, "Urope" we would have 
 **Checkpoint**
 
 ## Sorting data with `arrange()`
+![](images/dplyr-arrange.png)
 
 We have a rich dataset whose default ordering is by country. But it's natural to ask questions like "What country has the highest life expectancy?" or "What country had the highest GDP per capita?" The `arrange()` function can help us quickly find the answers.
 
@@ -172,6 +175,7 @@ This is an excellent example of the relative simplicity of the `tidyverse` over 
 > 
 
 ## Subset columns with `select()`
+![](images/dplyr-select.png)
 
 Sometimes data tables have many columns, and it can be useful to select only a few of them to export, use downstream, preview, etc. The `select()` function works on columns:
 
@@ -235,6 +239,7 @@ write_csv(gapminder_column_subset, file = 'gapminder_subset.csv')
 **Checkpoint**
 
 ## Narrow down rows with `filter()`
+![](images/dplyr-filter.png)
 
 We have seen that `select()` subsets the columns of a table. The function `filter()` subsets the rows of a data table based on logical criteria. So first, a note about logical operators in R:
 
@@ -290,6 +295,7 @@ This gives us all the countries with fewer than a million people **or** more tha
 **Checkpoint**
 
 ## Make new columns with `mutate()`
+![](images/dplyr-mutate.png)
 
 It's common to use existing columns of a data table to create new columns. For example, in the `gapminder_1997` data we have a `pop` column and a `gdpPercap` column. We could multiply these two columns to get a new `gdp` column. The `dplyr` function `mutate()` adds columns to an existing data table.
 
@@ -344,6 +350,7 @@ Here we've meaningfully named our output, but that was optional. For quick data 
 **Checkpoint**
 
 ## Group rows with `group_by()`
+![](images/dplyr-groupby-summarize.png)
 
 If we wanted to determine the mean populations over all the continents, we could run the above code we used for Oceania, but replace Oceania with each continent name. That's a bit tedious, and the `tidyverse` provides a very nice function, `group_by()`, that breaks a data table up into groups and will perform operations within the groups.
 

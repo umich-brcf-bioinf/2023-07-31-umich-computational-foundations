@@ -496,6 +496,7 @@ operating on the wrong column. A dangerous situation to be in.</p>
 </div>
 <div id="find-unique-values-with-distinct" class="section level2">
 <h2>Find unique values with <code>distinct()</code></h2>
+<p><img src="images/dplyr-distinct.png" /></p>
 <p>Data is often subject to errors. To quickly catch data entry
 problems, the <code>distinct()</code> function can be used to show all
 unique values in the column of a table. Let’s take a look at the
@@ -520,6 +521,7 @@ would have immediately seen it.</p>
 </div>
 <div id="sorting-data-with-arrange" class="section level2">
 <h2>Sorting data with <code>arrange()</code></h2>
+<p><img src="images/dplyr-arrange.png" /></p>
 <p>We have a rich dataset whose default ordering is by country. But it’s
 natural to ask questions like “What country has the highest life
 expectancy?” or “What country had the highest GDP per capita?” The
@@ -638,6 +640,7 @@ ordering.</p>
 </div>
 <div id="subset-columns-with-select" class="section level2">
 <h2>Subset columns with <code>select()</code></h2>
+<p><img src="images/dplyr-select.png" /></p>
 <p>Sometimes data tables have many columns, and it can be useful to
 select only a few of them to export, use downstream, preview, etc. The
 <code>select()</code> function works on columns:</p>
@@ -777,6 +780,7 @@ other options, but we won’t use them here.</p>
 </div>
 <div id="narrow-down-rows-with-filter" class="section level2">
 <h2>Narrow down rows with <code>filter()</code></h2>
+<p><img src="images/dplyr-filter.png" /></p>
 <p>We have seen that <code>select()</code> subsets the columns of a
 table. The function <code>filter()</code> subsets the rows of a data
 table based on logical criteria. So first, a note about logical
@@ -943,6 +947,7 @@ true:</p>
 </div>
 <div id="make-new-columns-with-mutate" class="section level2">
 <h2>Make new columns with <code>mutate()</code></h2>
+<p><img src="images/dplyr-mutate.png" /></p>
 <p>It’s common to use existing columns of a data table to create new
 columns. For example, in the <code>gapminder_1997</code> data we have a
 <code>pop</code> column and a <code>gdpPercap</code> column. We could
@@ -1033,6 +1038,7 @@ quick data exploration that could be left off.</p>
 </div>
 <div id="group-rows-with-group_by" class="section level2">
 <h2>Group rows with <code>group_by()</code></h2>
+<p><img src="images/dplyr-groupby-summarize.png" /></p>
 <p>If we wanted to determine the mean populations over all the
 continents, we could run the above code we used for Oceania, but replace
 Oceania with each continent name. That’s a bit tedious, and the
