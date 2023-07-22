@@ -34,9 +34,10 @@ render_site('source/bash-05-writing-scripts.md')
 render_site('source/bash-06-organization.md')
 
 render_site('source/r-01-introduction.Rmd')
-render_site('source/r-02-exploration.Rmd')
-render_site('source/r-03-bioconductor.Rmd')
-render_site('source/r-04-r-help.Rmd')
+render_site('source/r-02-exploration-dplyr.Rmd')
+render_site('source/r-03-exploration-ggplot.Rmd')
+render_site('source/r-04-bioconductor.Rmd')
+render_site('source/r-05-help.Rmd')
 
 render_site('source/Module99_Wrap_up.md')
 

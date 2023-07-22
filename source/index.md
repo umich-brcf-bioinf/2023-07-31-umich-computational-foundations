@@ -47,15 +47,17 @@ body, td {
 |       | [Writing Scripts](bash-05-writing-scripts.html) |
 |       | **Break** |
 |       | [Intro to R](r-01-introduction.html)
-|       | [Data Exploration](r-02-exploration.html) |
+|       | [Data Exploration with dplyr](r-02-exploration-dplyr.html) |
 |  1:00 | Day 2 concludes |
 
 ### Day 3 (Raymond)
 | Time | Topic |
 | :-----  | :------------------------------------ |
 |  9:00 | Review |
-|  9:10 | [Data Exploration continued](r-02-exploration.html) |
+|  9:10 | [Data Exploration with dplyr](r-02-exploration-dplyr.html) |
 |       | **Break** |
-|       | [Data Exploration continued](r-02-exploration.html) |
+|       | [Data Visualization with ggplot](r-03-exploration-ggplot.html) |
+|       | [R Libraries](r-04-bioconductor.html)
+|       | [R Help](r-05-help.html) |
 | 12:45 | [Wrap-up](Module99_Wrap_up.html) |
 |  1:00 | Day 3 concludes |
