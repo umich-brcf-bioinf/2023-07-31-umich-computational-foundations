@@ -122,6 +122,7 @@ First navigate to the `CF_Shell` directory. There is a hidden directory within t
 <summary>Solution - Finding hidden directories</summary>
 
 First use the `man` command to look at the options for `ls`.
+
 ~~~
 $ man ls
 ~~~
