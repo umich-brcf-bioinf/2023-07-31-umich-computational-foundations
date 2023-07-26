@@ -728,3 +728,33 @@ ggplot(data = gapminder_1997_labels) +
        title = 'Do people in wealthier countries live longer?',
        caption = 'Figure: GDP per capita and life expectancy are positively correlated, while population is not.')
 ```
+
+**Checkpoint**
+
+> ## Exercise
+> 
+> The following code generates the following output:
+> 
+> ```{r, 'ggplot_exercise_example'}
+> ggplot(data = gapminder_data, aes(x = year, y = gdpPercap, group = country)) +
+>     geom_line() + theme_bw() +
+>     labs(
+>         title = 'GDP per Capita 1952 - 2007',
+>         x = 'Year', y = 'GDP per Capita')
+> ```
+> Try to write the code that would generate the following plot:
+> 
+> ```{r, 'ggplot_exercise', echo = FALSE}
+> ggplot(data = gapminder_data, aes(x = year, y = gdpPercap, group = country)) +
+>     geom_line() + facet_grid(cols = vars(continent)) +
+>     labs(
+>         title = 'GDP per Capita 1952 - 2007',
+>         x = 'Year', y = 'GDP per Capita') +
+>     theme_bw() + theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
+> ```
+> 
+
+
+
+
+
