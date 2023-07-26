@@ -733,19 +733,19 @@ ggplot(data = gapminder_1997_labels) +
 
 > ## Exercise
 > 
-> The following code generates the following output:
+> In a previous exercise we created a plot showing the trend of life expectancy across all countries over time, colored by the continent. THe following code generates a similar plot but for the GDP per capita.
 > 
 > ```{r, 'ggplot_exercise_example'}
-> ggplot(data = gapminder_data, aes(x = year, y = gdpPercap, group = country)) +
+> ggplot(data = gapminder_data, aes(x = year, y = gdpPercap, color = continent, group = country)) +
 >     geom_line() + theme_bw() +
 >     labs(
 >         title = 'GDP per Capita 1952 - 2007',
 >         x = 'Year', y = 'GDP per Capita')
 > ```
-> Try to write the code that would generate the following plot:
+> Is this plot clear? Might it be improved by splitting up the continents into their own plots? Below is a plot which pulls apart the trends on the different continents, while still plotting each country individually. Try to write the code that would generate it.
 > 
 > ```{r, 'ggplot_exercise', echo = FALSE}
-> ggplot(data = gapminder_data, aes(x = year, y = gdpPercap, group = country)) +
+> ggplot(data = gapminder_data, aes(x = year, y = gdpPercap, color = continent, group = country)) +
 >     geom_line() + facet_grid(cols = vars(continent)) +
 >     labs(
 >         title = 'GDP per Capita 1952 - 2007',
@@ -753,8 +753,36 @@ ggplot(data = gapminder_1997_labels) +
 >     theme_bw() + theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
 > ```
 > 
-
-
-
-
-
+> This plot generates a lot of questions. For example:
+> 
+> 1. What is the Asian country with the very high GDP per capita?
+> 2. What are the two countries that are outliers in the Americas?
+> 3. What two African countries seemed to experience strong GDP per capita growth through 1980, only to drop off?
+> 4. What two European countries overtake the long-leading GDP per capita country in 2007?
+> 
+> All of these questions are suggested by looking at the plot, but we can answer them with the `dplyr` functions we've learned.
+> 
+> 1. To find the Asian country of interest, we could simply find the country with the highest GDP per capita in 1952.
+> 
+> ```{r, 'exercise_1'}
+> gapminder_data %>% filter(year == 1952) %>% arrange(desc(gdpPercap))
+> ```
+> 
+> 2. We can actually use a similar tactic for this question, but we can pick any year based on the plot, and we must filter on the correct continent. Then we can observe the top two rows.
+> 
+> ```{r, 'exercise_2'}
+> gapminder_data %>% filter(year == 2007 & continent == 'Americas') %>% arrange(desc(gdpPercap))
+> ```
+> 
+> 3. We can use a similar approach as 2, but filter on the African countries, and look at the top two results.
+> 
+> ```{r, 'exercise_3'}
+> gapminder_data %>% filter(year == 1977 & continent == 'Africa') %>% arrange(desc(gdpPercap))
+> ```
+>
+> 4. And again, but look at the top three results.
+> 
+> ```{r, 'exercise_4'}
+> gapminder_data %>% filter(year == 2007 & continent == 'Europe') %>% arrange(desc(gdpPercap))
+> ```
+> 

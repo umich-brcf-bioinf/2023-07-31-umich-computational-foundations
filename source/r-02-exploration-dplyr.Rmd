@@ -378,30 +378,30 @@ table(gapminder_1997$continent)
 
 > ## Exercise
 > 
-> The following code generates the following output:
+> In summarizing data, it's often useful to build a nicely formatted table with min, median, and max values of a variable. Below is an example of code to do that for the populations by continent, and arranged by the median population.
 > 
 > ```{r, 'dplyr_exercise_example'}
 > gapminder_1997 %>% 
 >     group_by(continent) %>%
 >     summarize(
->         min_pop = min(pop),
->         median_pop = median(pop),
->         max_pop = max(pop)
+>         min_POP = min(pop),
+>         median_POP = median(pop),
+>         max_POP = max(pop)
 >     ) %>% 
->     arrange(median_pop)
+>     arrange(median_POP)
 > ```
-> Try to write the code that would generate the following table:
+> Try to write the code that would generate the following table, similar to the above, but for the GDP per continent instead of the population, and including the mean GDP in addition to the min, median, and max.
 > 
 > ```{r, 'dplyr_exercise_hidden', echo = FALSE}
 > gapminder_1997 %>% 
 >     mutate(gdp = pop * gdpPercap) %>%
 >     group_by(continent) %>%
 >     summarize(
->         min_gdp = min(gdp),
->         mean_gdp = mean(gdp),
->         median_gdp = median(gdp),
->         max_gdp = max(gdp)
+>         min_GDP = min(gdp),
+>         mean_GDP = mean(gdp),
+>         median_GDP = median(gdp),
+>         max_GDP = max(gdp)
 >     ) %>% 
->     arrange(mean_gdp)
+>     arrange(mean_GDP)
 > ```
 > 
