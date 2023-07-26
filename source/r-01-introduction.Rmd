@@ -68,7 +68,7 @@ You should now be looking at a page that will allow you to login to the RStudio 
 
 <img src="images/rstudio_login_screen.png" alt="rstudio default session" style="width: 1000px;"/>
 
-Enter your user credentials and click <kbd>Sign In</kbd>. The credentials were provided via email, but if you forget yours, a helper can retrieve it for you, just ask in Slack. You should now see the RStudio interface:
+Enter your user credentials and click <kbd>Sign In</kbd>. The credentials are the same we used on the command line yesterday, but if you forget yours, a helper can retrieve it for you, just ask in Slack. You should now see the RStudio interface:
 
 <img src="images/rstudio_session_default.png" alt="rstudio default session" style="width:1000px;"/>
 
