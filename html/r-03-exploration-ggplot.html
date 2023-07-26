@@ -1357,15 +1357,107 @@ that they only apply to that layer:</p>
 <p><strong>Checkpoint</strong></p>
 <blockquote>
 <h2 id="exercise-5">Exercise</h2>
-<p>The following code generates the following output:</p>
-<pre class="r"><code>ggplot(data = gapminder_data, aes(x = year, y = gdpPercap, group = country)) +
+<p>In a previous exercise we created a plot showing the trend of life
+expectancy across all countries over time, colored by the continent. THe
+following code generates a similar plot but for the GDP per capita.</p>
+<pre class="r"><code>ggplot(data = gapminder_data, aes(x = year, y = gdpPercap, color = continent, group = country)) +
     geom_line() + theme_bw() +
     labs(
         title = &#39;GDP per Capita 1952 - 2007&#39;,
         x = &#39;Year&#39;, y = &#39;GDP per Capita&#39;)</code></pre>
 <p><img src="fig/03-ggplot_exercise_example-1.png" width="816" style="display: block; margin: auto;" />
-Try to write the code that would generate the following plot:</p>
+Is this plot clear? Might it be improved by splitting up the continents
+into their own plots? Below is a plot which pulls apart the trends on
+the different continents, while still plotting each country
+individually. Try to write the code that would generate it.</p>
 <p><img src="fig/03-ggplot_exercise-1.png" width="816" style="display: block; margin: auto;" /></p>
+<p>This plot generates a lot of questions. For example:</p>
+<ol style="list-style-type: decimal">
+<li>What is the Asian country with the very high GDP per capita?</li>
+<li>What are the two countries that are outliers in the Americas?</li>
+<li>What two African countries seemed to experience strong GDP per
+capita growth through 1980, only to drop off?</li>
+<li>What two European countries overtake the long-leading GDP per capita
+country in 2007?</li>
+</ol>
+<p>All of these questions are suggested by looking at the plot, but we
+can answer them with the <code>dplyr</code> functions we’ve learned.</p>
+<ol style="list-style-type: decimal">
+<li>To find the Asian country of interest, we could simply find the
+country with the highest GDP per capita in 1952.</li>
+</ol>
+<pre class="r"><code>gapminder_data %&gt;% filter(year == 1952) %&gt;% arrange(desc(gdpPercap))</code></pre>
+<pre><code># A tibble: 142 × 6
+   country         year       pop continent lifeExp gdpPercap
+   &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;       &lt;dbl&gt;     &lt;dbl&gt;
+ 1 Kuwait          1952    160000 Asia         55.6   108382.
+ 2 Switzerland     1952   4815000 Europe       69.6    14734.
+ 3 United States   1952 157553000 Americas     68.4    13990.
+ 4 Canada          1952  14785584 Americas     68.8    11367.
+ 5 New Zealand     1952   1994794 Oceania      69.4    10557.
+ 6 Norway          1952   3327728 Europe       72.7    10095.
+ 7 Australia       1952   8691212 Oceania      69.1    10040.
+ 8 United Kingdom  1952  50430000 Europe       69.2     9980.
+ 9 Bahrain         1952    120447 Asia         50.9     9867.
+10 Denmark         1952   4334000 Europe       70.8     9692.
+# ℹ 132 more rows</code></pre>
+<ol start="2" style="list-style-type: decimal">
+<li>We can actually use a similar tactic for this question, but we can
+pick any year based on the plot, and we must filter on the correct
+continent. Then we can observe the top two rows.</li>
+</ol>
+<pre class="r"><code>gapminder_data %&gt;% filter(year == 2007 &amp; continent == &#39;Americas&#39;) %&gt;% arrange(desc(gdpPercap))</code></pre>
+<pre><code># A tibble: 25 × 6
+   country              year       pop continent lifeExp gdpPercap
+   &lt;chr&gt;               &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;       &lt;dbl&gt;     &lt;dbl&gt;
+ 1 United States        2007 301139947 Americas     78.2    42952.
+ 2 Canada               2007  33390141 Americas     80.7    36319.
+ 3 Puerto Rico          2007   3942491 Americas     78.7    19329.
+ 4 Trinidad and Tobago  2007   1056608 Americas     69.8    18009.
+ 5 Chile                2007  16284741 Americas     78.6    13172.
+ 6 Argentina            2007  40301927 Americas     75.3    12779.
+ 7 Mexico               2007 108700891 Americas     76.2    11978.
+ 8 Venezuela            2007  26084662 Americas     73.7    11416.
+ 9 Uruguay              2007   3447496 Americas     76.4    10611.
+10 Panama               2007   3242173 Americas     75.5     9809.
+# ℹ 15 more rows</code></pre>
+<ol start="3" style="list-style-type: decimal">
+<li>We can use a similar approach as 2, but filter on the African
+countries, and look at the top two results.</li>
+</ol>
+<pre class="r"><code>gapminder_data %&gt;% filter(year == 1977 &amp; continent == &#39;Africa&#39;) %&gt;% arrange(desc(gdpPercap))</code></pre>
+<pre><code># A tibble: 52 × 6
+   country       year      pop continent lifeExp gdpPercap
+   &lt;chr&gt;        &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;       &lt;dbl&gt;     &lt;dbl&gt;
+ 1 Libya         1977  2721783 Africa       57.4    21951.
+ 2 Gabon         1977   706367 Africa       52.8    21746.
+ 3 South Africa  1977 27129932 Africa       55.5     8029.
+ 4 Algeria       1977 17152804 Africa       58.0     4910.
+ 5 Reunion       1977   492095 Africa       67.1     4320.
+ 6 Namibia       1977   977026 Africa       56.4     3876.
+ 7 Swaziland     1977   551425 Africa       52.5     3781.
+ 8 Mauritius     1977   913025 Africa       64.9     3711.
+ 9 Congo Rep.    1977  1536769 Africa       55.6     3259.
+10 Botswana      1977   781472 Africa       59.3     3215.
+# ℹ 42 more rows</code></pre>
+<ol start="4" style="list-style-type: decimal">
+<li>And again, but look at the top three results.</li>
+</ol>
+<pre class="r"><code>gapminder_data %&gt;% filter(year == 2007 &amp; continent == &#39;Europe&#39;) %&gt;% arrange(desc(gdpPercap))</code></pre>
+<pre><code># A tibble: 30 × 6
+   country      year      pop continent lifeExp gdpPercap
+   &lt;chr&gt;       &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;       &lt;dbl&gt;     &lt;dbl&gt;
+ 1 Norway       2007  4627926 Europe       80.2    49357.
+ 2 Ireland      2007  4109086 Europe       78.9    40676.
+ 3 Switzerland  2007  7554661 Europe       81.7    37506.
+ 4 Netherlands  2007 16570613 Europe       79.8    36798.
+ 5 Iceland      2007   301931 Europe       81.8    36181.
+ 6 Austria      2007  8199783 Europe       79.8    36126.
+ 7 Denmark      2007  5468120 Europe       78.3    35278.
+ 8 Sweden       2007  9031088 Europe       80.9    33860.
+ 9 Belgium      2007 10392226 Europe       79.4    33693.
+10 Finland      2007  5238460 Europe       79.3    33207.
+# ℹ 20 more rows</code></pre>
 </blockquote>
 </div>
 </div>
