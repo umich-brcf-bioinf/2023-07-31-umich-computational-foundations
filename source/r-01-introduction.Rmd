@@ -215,9 +215,6 @@ Let's try to assign some more objects and see how things can go wrong:
 
 ```{r, 'bad_object_assignments1', error = TRUE}
 1number = 3
-Flower = 'marigold'
-flower = 'rose'
-favorite number = 12
 ```
 
 ```{r, 'bad_object_assignments2', error = TRUE}
