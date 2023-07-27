@@ -627,7 +627,7 @@ scatter_plot = ggplot(data = gapminder_1997) +
          caption = 'Figure: GDP per capita and life expectancy are positively correlated, while population is not.')
 ```
 
-Notice nothing happens as when we ran the code without saving it as an object. If we want to see the plot again, we have to execute the name of the object:
+Notice nothing happens, unlike when we ran the code without saving it as an object. If we want to see the plot again, we have to execute the name of the object:
 
 ```{r, 'display_plot_object'}
 scatter_plot
