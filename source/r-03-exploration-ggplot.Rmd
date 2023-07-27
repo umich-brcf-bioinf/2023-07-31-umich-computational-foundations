@@ -404,7 +404,7 @@ First, let's look at `?factor`. It takes a character vector (exactly what the `c
 
 ```{r, 'factor1'}
 gapminder_factor = gapminder_1997 %>% 
-    mutate(continent_factor = factor(continent, levels = c('Oceania', 'Africa', 'Asia', 'America', 'Europe')))
+    mutate(continent_factor = factor(continent, levels = c('Oceania', 'Africa', 'Asia', 'Americas', 'Europe')))
 ```
 
 Let's take a look at the new object and see how it's different.
