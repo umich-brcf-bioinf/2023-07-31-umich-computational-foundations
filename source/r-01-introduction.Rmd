@@ -111,7 +111,7 @@ We'll now begin our examination of the gapminder dataset by creating an **RStudi
 - Collaborate, especially if you are using version control such as [git](http://swcarpentry.github.io/git-novice/).
 
 
-1. To create a project, go to the <kbd>File</kbd> menu, and click <kbd>New Project...</kbd>. The following window will appear:
+1. To create a project, go to the <kbd>File</kbd> menu, and click <kbd>New Project...</kbd>. If you are prompted to save your `~/.Rhistory`, select now. The following window should appear:
 
 <img src="images/new_project_window.png" alt="rstudio default session" style="width: 600px;"/>
 
