@@ -390,7 +390,7 @@ table(gapminder_1997$continent)
 >     ) %>% 
 >     arrange(median_POP)
 > ```
-> Try to write the code that would generate the following table, similar to the above, but for the GDP per continent instead of the population, and including the mean GDP in addition to the min, median, and max.
+> Try to write the code that would generate the following table, similar to the above, but for the GDP per continent instead of the population, including the mean GDP in addition to the min, median, and max, as well as ordering the results by mean GDP.
 > 
 > ```{r, 'dplyr_exercise_hidden', echo = FALSE}
 > gapminder_1997 %>% 
