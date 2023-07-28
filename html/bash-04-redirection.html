@@ -573,7 +573,7 @@ $ wc -l bad_reads.txt</code></pre>
 <pre><code>537 bad_reads.txt</code></pre>
 <pre><code>$ grep -B1 -A2 NNNNNNNNNN sample_01.fastq &gt; bad_reads.txt
 $ wc -l bad_reads.txt</code></pre>
-<pre><code>0 bad_reads.txt</code></pre>
+<pre><code>4 bad_reads.txt</code></pre>
 <p>Here, the output of our second call to <code>wc</code> shows that we
 no longer have any lines in our <code>bad_reads.txt</code> file. This is
 because the second file we searched (<code>sample_01.fastq</code>) does
@@ -588,29 +588,9 @@ $ wc -l bad_reads.txt</code></pre>
 <pre><code>537 bad_reads.txt</code></pre>
 <pre><code>$ grep -B1 -A2 NNNNNNNNNN sample_01.fastq &gt;&gt; bad_reads.txt
 $ wc -l bad_reads.txt</code></pre>
-<pre><code>537 bad_reads.txt</code></pre>
+<pre><code>541 bad_reads.txt</code></pre>
 <p>The output of our second call to <code>wc</code> shows that we have
-not overwritten our original data.</p>
-<p>We can also do this with a single line of code by using a
-wildcard:</p>
-<pre><code>$ grep -B1 -A2 NNNNNNNNNN *.fastq &gt; bad_reads.txt
-$ wc -l bad_reads.txt</code></pre>
-<pre><code>537 bad_reads.txt</code></pre>
-<blockquote>
-<p>File extensions - part 2</p>
-<p>This is where we would have trouble if we were naming our output file
-with a <code>.fastq</code> extension. If we already had a file called
-<code>bad_reads.fastq</code> (from our previous <code>grep</code>
-practice) and then ran the command above using a <code>.fastq</code>
-extension instead of a <code>.txt</code> extension, <code>grep</code>
-would give us a warning.</p>
-<pre><code>grep -B1 -A2 NNNNNNNNNN *.fastq &gt; bad_reads.fastq</code></pre>
-<pre><code>grep: input file ‘bad_reads.fastq’ is also the output</code></pre>
-<p><code>grep</code> is letting you know that the output file
-<code>bad_reads.fastq</code> is also included in your <code>grep</code>
-call because it matches the <code>*.fastq</code> pattern. Be careful
-with this as it can lead to some unintended results.</p>
-</blockquote>
+not overwritten our original data, but rather added to it.</p>
 <p>Since we might have multiple different criteria we want to search
 for, creating a new output file each time has the potential to clutter
 up our workspace. We also thus far haven’t been interested in the actual
@@ -651,8 +631,7 @@ missing in <code>bad_reads.txt</code>. If we explore
 notice what is causing the uneven number of lines. Luckily, this issue
 happens by the end of the file so we can also spot it with
 <code>tail</code>.</p>
-<pre><code>$ grep -B1 -A2 NNNNNNNNNN sample_02.fastq &gt; bad_reads.txt
-$ tail bad_reads.txt</code></pre>
+<pre><code>$ grep -B1 -A2 NNNNNNNNNN sample_02.fastq | tail</code></pre>
 <pre><code>#!!!!!!!!!##########!!!!!!!!!!##!#!
 @SRR098026.133 HWUSI-EAS1599_1:2:1:0:1978 length=35
 ANNNNNNNNNTTCAGCGACTNNNNNNNNNNGTNGN
@@ -667,8 +646,7 @@ CNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
 by default for <code>grep</code> to separate groups of lines matching
 the pattern. To fix this issue, we can redirect the output of grep to a
 second instance of <code>grep</code> as follows.</p>
-<pre><code>$ grep -B1 -A2 NNNNNNNNNN sample_02.fastq | grep -v &#39;^--&#39; &gt; bad_reads.fastq
-tail bad_reads.fastq</code></pre>
+<pre><code>$ grep -B1 -A2 NNNNNNNNNN sample_02.fastq | grep -v &#39;^--&#39; | tail</code></pre>
 <pre><code>+SRR098026.132 HWUSI-EAS1599_1:2:1:0:320 length=35
 #!!!!!!!!!##########!!!!!!!!!!##!#!
 @SRR098026.133 HWUSI-EAS1599_1:2:1:0:1978 length=35
@@ -687,6 +665,29 @@ this case <code>'^--'</code>. The caret (<code>^</code>) is an
 and the pattern has to be enclose by single quotes so <code>grep</code>
 does not interpret the pattern as an extended option (starting with
 <code>--</code>).</p>
+<p>Remember when we were exploring the append redirect, we noticed that
+there was a bad read within <code>sample_01.fastq</code> as well. We can
+try combining some of the things we’ve learned, to gather all of our bad
+reads with a single line of code:</p>
+<pre><code>$ grep -h -B1 -A2 NNNNNNNNNN *.fastq | grep -v &#39;^--&#39; &gt; bad_reads.txt
+$ wc -l bad_reads.txt</code></pre>
+<pre><code>540 bad_reads.txt</code></pre>
+<blockquote>
+<p>File extensions - part 2</p>
+<p>Since this is now a valid <code>.fastq</code> file, we could redirect
+our output to a file named <code>bad_reads.fastq</code> to acknowledge
+that. However, this is a place to exercise caution. If we were to create
+a file called <code>bad_reads.fastq</code> (perhaps during our
+<code>grep</code> practice) and then run the same command again,
+<code>grep</code> would give us a warning.</p>
+<pre><code># If you tried running this twice:
+grep -h -B1 -A2 NNNNNNNNNN *.fastq | grep -v &#39;^--&#39; &gt; bad_reads.fastq </code></pre>
+<pre><code>grep: input file ‘bad_reads.fastq’ is also the output</code></pre>
+<p><code>grep</code> is letting you know that the output file
+<code>bad_reads.fastq</code> is also included in your input to the
+<code>grep</code> call because it matches the <code>*.fastq</code>
+pattern. This is a situation that we want to avoid.</p>
+</blockquote>
 <p><br></p>
 <blockquote>
 <p>Custom <code>grep</code> control</p>

@@ -261,7 +261,7 @@ $ wc -l bad_reads.txt
 ~~~
 
 ~~~
-0 bad_reads.txt
+4 bad_reads.txt
 ~~~
 
 Here, the output of our second  call to `wc` shows that we no longer have any lines in our `bad_reads.txt` file. This is because the second file we searched (`sample_01.fastq`) does not contain any lines that match our search sequence. So our file was overwritten and is now empty.
@@ -283,40 +283,11 @@ $ wc -l bad_reads.txt
 ~~~
 
 ~~~
-537 bad_reads.txt
+541 bad_reads.txt
 ~~~
 
-The output of our second call to `wc` shows that we have not overwritten our original data.
+The output of our second call to `wc` shows that we have not overwritten our original data, but rather added to it.
 
-We can also do this with a single line of code by using a wildcard:
-
-~~~
-$ grep -B1 -A2 NNNNNNNNNN *.fastq > bad_reads.txt
-$ wc -l bad_reads.txt
-~~~
-
-~~~
-537 bad_reads.txt
-~~~
-
-> File extensions - part 2
->
-> This is where we would have trouble if we were naming our output file with a `.fastq` extension.
-> If we already had a file called `bad_reads.fastq` (from our previous `grep` practice)
-> and then ran the command above using a `.fastq` extension instead of a `.txt` extension, `grep`
-> would give us a warning.
->
-> ~~~
-> grep -B1 -A2 NNNNNNNNNN *.fastq > bad_reads.fastq
-> ~~~
->
-> ~~~
-> grep: input file ‘bad_reads.fastq’ is also the output
-> ~~~
->
-> `grep` is letting you know that the output file `bad_reads.fastq` is also included in your
-> `grep` call because it matches the `*.fastq` pattern. Be careful with this as it can lead to
-> some unintended results.
 
 Since we might have multiple different criteria we want to search for, creating a new output file each time has the potential to clutter up our workspace. We also thus far haven't been interested in the actual contents of those files, only in the number of reads that we've found. We created the files to store the reads and then counted the lines in the file to see how many reads matched our criteria. There's a way to do this, however, that doesn't require us to create these intermediate files - the pipe command (`|`).
 
@@ -341,8 +312,7 @@ $ grep -B1 -A2 NNNNNNNNNN sample_02.fastq | wc -l
 Because we asked `grep` for all four lines of each FASTQ record, we need to divide the output by four to get the number of sequences that match our search pattern. Since 537 / 4 = 134.25 and we are expecting an integer number of records, there is something added or missing in `bad_reads.txt`. If we explore `bad_reads.txt` using `less`, we might be able to notice what is causing the uneven number of lines. Luckily, this issue happens by the end of the file so we can also spot it with `tail`.
 
 ~~~
-$ grep -B1 -A2 NNNNNNNNNN sample_02.fastq > bad_reads.txt
-$ tail bad_reads.txt
+$ grep -B1 -A2 NNNNNNNNNN sample_02.fastq | tail
 ~~~
 
 ~~~
@@ -361,8 +331,7 @@ CNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
 The sixth line in the output displays `--` which is used by default for `grep` to separate groups of lines matching the pattern. To fix this issue, we can redirect the output of grep to a second instance of `grep` as follows.
 
 ~~~
-$ grep -B1 -A2 NNNNNNNNNN sample_02.fastq | grep -v '^--' > bad_reads.fastq
-tail bad_reads.fastq
+$ grep -B1 -A2 NNNNNNNNNN sample_02.fastq | grep -v '^--' | tail
 ~~~
 
 ~~~
@@ -379,6 +348,38 @@ CNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
 ~~~
 
 The `-v` option in the second `grep` search stands for `--invert-match` meaning `grep` will now only display the lines which do not match the searched pattern, in this case `'^--'`. The caret (`^`) is an **anchoring** character matching the beginning of the line, and the pattern has to be enclose by single quotes so `grep` does not interpret the pattern as an extended option (starting with `--`).
+
+Remember when we were exploring the append redirect, we noticed that there was a bad read within `sample_01.fastq` as well. We can try combining some of the things we've learned, to gather all of our bad reads with a single line of code:
+
+~~~
+$ grep -h -B1 -A2 NNNNNNNNNN *.fastq | grep -v '^--' > bad_reads.txt
+$ wc -l bad_reads.txt
+~~~
+
+~~~
+540 bad_reads.txt
+~~~
+
+> File extensions - part 2
+>
+> Since this is now a valid `.fastq` file, we could redirect our output to
+> a file named `bad_reads.fastq` to acknowledge that. However, this is a
+> place to exercise caution.
+> If we were to create a file called `bad_reads.fastq` (perhaps during our `grep` practice)
+> and then run the same command again, `grep` would give us a warning.
+>
+> ~~~
+> # If you tried running this twice:
+> grep -h -B1 -A2 NNNNNNNNNN *.fastq | grep -v '^--' > bad_reads.fastq 
+> ~~~
+>
+> ~~~
+> grep: input file ‘bad_reads.fastq’ is also the output
+> ~~~
+>
+> `grep` is letting you know that the output file `bad_reads.fastq` is also included in your input to the
+> `grep` call because it matches the `*.fastq` pattern. This is a situation
+> that we want to avoid.
 
 <br>
 
