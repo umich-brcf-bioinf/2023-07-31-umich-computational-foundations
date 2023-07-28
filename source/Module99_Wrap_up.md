@@ -103,11 +103,16 @@ University of Michigan</a> host several introductory workshops each year followi
 
 ## Thank you
 
-![Sponsors](images/Module00_sponsor_logos.png)
+![](images/Module00_sponsor_logos.png)
 
-| ![](images/Module00_headshots/headshot_cgates.jpg) | ![](images/Module00_headshots/headshot_mbradenb.jpg) | ![](images/Module00_headshots/headshot_rcavalca.jpg) | ![](images/Module00_headshots/headshot_trsaari.jpg) |
-|:-:|:-:|:-:|:-:|
-| **Chris** | **Marci** | **Raymond** | **Travis** |
+| ![](images/Module00_headshots/headshot_cgates.jpg) | ![](images/Module00_headshots/headshot_mbradenb.jpg) | ![](images/Module00_headshots/headshot_rcavalca.jpg) |
+|:-:|:-:|:-:|
+| **Chris** | **Marci** | **Raymond** |
+| ![](images/Module00_headshots/headshot_trsaari.jpg) | ![](images/Module00_headshots/headshot_damki.jpg) | ![](images/Module00_headshots/headshot_mkdohert.jpg) |
+| **Travis** | **Dana** | **Matt** |
+| ![](images/Module00_headshots/headshot_jrhemama.jpg) | ![](images/Module00_headshots/headshot_grkenney.jpg) | ![](images/Module00_headshots/headshot_mccwen.jpg) |
+| **Rhema** | **Grace** | **Crystal** |
+
 
 <br/>
 
