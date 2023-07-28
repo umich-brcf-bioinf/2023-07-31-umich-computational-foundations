@@ -786,3 +786,9 @@ ggplot(data = gapminder_1997_labels) +
 > gapminder_data %>% filter(year == 2007 & continent == 'Europe') %>% arrange(desc(gdpPercap))
 > ```
 > 
+
+<br/>
+<br/>
+<hr/>
+| [Previous lesson](r-02-exploration-dplyr.html) | [Top of this lesson](#top) | [Next lesson](r-04-bioconductor.html) |
+| :--- | :----: | ---: |

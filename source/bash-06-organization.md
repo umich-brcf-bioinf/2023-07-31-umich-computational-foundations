@@ -240,3 +240,10 @@ Congratulations! You've finished your introduction to using the shell for genomi
 
 ## References
 [A Quick Guide to Organizing Computational Biology Projects](http://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1000424)
+
+
+<br/>
+<br/>
+<hr/>
+| [Previous lesson](bash-05-writing-scripts.html) | [Top of this lesson](#top) | [Next lesson](r-01-introduction.html) |
+| :--- | :----: | ---: |

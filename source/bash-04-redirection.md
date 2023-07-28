@@ -530,5 +530,8 @@ $ for filename in *.fastq
 > done
 ~~~
 
-<br>
-<br>
+<br/>
+<br/>
+<hr/>
+| [Previous lesson](bash-03-working-with-files.html) | [Top of this lesson](#top) | [Next lesson](bash-05-writing-scripts.html) |
+| :--- | :----: | ---: |

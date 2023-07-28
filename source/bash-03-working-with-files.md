@@ -540,5 +540,8 @@ It's always a good idea to check your work with `ls -l backup`. You should see s
 
 </details>
 
-<br>
-<br>
+<br/>
+<br/>
+<hr/>
+| [Previous lesson](bash-02-the-filesystem.html) | [Top of this lesson](#top) | [Next lesson](bash-04-redirection.html) |
+| :--- | :----: | ---: |

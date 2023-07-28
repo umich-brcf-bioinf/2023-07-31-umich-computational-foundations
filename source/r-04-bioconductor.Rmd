@@ -111,3 +111,10 @@ Note that when installing a package we quoted the package name, but when we load
 - [Bioconductor](https://bioconductor.org/)
 - [Bioconductor package search](https://bioconductor.org/packages/release/BiocViews.html#___Software)
 - [CRAN](https://cran.r-project.org/)
+
+
+<br/>
+<br/>
+<hr/>
+| [Previous lesson](r-03-exploration-ggplot.html) | [Top of this lesson](#top) | [Next lesson](r-05-help.html) |
+| :--- | :----: | ---: |
