@@ -423,5 +423,9 @@ C:\User\your-pc-username\Downloads> scp local_file.txt <username>@bfx-workshop01
 
 Remember that in both instances, the command is run from your local machine, we've just flipped the order of the to and from parts of the command.
 
-<br>
-<br>
+
+<br/>
+<br/>
+<hr/>
+| [Previous lesson](bash-04-redirection.html) | [Top of this lesson](#top) | [Next lesson](bash-06-organization.html) |
+| :--- | :----: | ---: |

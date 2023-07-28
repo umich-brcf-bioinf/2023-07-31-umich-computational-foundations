@@ -142,3 +142,9 @@ In the output above, `[81]` indicates that the first value on that line is the 8
 
 **Where else can I learn about RStudio?**
 - Check out the <KBD>Help</KBD> menu, especially "Cheatsheets" section
+
+<br/>
+<br/>
+<hr/>
+| [Previous lesson](r-04-bioconductor.html) | [Top of this lesson](#top) | [Wrap-up](Module99_Wrap_up.html) |
+| :--- | :----: | ---: |

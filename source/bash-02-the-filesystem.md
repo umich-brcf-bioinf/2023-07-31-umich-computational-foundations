@@ -323,3 +323,10 @@ $ ls ~
 This prints the contents of your home directory, without you needing to type the full path.
 
 The commands `cd`, and `cd ~` are very useful for quickly navigating back to your home directory. We will be using the `~` character in later lessons to specify our home directory.
+
+<br/>
+<br/>
+<hr/>
+| [Previous lesson](bash-01-introduction.html) | [Top of this lesson](#top) | [Next lesson](bash-03-working-with-files.html) |
+| :--- | :----: | ---: |
+

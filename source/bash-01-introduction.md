@@ -356,3 +356,9 @@ Displays the name of every program that starts with `pw`.
 We now know how to move around our file system using the command line. This provides certain advantage over interacting with the file system through a GUI. It allows us to work on a remote server, carry out the same set of operations on a large number of files quickly, and opens up many opportunities for using command line software packages, e.g. for bioinformatics analyses.
 
 In the next few episodes, we'll be expanding on these skills and seeing how using the command line shell enables us to make our workflow more efficient and reproducible.
+
+<br/>
+<br/>
+<hr/>
+| [Back to Intro](Module00_Introduction.html) | [Top of this lesson](#top) | [Next lesson](bash-02-the-filesystem.html) |
+| :--- | :----: | ---: |
