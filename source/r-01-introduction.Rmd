@@ -68,7 +68,7 @@ You should now be looking at a page that will allow you to login to the RStudio 
 
 <img src="images/rstudio_login_screen.png" alt="rstudio default session" style="width: 1000px;"/>
 
-Enter your user credentials and click <kbd>Sign In</kbd>. The credentials were provided via email, but if you forget yours, a helper can retrieve it for you, just ask in Slack. You should now see the RStudio interface:
+Enter your user credentials and click <kbd>Sign In</kbd>. The credentials are the same we used on the command line yesterday, but if you forget yours, a helper can retrieve it for you, just ask in Slack. You should now see the RStudio interface:
 
 <img src="images/rstudio_session_default.png" alt="rstudio default session" style="width:1000px;"/>
 
@@ -111,7 +111,7 @@ We'll now begin our examination of the gapminder dataset by creating an **RStudi
 - Collaborate, especially if you are using version control such as [git](http://swcarpentry.github.io/git-novice/).
 
 
-1. To create a project, go to the <kbd>File</kbd> menu, and click <kbd>New Project...</kbd>. The following window will appear:
+1. To create a project, go to the <kbd>File</kbd> menu, and click <kbd>New Project...</kbd>. If you are prompted to save your `~/.Rhistory`, select now. The following window should appear:
 
 <img src="images/new_project_window.png" alt="rstudio default session" style="width: 600px;"/>
 
@@ -215,9 +215,6 @@ Let's try to assign some more objects and see how things can go wrong:
 
 ```{r, 'bad_object_assignments1', error = TRUE}
 1number = 3
-Flower = 'marigold'
-flower = 'rose'
-favorite number = 12
 ```
 
 ```{r, 'bad_object_assignments2', error = TRUE}
@@ -322,3 +319,10 @@ Some people ask "Should I learn tidyverse or base R?" and we think that rather t
 # Cheatsheets!
 
 The `tidyverse` packages have excellent cheatsheets that describe the functionality and usage of the packages. You can find them in RStudio by going to the “Help” menu and selecting “Cheat Sheets”. The two that will be most helpful in this workshop are “Data Visualization with ggplot2” and “Data Transformation with dplyr”.
+
+<br/>
+<br/>
+<hr/>
+| [Previous lesson](bash-06-organization.html) | [Top of this lesson](#top) | [Next lesson](r-02-exploration-dplyr.html) |
+| :--- | :----: | ---: |
+

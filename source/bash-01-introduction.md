@@ -98,13 +98,13 @@ This section will be done slightly differently depending on if you're using a Wi
 
 On a Mac or Linux computer, open up a terminal where you'll proceed with some commands. On a Mac, you can search for 'Terminal' and select the application with that name.
 
-After you're in the terminal, you can enter the command to connect to the AWS instance:
+After you're in the terminal, you can enter the command to connect to the AWS instance, substituting `<username>` with the username provided to you before the workshop, in a email with the subject line "UM BioinfCore Workshop Login":
 
 ~~~
 ssh <username>@bfx-workshop01.med.umich.edu
 ~~~
 
-You will need to enter the password that you were provided before the workshop.
+You will need to enter the password that you were provided before the workshop, in the same email as your username.
 
 > Note: As you type your password, nothing on the screen will change - no `*` characters will show up, etc. After you press enter, you'll receive a response.
 
@@ -356,3 +356,9 @@ Displays the name of every program that starts with `pw`.
 We now know how to move around our file system using the command line. This provides certain advantage over interacting with the file system through a GUI. It allows us to work on a remote server, carry out the same set of operations on a large number of files quickly, and opens up many opportunities for using command line software packages, e.g. for bioinformatics analyses.
 
 In the next few episodes, we'll be expanding on these skills and seeing how using the command line shell enables us to make our workflow more efficient and reproducible.
+
+<br/>
+<br/>
+<hr/>
+| [Back to Intro](Module00_Introduction.html) | [Top of this lesson](#top) | [Next lesson](bash-02-the-filesystem.html) |
+| :--- | :----: | ---: |
