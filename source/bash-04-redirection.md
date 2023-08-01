@@ -264,9 +264,9 @@ $ wc -l bad_reads.txt
 4 bad_reads.txt
 ~~~
 
-Here, the output of our second  call to `wc` shows that we no longer have any lines in our `bad_reads.txt` file. This is because the second file we searched (`sample_01.fastq`) does not contain any lines that match our search sequence. So our file was overwritten and is now empty.
+Here, the output of our second  call to `wc` shows that we have overwritten the contents of our `bad_reads.txt` file. The second file we searched, `sample_01.fastq`, only contains one bad read that matches our search sequence.
 
-We can avoid overwriting our files by using the command `>>`. `>>` is known as the "append redirect" and will append new output to the end of a file, rather than overwriting it.
+We can avoid overwriting our files by using the following syntax: `>>`. `>>` is known as the "append redirect" and will append new output to the end of a file, rather than overwriting it.
 
 ~~~
 $ grep -B1 -A2 NNNNNNNNNN sample_02.fastq > bad_reads.txt
