@@ -973,7 +973,7 @@ vector (exactly what the <code>continent</code> column is), and an
 optional <code>levels</code> character vector which dictates the
 categories and their desired order.</p>
 <pre class="r"><code>gapminder_factor = gapminder_1997 %&gt;% 
-    mutate(continent_factor = factor(continent, levels = c(&#39;Oceania&#39;, &#39;Africa&#39;, &#39;Asia&#39;, &#39;America&#39;, &#39;Europe&#39;)))</code></pre>
+    mutate(continent_factor = factor(continent, levels = c(&#39;Oceania&#39;, &#39;Africa&#39;, &#39;Asia&#39;, &#39;Americas&#39;, &#39;Europe&#39;)))</code></pre>
 <p>Let’s take a look at the new object and see how it’s different.</p>
 <pre class="r"><code>gapminder_factor</code></pre>
 <pre><code># A tibble: 142 × 7
@@ -983,7 +983,7 @@ categories and their desired order.</p>
  2 Albania      1997   3428038 Europe       73.0     3193. Europe          
  3 Algeria      1997  29072015 Africa       69.2     4797. Africa          
  4 Angola       1997   9875024 Africa       41.0     2277. Africa          
- 5 Argentina    1997  36203463 Americas     73.3    10967. &lt;NA&gt;            
+ 5 Argentina    1997  36203463 Americas     73.3    10967. Americas        
  6 Australia    1997  18565243 Oceania      78.8    26998. Oceania         
  7 Austria      1997   8069876 Europe       77.5    29096. Europe          
  8 Bahrain      1997    598561 Asia         73.9    20292. Asia            
@@ -996,8 +996,8 @@ the head of both columns.</p>
 <pre class="r"><code>head(gapminder_factor$continent)</code></pre>
 <pre><code>[1] &quot;Asia&quot;     &quot;Europe&quot;   &quot;Africa&quot;   &quot;Africa&quot;   &quot;Americas&quot; &quot;Oceania&quot; </code></pre>
 <pre class="r"><code>head(gapminder_factor$continent_factor)</code></pre>
-<pre><code>[1] Asia    Europe  Africa  Africa  &lt;NA&gt;    Oceania
-Levels: Oceania Africa Asia America Europe</code></pre>
+<pre><code>[1] Asia     Europe   Africa   Africa   Americas Oceania 
+Levels: Oceania Africa Asia Americas Europe</code></pre>
 <p><strong>Checkpoint</strong></p>
 <p>Notice that for the factor column we get the same output, but with
 additional information about the <code>levels</code>, and the ordering
@@ -1229,9 +1229,9 @@ code.</p>
     labs(x = &#39;GDP Per Capita&#39;, y = &#39;Life Expectancy&#39;, color = &#39;Continent&#39;, size = &#39;Population (in millions)&#39;,
          title = &#39;Do people in wealthier countries live longer?&#39;,
          caption = &#39;Figure: GDP per capita and life expectancy are positively correlated, while population is not.&#39;)</code></pre>
-<p>Notice nothing happens as when we ran the code without saving it as
-an object. If we want to see the plot again, we have to execute the name
-of the object:</p>
+<p>Notice nothing happens, unlike when we ran the code without saving it
+as an object. If we want to see the plot again, we have to execute the
+name of the object:</p>
 <pre class="r"><code>scatter_plot</code></pre>
 <p><img src="fig/03-display_plot_object-1.png" width="816" style="display: block; margin: auto;" /></p>
 <p><strong>Checkpoint</strong></p>
@@ -1459,6 +1459,25 @@ countries, and look at the top two results.</li>
 10 Finland      2007  5238460 Europe       79.3    33207.
 # ℹ 20 more rows</code></pre>
 </blockquote>
+<br/> <br/>
+<hr/>
+<table style="width:100%;">
+<colgroup>
+<col width="28%" />
+<col width="42%" />
+<col width="28%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left"><a href="r-02-exploration-dplyr.html">Previous
+lesson</a></th>
+<th align="center"><a href="#top">Top of this lesson</a></th>
+<th align="right"><a href="r-04-bioconductor.html">Next lesson</a></th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
 </div>
 </div>
 
