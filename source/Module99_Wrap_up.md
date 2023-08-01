@@ -50,9 +50,7 @@ for 90 days.
 
 ---
 
-## Looking ahead
-
-### Workshop environment
+### Can I continue to use the Bash/RStudio environments we used in the workshop?
 - BASH Shell and RStudio workshop compute environment will be available for one week from today.
   - _Please save all your R scripts now_ so that we can "right-size" the compute environment immediately following today's workshop session.
 - You can download files from the workshop environment from your terminal/command line window as below.
@@ -61,33 +59,33 @@ for 90 days.
   mkdir computational-foundations-workshop
   scp -r YOUR_USERNAME@bfx-workshop01.med.umich.edu:"CF*" computational-foundations-workshop
   ```
-### Installing software locally
+### How could I install this software on my workstation/laptop?
   - See [Advanced setup instructions](workshop_setup/setup_instructions_advanced.html)
     for details on how to install programs on your own computer.
 
-## Continued training and support
-Learning computational techniques is more like a process than a task. Resources
-to consider as you continues your study:
-
-- Some handy Bash cheatsheets:
+### Where can I learn more about Bash commands or RStudio functions?
+- Bash cheatsheets:
   - <a class="external" target="_blank" href="https://files.fosswire.com/2007/08/fwunixref.pdf">https://files.fosswire.com/2007/08/fwunixref.pdf</a>
-- And a nifty collection of <a href="https://www.rstudio.com/resources/cheatsheets/" target="_blank" class="external">cheatsheets for R</a> and links to download some our favorites:
-  - <a class="external" target="_blank" href="http://github.com/rstudio/cheatsheets/blob/main/base-r.pdf">Base R</a>
-  - <a class="external" target="_blank" href="https://raw.githubusercontent.com/rstudio/cheatsheets/main/data-transformation.pdf">Data transformation with dplyr</a>
-  - <a class="external" target="_blank" href="https://raw.githubusercontent.com/rstudio/cheatsheets/main/data-visualization.pdf">Data visualization with ggplot2</a>
 - <a class="external" target="_blank" href="https://explainshell.com/">ExplainShell.com</a> can elaborate the flags of specific Bash commands:
 - Regular expression syntax (aka "regex") is extremely powerful but also a broad topic unto itself
   - <a class="external" target="_blank" href="https://medium.com/factory-mind/regex-tutorial-a-simple-cheatsheet-by-examples-649dc1c3f285">Regex tutorial — A quick cheatsheet by examples</a>
   - A bit like ExplainShell above, but for regex expressions:<br/>
   <a class="external" target="_blank" href="https://regexr.com/">https://regexr.com/</a>
+
+- A nifty collection of <a href="https://www.rstudio.com/resources/cheatsheets/" target="_blank" class="external">cheatsheets for R</a> and links to download some our favorites:
+  - <a class="external" target="_blank" href="http://github.com/rstudio/cheatsheets/blob/main/base-r.pdf">Base R</a>
+  - <a class="external" target="_blank" href="https://raw.githubusercontent.com/rstudio/cheatsheets/main/data-transformation.pdf">Data transformation with dplyr</a>
+  - <a class="external" target="_blank" href="https://raw.githubusercontent.com/rstudio/cheatsheets/main/data-visualization.pdf">Data visualization with ggplot2</a>
+
+### Can you recommend other relevant workshops or turorials?
 - Intro lessons and workshops in Bash / Git / R / Python : 
   - <a class="external" href="https://software-carpentry.org/lessons/" target="_blank">Software Carpentry</a>.
+  - <a class="external"  href="https://umcarpentries.org/" target="_blank">The Carpentries at the
+  University of Michigan</a> host several introductory workshops each year following curricula that are developed collaboratively and using the latest research into best practices for teaching computer science content. All workshops are offered for free to learners. 
 
 
-## University of Michigan Resources
+## How can I learn more about computational research at University of Michigan?
 - <a class="external"  href="https://datascience.isr.umich.edu/events/coderspaces/" target="_blank">UM CoderSpaces "office hours"</a> and UM CoderSpaces Slack workspace. _(See "Useful Resources" section in above page for instructions on how to join and access the CoderSpaces Slack workspace.)_
-- <a class="external"  href="https://umcarpentries.org/" target="_blank">The Carpentries at the
-University of Michigan</a> host several introductory workshops each year following curricula that are developed collaboratively and using the latest research into best practices for teaching computer science content. All workshops are offered for free to learners. 
 - Upcoming <a class="external" href="https://arc.umich.edu/events/" target="_blank">UM Advanced Research Computing workshops</a>.
 - Advanced Research Computing (ARC) at University of Michigan hosts a
   high-performance computing (HPC) platform called _Great Lakes_ which combines

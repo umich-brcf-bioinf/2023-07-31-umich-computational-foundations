@@ -80,7 +80,7 @@ If you can't install or launch git-bash, or if it returns an
 1.  RStudio depends on the R programming environment, so we have to
     install that first. In a web browser, open:
     <https://cran.rstudio.com/bin/windows/base/>
-    and click "Download R 4.0.3 for Windows" (the version may be
+    and click "Download R 4.x.x for Windows" (the version may be
     slightly different). Open the downloaded executable to launch the R
     installer.
 
@@ -111,7 +111,7 @@ If you can't install or launch git-bash, or if it returns an
     left pane shows the **Console** tab and will show some text followed
     by a command prompt (\>):
 
-> R version 4.0.3 (2020-10-10) \-- \"Bunny-Wunnies Freak Out\"\
+> R version 4.2.3 (2023-03-15) \-- \"Shortstop Beagle\"\
     Copyright (C) 2020 The R Foundation for Statistical Computing\
     Platform: x86_64-w64-mingw32/x64 (64-bit)\
     \
@@ -137,25 +137,12 @@ If you can't install or launch git-bash, or if it returns an
     to execute. *(Note: These installations automatically trigger the
     installation of a litany of dependent libraries so you will see
     repeated progress bars and code flying by in the Console window.
-    This step takes about 15 minutes, so now is a good time to get
+    This step takes a few minutes, so now is a good time to get
     coffee/tea while RStudio cooks.)*
 
->  install.packages(\"tidyr\")\
-    install.packages(\"ggplot2\")\
-    install.packages(\"pheatmap\")\
-    install.packages(\"ggrepel\")\
-    install.packages(\"formattable\")\
-    install.packages(\"RColorBrewer\")\
-    install.packages(\"matrixStats\")\
-    install.packages(\"dplyr\")\
-    if (!requireNamespace(\"BiocManager\", quietly = TRUE))\
-    install.packages(\"BiocManager\")\
-    BiocManager::install(\"biomaRt\", ask=FALSE)\
-    BiocManager::install(\"DESeq2\", ask=FALSE)\
-    missing \<- setdiff(c(\"tidyr\", \"ggplot2\", \"pheatmap\",
-    \"ggrepel\", \"formattable\", \"RColorBrewer\", \"matrixStats\",
-    \"dplyr\", \"biomaRt\", \"DESeq2\"),
-    rownames(installed.packages()))\
+>   install.packages(c(\"tidyverse\", \"ggrepel\", \"RColorBrewer\"))\
+    missing \<- setdiff(c(\"ggplot2\", \"ggrepel\", \"RColorBrewer\", \"dplyr\"),
+            rownames(installed.packages()))\
     if (!length(missing)) { cat(\"Ready for Computational Foundations workshop\\n\")}
     else {cat(\"PROBLEM: could not install:\", missing, \"\\n\")}
 
@@ -233,7 +220,7 @@ If you can't install or launch git-bash, or if it returns an
     into several panes. The lower left pane shows the **Console** tab and
     will show some text followed by a command prompt (\>):
 
->  R version 4.0.3 (2020-10-10) \-- \"Bunny-Wunnies Freak Out\"\
+> R version 4.2.3 (2023-03-15) \-- \"Shortstop Beagle\"\
     Copyright (C) 2020 The R Foundation for Statistical Computing\
     Platform: x86_64-apple-darwin17.0 (64-bit)\
     \
@@ -259,25 +246,12 @@ If you can't install or launch git-bash, or if it returns an
     to execute. *(Note: These installations automatically trigger the
     installation of a litany of dependent libraries so you may see
     repeated progress bars and lots of code flying by in the Console
-    window. This step takes about 15 minutes, so now is a good time to
+    window. This step takes a few minutes, so now is a good time to
     get coffee/tea while RStudio cooks.)*
 
->   install.packages(\"tidyr\")\
-    install.packages(\"ggplot2\")\
-    install.packages(\"pheatmap\")\
-    install.packages(\"ggrepel\")\
-    install.packages(\"formattable\")\
-    install.packages(\"RColorBrewer\")\
-    install.packages(\"matrixStats\")\
-    install.packages(\"dplyr\")\
-    if (!requireNamespace(\"BiocManager\", quietly = TRUE))\
-    install.packages(\"BiocManager\")\
-    BiocManager::install(c(\"biomaRt\",\"DESeq2\"), update=FALSE,
-    ask=FALSE)\
-    missing \<- setdiff(c(\"tidyr\", \"ggplot2\", \"pheatmap\",
-    \"ggrepel\", \"formattable\", \"RColorBrewer\", \"matrixStats\",
-    \"dplyr\", \"biomaRt\", \"DESeq2\"),
-    rownames(installed.packages()))\
+>   install.packages(c(\"tidyverse\", \"ggrepel\", \"RColorBrewer\"))\
+    missing \<- setdiff(c(\"ggplot2\", \"ggrepel\", \"RColorBrewer\", \"dplyr\"),
+            rownames(installed.packages()))\
     if (!length(missing)) { cat(\"Ready for Computational Foundations workshop\\n\")}
     else {cat(\"PROBLEM: could not install:\", missing, \"\\n\")}
 

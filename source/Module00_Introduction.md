@@ -56,11 +56,13 @@ recognize these techniques when you see them and, with some independent study, a
 
 
 ## About the workshop team
-| ![](images/Module00_headshots/headshot_cgates.jpg) | ![](images/Module00_headshots/headshot_mbradenb.jpg) | ![](images/Module00_headshots/headshot_trsaari.jpg) | ![](images/Module00_headshots/headshot_rcavalca.jpg)  
-|:-:|:-:|:-:|:-:|
-| **Chris** | **Marci** | **Travis** | **Raymond** |
-| ![](images/Module00_headshots/headshot_damki.jpg) | ![](images/Module00_headshots/headshot_mkdohert.jpg) | ![](images/Module00_headshots/headshot_jrhemama.jpg) | ![](images/Module00_headshots/headshot_grkenney.jpg) |
-| **Dana** | **Matt** | **Rhema** | **Grace** |
+| ![](images/Module00_headshots/headshot_cgates.jpg) | ![](images/Module00_headshots/headshot_mbradenb.jpg) | ![](images/Module00_headshots/headshot_rcavalca.jpg) |
+|:-:|:-:|:-:|
+| **Chris** | **Marci** | **Raymond** |
+| ![](images/Module00_headshots/headshot_trsaari.jpg) | ![](images/Module00_headshots/headshot_damki.jpg) | ![](images/Module00_headshots/headshot_mkdohert.jpg) |
+| **Travis** | **Dana** | **Matt** |
+| ![](images/Module00_headshots/headshot_jrhemama.jpg) | ![](images/Module00_headshots/headshot_grkenney.jpg) | ![](images/Module00_headshots/headshot_mccwen.jpg) |
+| **Rhema** | **Grace** | **Crystal** |
 
 <br/>
 
